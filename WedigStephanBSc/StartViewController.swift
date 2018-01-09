@@ -20,6 +20,7 @@ class StartViewController: GeneralViewController {
     @IBAction func butNew_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
         gl.setApartment(apartment: Apartment())
-        mainPage.nextPage(viewController: self)
+        gl.setActMainPageIndex(actMainPageIndex: 1)
+        mainPage.refreshPage()
     }
 }

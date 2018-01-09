@@ -54,7 +54,7 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
         txtDescription.text = r?.getDescription()
         txtID.text = r?.getID()
         tableSensor.reloadData()
-        navItem.title = gl.getApartment()?.toString()
+        navTopItem.title = gl.getApartment()?.toString()
     }
     override func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
         super.textFieldDidEndEditing(textField)

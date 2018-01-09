@@ -16,6 +16,7 @@ public class Room {
     private var _apartment : Apartment
     public init (apartment : Apartment) {
         _apartment = apartment
+        _ID = NSUUID().uuidString
     }
     public func setDescription (description : String) {
         _description = description

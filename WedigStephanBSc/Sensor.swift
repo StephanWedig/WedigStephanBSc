@@ -10,13 +10,14 @@ import Foundation
 import ARKit
 
 public class Sensor {
-    private var _ID : Int = -1
+    private var _ID : String = "-1"
     private var _position : SCNVector3?
     private var _sensortype : SensorType?
     public init (position : SCNVector3) {
         _position = SCNVector3(position.x, position.y, position.z)
+        _ID = NSUUID().uuidString
     }
-    public func getID () -> Int {
+    public func getID () -> String {
         return _ID
     }
     public func setSensortype (sensortype:SensorType) {
@@ -29,8 +30,8 @@ public class Sensor {
         return _position!
     }
     public func toString() -> String {
-        var ret:String = "1"
-        if _ID != -1 {
+        var ret:String = ""
+        if _ID != "-1" {
             ret = ret + String(_ID)
         }
         if _sensortype != nil {

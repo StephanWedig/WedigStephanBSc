@@ -37,9 +37,9 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
         txtPlace.delegate = self
         txtHousenumber.delegate = self
     }
-    @IBAction func butBack_Click(_ sender: Any) {
+    /*@IBAction func butBack_Click(_ sender: Any) {
         mainPage.previousPage(viewController: self)
-    }
+    }*/
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let gl = GlobalInfos.getInstance()
@@ -74,6 +74,20 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
             txtName.text = ap?.getName()
         }
         tableRooms.reloadData()
+    }
+    
+    public func refreshGPS() {
+        let gl = GlobalInfos.getInstance()
+        let ap = gl.getApartment()
+        if txtStreet == nil {
+            return;
+        }
+        if ap != nil {
+            txtStreet.text = ap?.getStreet()
+            txtHousenumber.text = ap?.getHousenumber()
+            txtPLZ.text = ap?.getPostalcode()
+            txtPlace.text = ap?.getLocation()
+        }
     }
     
     override func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
@@ -129,7 +143,7 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
                         gl.setApartment(apartment: ap)
                         self.locationManager.stopUpdatingLocation()
                     }
-                    self.refresh()
+                    self.refreshGPS()
                 }
             }
         })
