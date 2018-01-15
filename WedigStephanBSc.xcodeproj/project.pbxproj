@@ -31,6 +31,15 @@
 		84A99D071FB4B7F000511CA1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A99D051FB4B7F000511CA1 /* LaunchScreen.storyboard */; };
 		84A99D121FB4B7F100511CA1 /* WedigStephanBScTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A99D111FB4B7F100511CA1 /* WedigStephanBScTests.swift */; };
 		84A99D1D1FB4B7F100511CA1 /* WedigStephanBScUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A99D1C1FB4B7F100511CA1 /* WedigStephanBScUITests.swift */; };
+		84EA26B3200CCA3400A99F2A /* RoomDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA26B2200CCA3400A99F2A /* RoomDescription.swift */; };
+		84EA26B5200CD1E100A99F2A /* iconmonstr-text-28-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA26B4200CD1E000A99F2A /* iconmonstr-text-28-32.png */; };
+		84EA26B7200CDA4B00A99F2A /* iconmonstr-check-mark-1-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA26B6200CDA4A00A99F2A /* iconmonstr-check-mark-1-32.png */; };
+		84EA26B9200CDA5100A99F2A /* iconmonstr-x-mark-4-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA26B8200CDA5000A99F2A /* iconmonstr-x-mark-4-32.png */; };
+		84EA26BB200CDAAA00A99F2A /* iconmonstr-shape-19-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA26BA200CDAA900A99F2A /* iconmonstr-shape-19-32.png */; };
+		84EA26BD200CF68D00A99F2A /* iconmonstr-pencil-9-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA26BC200CF68C00A99F2A /* iconmonstr-pencil-9-32.png */; };
+		84EA26BF200CF69400A99F2A /* iconmonstr-shape-19-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA26BE200CF69300A99F2A /* iconmonstr-shape-19-16.png */; };
+		84EA26C5200D06F200A99F2A /* GeneralTableDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA26C4200D06F200A99F2A /* GeneralTableDataObject.swift */; };
+		84EA26C7200D077F00A99F2A /* GeneralTableDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA26C6200D077F00A99F2A /* GeneralTableDataCell.swift */; };
 		84FB36781FDFFBC4002B18C0 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FB36771FDFFBC4002B18C0 /* RoomViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +91,15 @@
 		84A99D181FB4B7F100511CA1 /* WedigStephanBScUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WedigStephanBScUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A99D1C1FB4B7F100511CA1 /* WedigStephanBScUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WedigStephanBScUITests.swift; sourceTree = "<group>"; };
 		84A99D1E1FB4B7F100511CA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84EA26B2200CCA3400A99F2A /* RoomDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDescription.swift; sourceTree = "<group>"; };
+		84EA26B4200CD1E000A99F2A /* iconmonstr-text-28-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-text-28-32.png"; sourceTree = "<group>"; };
+		84EA26B6200CDA4A00A99F2A /* iconmonstr-check-mark-1-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-check-mark-1-32.png"; sourceTree = "<group>"; };
+		84EA26B8200CDA5000A99F2A /* iconmonstr-x-mark-4-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-x-mark-4-32.png"; sourceTree = "<group>"; };
+		84EA26BA200CDAA900A99F2A /* iconmonstr-shape-19-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-shape-19-32.png"; sourceTree = "<group>"; };
+		84EA26BC200CF68C00A99F2A /* iconmonstr-pencil-9-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-pencil-9-32.png"; sourceTree = "<group>"; };
+		84EA26BE200CF69300A99F2A /* iconmonstr-shape-19-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-shape-19-16.png"; sourceTree = "<group>"; };
+		84EA26C4200D06F200A99F2A /* GeneralTableDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTableDataObject.swift; sourceTree = "<group>"; };
+		84EA26C6200D077F00A99F2A /* GeneralTableDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTableDataCell.swift; sourceTree = "<group>"; };
 		84FB36771FDFFBC4002B18C0 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,30 +151,39 @@
 		84A99CFB1FB4B7F000511CA1 /* WedigStephanBSc */ = {
 			isa = PBXGroup;
 			children = (
+				846672FA1FCD7B69001F71AA /* apartment.swift */,
+				8406C9131FD6C472000B47B4 /* ApartmentViewController.swift */,
 				84A99CFC1FB4B7F000511CA1 /* AppDelegate.swift */,
 				84A99CFE1FB4B7F000511CA1 /* ARViewController.swift */,
-				84A99D001FB4B7F000511CA1 /* Main.storyboard */,
 				84A99D031FB4B7F000511CA1 /* Assets.xcassets */,
-				84A99D051FB4B7F000511CA1 /* LaunchScreen.storyboard */,
+				8461CBC61FE171540076770A /* generalViewController.swift */,
+				8406C9111FD6C026000B47B4 /* gloablInfos.swift */,
+				8463B2841FE94F13000AA6A6 /* iconmonstr-arrow-64-32.png */,
+				845E419D2004FCE4000D2095 /* iconmonstr-building-18-32.png */,
+				842DDA96200392C3005F4055 /* iconmonstr-car-15-32.png */,
+				84EA26B6200CDA4A00A99F2A /* iconmonstr-check-mark-1-32.png */,
+				84EA26BC200CF68C00A99F2A /* iconmonstr-pencil-9-32.png */,
+				842DDA9420038FC8005F4055 /* iconmonstr-plus-4-32.png */,
+				845E419B2004FBFB000D2095 /* iconmonstr-power-on-off-8-32.png */,
+				84EA26BE200CF69300A99F2A /* iconmonstr-shape-19-16.png */,
+				84EA26BA200CDAA900A99F2A /* iconmonstr-shape-19-32.png */,
+				84EA26B4200CD1E000A99F2A /* iconmonstr-text-28-32.png */,
+				84EA26B8200CDA5000A99F2A /* iconmonstr-x-mark-4-32.png */,
 				84A99D081FB4B7F000511CA1 /* Info.plist */,
+				84A99D051FB4B7F000511CA1 /* LaunchScreen.storyboard */,
+				84A99D001FB4B7F000511CA1 /* Main.storyboard */,
 				8463F7611FC4536A00D21CBB /* MainPageViewController.swift */,
-				8480B4C41FC7160D008DE913 /* StartViewController.swift */,
-				846672FA1FCD7B69001F71AA /* apartment.swift */,
 				846672FC1FCD7DC6001F71AA /* Room.swift */,
+				84EA26B2200CCA3400A99F2A /* RoomDescription.swift */,
+				8463B27E1FE92355000AA6A6 /* RoomDescriptionViewController.swift */,
+				84FB36771FDFFBC4002B18C0 /* RoomViewController.swift */,
 				8406C90D1FD6BA35000B47B4 /* Sensor.swift */,
 				8406C90F1FD6BA97000B47B4 /* SensorType.swift */,
-				8406C9111FD6C026000B47B4 /* gloablInfos.swift */,
-				8406C9131FD6C472000B47B4 /* ApartmentViewController.swift */,
-				84FB36771FDFFBC4002B18C0 /* RoomViewController.swift */,
-				8461CBC41FE171050076770A /* SensorViewController.swift */,
-				8461CBC61FE171540076770A /* generalViewController.swift */,
-				8463B27E1FE92355000AA6A6 /* RoomDescriptionViewController.swift */,
 				8463B2801FE9239D000AA6A6 /* SensorTypeViewController.swift */,
-				8463B2841FE94F13000AA6A6 /* iconmonstr-arrow-64-32.png */,
-				842DDA9420038FC8005F4055 /* iconmonstr-plus-4-32.png */,
-				842DDA96200392C3005F4055 /* iconmonstr-car-15-32.png */,
-				845E419B2004FBFB000D2095 /* iconmonstr-power-on-off-8-32.png */,
-				845E419D2004FCE4000D2095 /* iconmonstr-building-18-32.png */,
+				8461CBC41FE171050076770A /* SensorViewController.swift */,
+				8480B4C41FC7160D008DE913 /* StartViewController.swift */,
+				84EA26C4200D06F200A99F2A /* GeneralTableDataObject.swift */,
+				84EA26C6200D077F00A99F2A /* GeneralTableDataCell.swift */,
 			);
 			path = WedigStephanBSc;
 			sourceTree = "<group>";
@@ -286,13 +313,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84EA26B7200CDA4B00A99F2A /* iconmonstr-check-mark-1-32.png in Resources */,
 				84A99D071FB4B7F000511CA1 /* LaunchScreen.storyboard in Resources */,
 				842DDA97200392C4005F4055 /* iconmonstr-car-15-32.png in Resources */,
 				842DDA9520038FC8005F4055 /* iconmonstr-plus-4-32.png in Resources */,
+				84EA26BB200CDAAA00A99F2A /* iconmonstr-shape-19-32.png in Resources */,
 				84A99D041FB4B7F000511CA1 /* Assets.xcassets in Resources */,
 				845E419C2004FBFB000D2095 /* iconmonstr-power-on-off-8-32.png in Resources */,
+				84EA26B9200CDA5100A99F2A /* iconmonstr-x-mark-4-32.png in Resources */,
+				84EA26BD200CF68D00A99F2A /* iconmonstr-pencil-9-32.png in Resources */,
 				8463B2851FE94F14000AA6A6 /* iconmonstr-arrow-64-32.png in Resources */,
+				84EA26B5200CD1E100A99F2A /* iconmonstr-text-28-32.png in Resources */,
 				84A99D021FB4B7F000511CA1 /* Main.storyboard in Resources */,
+				84EA26BF200CF69400A99F2A /* iconmonstr-shape-19-16.png in Resources */,
 				845E419E2004FCE4000D2095 /* iconmonstr-building-18-32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +352,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A99CFF1FB4B7F000511CA1 /* ARViewController.swift in Sources */,
+				84EA26C5200D06F200A99F2A /* GeneralTableDataObject.swift in Sources */,
+				84EA26B3200CCA3400A99F2A /* RoomDescription.swift in Sources */,
 				846672FB1FCD7B69001F71AA /* apartment.swift in Sources */,
 				8461CBC51FE171050076770A /* SensorViewController.swift in Sources */,
 				846672FD1FCD7DC6001F71AA /* Room.swift in Sources */,
@@ -331,6 +366,7 @@
 				8461CBC71FE171540076770A /* generalViewController.swift in Sources */,
 				8463B27F1FE92355000AA6A6 /* RoomDescriptionViewController.swift in Sources */,
 				8406C90E1FD6BA35000B47B4 /* Sensor.swift in Sources */,
+				84EA26C7200D077F00A99F2A /* GeneralTableDataCell.swift in Sources */,
 				8406C9101FD6BA97000B47B4 /* SensorType.swift in Sources */,
 				8406C9141FD6C472000B47B4 /* ApartmentViewController.swift in Sources */,
 			);

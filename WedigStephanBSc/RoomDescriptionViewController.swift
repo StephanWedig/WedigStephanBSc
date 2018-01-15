@@ -9,6 +9,38 @@
 import Foundation
 import UIKit
 
-public class RoomDescriptionViewController : GeneralViewController {
+public class RoomDescriptionViewController : GeneralViewController, UITableViewDelegate, UITableViewDataSource {
+    @IBOutlet weak var tableRoomDescription: UITableView!
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        tableRoomDescription.delegate = self
+        tableRoomDescription.dataSource = self
+        navTopItem.title = "Room Descriptions"
+    }
+    public override func refresh() {
+        super.refresh()
+        tableRoomDescription.reloadData()
+    }
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let gl = GlobalInfos.getInstance()
+        if(gl.getIsEditing()) {
+            return gl.getRoomDescriptions().count + 1
+        }
+        return gl.getRoomDescriptions().count
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:GeneralTableDataCell = tableRoomDescription.dequeueReusableCell(withIdentifier: "cellRoomDescription", for: indexPath) as! GeneralTableDataCell
+        let gl = GlobalInfos.getInstance()
+        if(indexPath.row == gl.getRoomDescriptions().count) {
+            cell.setIsLast(isLast : true)
+            cell.setDataObject(dataObject: RoomDescription(description: ""), dataObjectList: [GeneralTableDataObject]())
+        } else {
+            cell.setDataObject(dataObject: gl.getRoomDescriptions()[indexPath.row], dataObjectList: gl.getRoomDescriptions())
+        }
+        cell.refresh()
+        return cell
+    }
 }

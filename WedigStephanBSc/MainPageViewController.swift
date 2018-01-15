@@ -72,16 +72,16 @@ extension MainPageViewController: UIPageViewControllerDataSource {
     public func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let gl = GlobalInfos.getInstance()
-        guard let viewControllerIndex = gl.orderedViewControllers[gl.getActMainPageIndex()].index(of: viewController as! GeneralViewController) else {
+        /*guard let viewControllerIndex = gl.orderedViewControllers[gl.getActMainPageIndex()].index(of: viewController as! GeneralViewController) else {
             return nil
-        }
+        }*/
         if GlobalInfos.getInstance().getApartment() == nil{
             return nil
         }
-        let nextIndex = viewControllerIndex + 1
-        let orderedViewControllersCount = gl.orderedViewControllers[gl.getActMainPageIndex()].count
+        let nextIndex = gl.getActPageIndex() + 1
         
-        guard orderedViewControllersCount > nextIndex else {
+        let orderedViewControllersCount = gl.orderedViewControllers[gl.getActMainPageIndex()].count
+        if orderedViewControllersCount <= nextIndex {
             return nil
         }
         gl.setActPageIndex(actPageIndex: nextIndex)
@@ -92,15 +92,15 @@ extension MainPageViewController: UIPageViewControllerDataSource {
     public func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let gl = GlobalInfos.getInstance()
-        guard let viewControllerIndex = gl.orderedViewControllers[gl.getActMainPageIndex()].index(of: viewController as! GeneralViewController) else {
+        /*guard let viewControllerIndex = gl.orderedViewControllers[gl.getActMainPageIndex()].index(of: viewController as! GeneralViewController) else {
             return nil
-        }
-        let previousIndex = viewControllerIndex - 1
+        }*/
+        let previousIndex = gl.getActPageIndex() - 1
         
-        guard previousIndex >= 0 else {
+        if previousIndex < 0 {
             return nil
         }
-        guard gl.orderedViewControllers[gl.getActMainPageIndex()].count > previousIndex else {
+        if gl.orderedViewControllers[gl.getActMainPageIndex()].count <= previousIndex {
             return nil
         }
         gl.setActPageIndex(actPageIndex: previousIndex)

@@ -11,10 +11,12 @@ import UIKit
 
 public class GlobalInfos {
     private static var _globalInfos:GlobalInfos = GlobalInfos()
+    private var _roomDescriptions = [RoomDescription]()
     private var _apartement : Apartment?
     private var _actRoomIndex = 0
     private var _actMainPageIndex = 0
     private var _actPageIndex = 0
+    private var _isEditing = false
     private init () {
         
     }
@@ -33,6 +35,12 @@ public class GlobalInfos {
     public func getActRoomIndex() -> Int {
         return _actRoomIndex
     }
+    public func getRoomDescriptions () -> [RoomDescription] {
+        return _roomDescriptions
+    }
+    public func addRoomDescription (description : RoomDescription) {
+        _roomDescriptions.append(description)
+    }
     public func setActMainPageIndex ( actMainPageIndex : Int) {
         _actMainPageIndex = actMainPageIndex
         _actPageIndex = 0
@@ -45,6 +53,12 @@ public class GlobalInfos {
     }
     public func getActPageIndex () -> Int {
         return _actPageIndex
+    }
+    public func setIsEditing(isEditing : Bool) {
+        _isEditing = isEditing
+    }
+    public func getIsEditing() -> Bool {
+        return _isEditing
     }
     public func getActRoom() -> Room? {
         if _apartement == nil {

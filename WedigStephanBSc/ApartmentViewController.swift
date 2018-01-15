@@ -37,9 +37,6 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
         txtPlace.delegate = self
         txtHousenumber.delegate = self
     }
-    /*@IBAction func butBack_Click(_ sender: Any) {
-        mainPage.previousPage(viewController: self)
-    }*/
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let gl = GlobalInfos.getInstance()
@@ -55,7 +52,7 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
         let gl = GlobalInfos.getInstance()
         
         if gl.getApartment() != nil && gl.getApartment()?.getRooms() != nil {
-            cell.textLabel?.text = gl.getApartment()!.getRooms()[indexPath.row].toString()
+            cell.textLabel?.text = gl.getApartment()!.getRooms()[indexPath.row].toStringTable()
         }
         return cell
     }
@@ -74,6 +71,7 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
             txtName.text = ap?.getName()
         }
         tableRooms.reloadData()
+        navTopItem.title = "Apartment"
     }
     
     public func refreshGPS() {
@@ -113,8 +111,6 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
             ap?.setName(name: textField.text)
         }
     }
-    
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         GlobalInfos.getInstance().setActRoomIndex(index: indexPath.row)

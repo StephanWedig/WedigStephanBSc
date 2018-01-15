@@ -49,6 +49,9 @@ public class Room {
             }
         }
     }
+    public func toStringTable() -> String {
+        return _description
+    }
     public func toString() -> String {
         return _apartment.toString()! + " " + _description
     }

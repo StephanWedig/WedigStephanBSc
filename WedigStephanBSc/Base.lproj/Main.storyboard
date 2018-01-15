@@ -524,13 +524,38 @@
                     <view key="view" contentMode="scaleToFill" id="JbC-qJ-rb2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ZRZ-3h-wkI" userLabel="tableRoomDescription">
+                                <rect key="frame" x="0.0" y="70" width="375" height="597"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellRoomDescription" id="UCT-7c-1TA" customClass="GeneralTableDataCell" customModule="WedigStephanBSc" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UCT-7c-1TA" id="WIc-nU-a63">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZRZ-3h-wkI" firstAttribute="top" secondItem="kZB-eR-1xb" secondAttribute="top" constant="50" id="0Kk-1p-Uf5" userLabel="tableRoomDescription.top = Safe Area.top + 50"/>
+                            <constraint firstItem="kZB-eR-1xb" firstAttribute="trailing" secondItem="ZRZ-3h-wkI" secondAttribute="trailing" id="FH5-6f-41O"/>
+                            <constraint firstItem="kZB-eR-1xb" firstAttribute="bottom" secondItem="ZRZ-3h-wkI" secondAttribute="bottom" id="Qd6-74-gT2"/>
+                            <constraint firstItem="ZRZ-3h-wkI" firstAttribute="leading" secondItem="kZB-eR-1xb" secondAttribute="leading" id="gDR-Bn-HbZ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="kZB-eR-1xb"/>
                     </view>
+                    <connections>
+                        <outlet property="tableRoomDescription" destination="ZRZ-3h-wkI" id="ke7-kz-Z5G"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JBo-Ic-LQG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2831.1999999999998" y="-376.46176911544228"/>
+            <point key="canvasLocation" x="28" y="880"/>
         </scene>
         <!--Sensor Type View Controller-->
         <scene sceneID="d8u-cz-ftn">
