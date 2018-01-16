@@ -11,7 +11,7 @@ import UIKit
 
 public class GlobalInfos {
     private static var _globalInfos:GlobalInfos = GlobalInfos()
-    private var _roomDescriptions = [RoomDescription]()
+    private var _roomDescriptions = NSMutableArray()
     private var _apartement : Apartment?
     private var _actRoomIndex = 0
     private var _actMainPageIndex = 0
@@ -35,11 +35,11 @@ public class GlobalInfos {
     public func getActRoomIndex() -> Int {
         return _actRoomIndex
     }
-    public func getRoomDescriptions () -> [RoomDescription] {
+    public func getRoomDescriptions () -> NSMutableArray {
         return _roomDescriptions
     }
     public func addRoomDescription (description : RoomDescription) {
-        _roomDescriptions.append(description)
+        _roomDescriptions.add(description)
     }
     public func setActMainPageIndex ( actMainPageIndex : Int) {
         _actMainPageIndex = actMainPageIndex

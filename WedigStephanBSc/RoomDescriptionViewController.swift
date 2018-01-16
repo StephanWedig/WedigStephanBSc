@@ -16,6 +16,7 @@ public class RoomDescriptionViewController : GeneralViewController, UITableViewD
         super.viewDidLoad()
         tableRoomDescription.delegate = self
         tableRoomDescription.dataSource = self
+        tableRoomDescription.rowHeight = UITableViewAutomaticDimension
         navTopItem.title = "Room Descriptions"
     }
     public override func refresh() {
@@ -34,11 +35,12 @@ public class RoomDescriptionViewController : GeneralViewController, UITableViewD
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:GeneralTableDataCell = tableRoomDescription.dequeueReusableCell(withIdentifier: "cellRoomDescription", for: indexPath) as! GeneralTableDataCell
         let gl = GlobalInfos.getInstance()
+        cell.setParentController(ParentController: self)
         if(indexPath.row == gl.getRoomDescriptions().count) {
             cell.setIsLast(isLast : true)
-            cell.setDataObject(dataObject: RoomDescription(description: ""), dataObjectList: [GeneralTableDataObject]())
+            cell.setDataObject(dataObject: RoomDescription(description: ""), dataObjectList: gl.getRoomDescriptions())
         } else {
-            cell.setDataObject(dataObject: gl.getRoomDescriptions()[indexPath.row], dataObjectList: gl.getRoomDescriptions())
+            cell.setDataObject(dataObject: gl.getRoomDescriptions()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  gl.getRoomDescriptions())
         }
         cell.refresh()
         return cell

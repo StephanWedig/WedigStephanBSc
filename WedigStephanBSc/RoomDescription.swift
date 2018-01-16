@@ -23,6 +23,9 @@ public class RoomDescription : GeneralTableDataObject {
     public override func toString() -> String {
         return _description
     }
+    public override func setValue (value : String) {
+        _description = value
+    }
 }
 
 /*public class RoomDescriptionCell : UITableViewCell {

@@ -9,15 +9,16 @@
 import Foundation
 import UIKit
 
-public class GeneralTableDataCell : UITableViewCell {
+public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
+    
     private var _isLast = false
-    private var _createNew = false
-    private var _DataObjectList = [GeneralTableDataObject]()
+    private var _DataObjectList = NSMutableArray()
     private var _DataObject : GeneralTableDataObject!
     private var _ParentController : GeneralViewController!
     private var labTitle: UILabel!
     private var butReaction: UIButton!
     private var txtTitle: UITextField!
+    
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         createScreen()
@@ -28,19 +29,68 @@ public class GeneralTableDataCell : UITableViewCell {
         createScreen()
     }
     public func createScreen () {
-        print("Hallo")
-        butReaction = UIButton()
-        butReaction.setTitle("but", for: .normal)
-        butReaction.contentRect(forBounds: CGRect(x: 0, y: 0, width: 50, height: 44))
+        butReaction = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 44))
+        butReaction.addTarget(self, action: #selector(self.butReaction_Click(_:)), for: .touchUpInside)
         self.addSubview(butReaction)
-        labTitle = UILabel()
+        labTitle = UILabel(frame: CGRect(x: 40, y: 0, width: 0, height: 50))
         labTitle.text = "Label"
-        labTitle.textRect(forBounds: CGRect(x: 50, y: 0, width: 50, height: 44), limitedToNumberOfLines: 1)
         self.addSubview(labTitle)
-        txtTitle = UITextField()
+        txtTitle = UITextField(frame: CGRect(x: 40, y: 0, width: 0, height: 50))
         txtTitle.text = "Textfield"
-        txtTitle.textRect(forBounds: CGRect(x: 100, y: 0, width: 50, height: 44))
         self.addSubview(txtTitle);
+        txtTitle.delegate = self
+        
+        let butReactionLeadingConstraint = NSLayoutConstraint(item: butReaction, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 0)
+        let butReactionTopConstraint = NSLayoutConstraint(item: butReaction, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        let butReactionBottomConstraint = NSLayoutConstraint(item: butReaction, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
+        let butReactionWidthConstraint = NSLayoutConstraint(item: butReaction, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 45)
+        let butReactionHeightConstraint = NSLayoutConstraint(item: butReaction, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 45)
+        
+        NSLayoutConstraint.activate([butReactionLeadingConstraint, butReactionTopConstraint, butReactionBottomConstraint, butReactionWidthConstraint, butReactionHeightConstraint])
+        butReaction.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        let labTitleLeadingConstraint = NSLayoutConstraint(item: labTitle, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal            , toItem: self, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 45)
+        let labTitleTopConstraint = NSLayoutConstraint(item: labTitle, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        let labTitleBottomConstraint = NSLayoutConstraint(item: labTitle, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal            , toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
+        let labTitleTrailingConstraint = NSLayoutConstraint(item: labTitle, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 0)
+        
+        NSLayoutConstraint.activate([labTitleLeadingConstraint, labTitleTopConstraint, labTitleBottomConstraint, labTitleTrailingConstraint])
+        labTitle.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        let txtTitleLeadingConstraint = NSLayoutConstraint(item: txtTitle, attribute: NSLayoutAttribute.leading, relatedBy: NSLayoutRelation.equal            , toItem: self, attribute: NSLayoutAttribute.leading, multiplier: 1, constant: 45)
+        let txtTitleTopConstraint = NSLayoutConstraint(item: txtTitle, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.top, multiplier: 1, constant: 0)
+        let txtTitleBottomConstraint = NSLayoutConstraint(item: txtTitle, attribute: NSLayoutAttribute.bottom, relatedBy: NSLayoutRelation.equal            , toItem: self, attribute: NSLayoutAttribute.bottom, multiplier: 1, constant: 0)
+        let txtTitleTrailingConstraint = NSLayoutConstraint(item: txtTitle, attribute: NSLayoutAttribute.trailing, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.trailing, multiplier: 1, constant: 0)
+        
+        NSLayoutConstraint.activate([txtTitleLeadingConstraint, txtTitleTopConstraint, txtTitleBottomConstraint, txtTitleTrailingConstraint])
+        txtTitle.translatesAutoresizingMaskIntoConstraints = false
+        
+        /*butReaction.translatesAutoresizingMaskIntoConstraints = true
+        butReaction.topAnchor.constraint(equalTo: marginGuide.topAnchor).isActive = true
+        butReaction.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor).isActive = true
+        //butReaction.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor).isActive = true
+        butReaction.widthAnchor.constraint(equalToConstant: 40)
+        butReaction.heightAnchor.constraint(equalToConstant: 40)
+        
+        txtTitle.topAnchor.constraint(equalTo: marginGuide.topAnchor, constant: 0).isActive = true
+        txtTitle.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor, constant: 40).isActive = true
+        txtTitle.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor, constant: 0).isActive = true
+        //txtTitle.widthAnchor.constraint(equalToConstant: UITableViewAutomaticDimension)
+        //txtTitle.heightAnchor.constraint(equalToConstant: UITableViewAutomaticDimension)
+        txtTitle.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor, constant: 0).isActive = true
+        txtTitle.translatesAutoresizingMaskIntoConstraints = true
+        
+        labTitle.font = UIFont(name: "System", size: 17)
+        labTitle.topAnchor.constraint(equalTo: marginGuide.topAnchor).isActive = true
+        labTitle.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor, constant: 40).isActive = true
+        labTitle.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor).isActive = true
+        labTitle.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor).isActive = true
+        labTitle.translatesAutoresizingMaskIntoConstraints = true
+        //labTitle.widthAnchor.constraint(equalToConstant: UITableViewAutomaticDimension)
+        //labTitle.heightAnchor.constraint(equalToConstant: UITableViewAutomaticDimension)
+ */
     }
     public func setIsLast(isLast : Bool) {
         _isLast = isLast;
@@ -48,7 +98,7 @@ public class GeneralTableDataCell : UITableViewCell {
     public func setParentController (ParentController : GeneralViewController ) {
         _ParentController = ParentController
     }
-    public func setDataObject (dataObject : GeneralTableDataObject, dataObjectList : [GeneralTableDataObject] ) {
+    public func setDataObject (dataObject : GeneralTableDataObject, dataObjectList : NSMutableArray) {
         _DataObjectList = dataObjectList
         _DataObject = dataObject
         labTitle.text = _DataObject.toString()
@@ -57,11 +107,9 @@ public class GeneralTableDataCell : UITableViewCell {
     public func refresh() {
         let gl = GlobalInfos.getInstance()
         if _isLast {
-            if !_createNew {
-                butReaction.setImage(UIImage(named: "iconmonstr-plus-4-32"), for: .normal)
-                txtTitle.isHidden = true
-                labTitle.isHidden = true
-            }
+            butReaction.setImage(UIImage(named: "iconmonstr-plus-4-32"), for: .normal)
+            txtTitle.isHidden = true
+            labTitle.isHidden = true
         } else {
             if gl.getIsEditing() {
                 if _DataObject != nil {
@@ -69,8 +117,13 @@ public class GeneralTableDataCell : UITableViewCell {
                 } else {
                     butReaction.setImage(UIImage(named: "iconmonstr-plus-4-32"), for: .normal)
                 }
-                txtTitle.isHidden = false
-                labTitle.isHidden = true
+                if _DataObject.isOnlySmallObject() {
+                    txtTitle.isHidden = false
+                    labTitle.isHidden = true
+                } else {
+                    txtTitle.isHidden = true
+                    labTitle.isHidden = false
+                }
             } else {
                 butReaction.setImage(UIImage(named: "iconmonstr-shape-19-16"), for: .normal)
                 txtTitle.isHidden = true
@@ -82,23 +135,24 @@ public class GeneralTableDataCell : UITableViewCell {
         let gl = GlobalInfos.getInstance()
         if gl.getIsEditing() {
             if _isLast {
-                _createNew = true
+                _isLast = false
+                createNewObject()
                 refresh()
+                _ParentController.refresh()
             } else {
-                var descIndex = -1
-                for index in 1..._DataObjectList.count {
-                    if _DataObject.getID() == _DataObjectList[index].getID() {
-                        descIndex = index
-                        break
-                    }
-                }
-                if descIndex != -1 {
-                    var rs = _DataObjectList
-                    rs.remove(at: descIndex)
-                }
+                _DataObjectList.remove(_DataObject)
             }
             _ParentController.refresh()
         }
+    }
+    public func createNewObject() {
+        _DataObjectList.add(_DataObject)
+        if(!_DataObject.isOnlySmallObject()) {
+            _ParentController.mainPage.nextPage(viewController: _ParentController)
+        }
+    }
+    public func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
+        _DataObject.setValue(value: textField.text!)
     }
 }
 
