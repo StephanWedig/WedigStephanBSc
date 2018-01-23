@@ -166,7 +166,7 @@ class ARViewController: GeneralViewController {
     public override func refresh() {
         super.refresh()
         let gl = GlobalInfos.getInstance()
-        navTopItem.title = gl.getActRoom()?.toString()
+        navTopItem.title = gl.getActRoom()?.toHeadingString()
     }
 }
 func +(lhv:SCNVector3, rhv:SCNVector3) -> SCNVector3 {

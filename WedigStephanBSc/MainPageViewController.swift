@@ -47,7 +47,21 @@ public class MainPageViewController : UIPageViewController {
     }
     
     public func nextPage(viewController: UIViewController) {
-        let vc = pageViewController(self, viewControllerAfter: viewController)! as! GeneralViewController
+        //let vc = pageViewController(self, viewControllerAfter: viewController)! as! GeneralViewController
+        
+        let gl = GlobalInfos.getInstance()
+        if GlobalInfos.getInstance().getApartment() == nil {
+            return
+        }
+        let nextIndex = gl.getActPageIndex() + 1
+        
+        let orderedViewControllersCount = gl.orderedViewControllers[gl.getActMainPageIndex()].count
+        if orderedViewControllersCount <= nextIndex {
+            return
+        }
+        gl.setActPageIndex(actPageIndex: nextIndex)
+        gl.orderedViewControllers[gl.getActMainPageIndex()][nextIndex].refresh()
+        let vc = gl.orderedViewControllers[gl.getActMainPageIndex()][nextIndex]
         setViewControllers([vc],
                            direction: .forward,
                            animated: true,
@@ -55,26 +69,34 @@ public class MainPageViewController : UIPageViewController {
         vc.refresh()
     }
     public func previousPage(viewController: UIViewController) {
-        let vc = pageViewController(self, viewControllerBefore: viewController)
-        if vc == nil {
+        //let vc = pageViewController(self, viewControllerBefore: viewController)
+        
+        let gl = GlobalInfos.getInstance()
+        gl.setToPreviousViewController()
+        //let previousIndex = gl.getActPageIndex() - 1
+        let previousIndex = gl.getActPageIndex()
+        
+        if previousIndex < 0 {
             return
         }
-        let gvc = vc as! GeneralViewController
-        setViewControllers([gvc],
+        if gl.orderedViewControllers[gl.getActMainPageIndex()].count <= previousIndex {
+            return
+        }
+        //gl.setActPageIndex(actPageIndex: previousIndex)
+        gl.orderedViewControllers[gl.getActMainPageIndex()][previousIndex].refresh()
+        let vc = gl.orderedViewControllers[gl.getActMainPageIndex()][previousIndex]
+        setViewControllers([vc],
                            direction: .forward,
                            animated: true,
                            completion: nil)
-        gvc.refresh()
+        vc.refresh()
     }
 }
 extension MainPageViewController: UIPageViewControllerDataSource {
     
     public func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        let gl = GlobalInfos.getInstance()
-        /*guard let viewControllerIndex = gl.orderedViewControllers[gl.getActMainPageIndex()].index(of: viewController as! GeneralViewController) else {
-            return nil
-        }*/
+        /*let gl = GlobalInfos.getInstance()
         if GlobalInfos.getInstance().getApartment() == nil{
             return nil
         }
@@ -86,15 +108,13 @@ extension MainPageViewController: UIPageViewControllerDataSource {
         }
         gl.setActPageIndex(actPageIndex: nextIndex)
         gl.orderedViewControllers[gl.getActMainPageIndex()][nextIndex].refresh()
-        return gl.orderedViewControllers[gl.getActMainPageIndex()][nextIndex]
+        return gl.orderedViewControllers[gl.getActMainPageIndex()][nextIndex]*/
+        return nil
     }
     
     public func pageViewController(_ pageViewController: UIPageViewController,
                             viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        let gl = GlobalInfos.getInstance()
-        /*guard let viewControllerIndex = gl.orderedViewControllers[gl.getActMainPageIndex()].index(of: viewController as! GeneralViewController) else {
-            return nil
-        }*/
+        /*let gl = GlobalInfos.getInstance()
         let previousIndex = gl.getActPageIndex() - 1
         
         if previousIndex < 0 {
@@ -105,6 +125,7 @@ extension MainPageViewController: UIPageViewControllerDataSource {
         }
         gl.setActPageIndex(actPageIndex: previousIndex)
         gl.orderedViewControllers[gl.getActMainPageIndex()][previousIndex].refresh()
-        return gl.orderedViewControllers[gl.getActMainPageIndex()][previousIndex]
+        return gl.orderedViewControllers[gl.getActMainPageIndex()][previousIndex]*/
+        return nil
     }
 }

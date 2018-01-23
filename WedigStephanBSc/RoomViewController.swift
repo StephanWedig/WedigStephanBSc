@@ -10,12 +10,10 @@ import Foundation
 import UIKit
 
 class RoomViewController: GeneralViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var txtID: UITextField!
     @IBOutlet weak var txtDescription: UITextField!
     @IBOutlet weak var tableSensor: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        txtID.delegate = self
         txtDescription.delegate = self
         tableSensor.delegate = self
         tableSensor.dataSource = self
@@ -29,13 +27,14 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell = tableSensor.dequeueReusableCell(withIdentifier: "cellSensor", for: indexPath)
-        
+        let cell:GeneralTableDataCell = tableSensor.dequeueReusableCell(withIdentifier: "cellSensor", for: indexPath) as! GeneralTableDataCell
         let gl = GlobalInfos.getInstance()
         
+        cell.setParentController(ParentController: self)
         if gl.getActRoom() != nil && gl.getActRoom()?.getSensors() != nil {
-            cell.textLabel?.text = gl.getActRoom()?.getSensors()[indexPath.row].toString()
+            cell.setDataObject(dataObject: gl.getActRoom()?.getSensors()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (gl.getActRoom()?.getSensors())!)
         }
+        cell.refresh()
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -43,6 +42,7 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
         mainPage.nextPage(viewController: self)
     }
     public override func refresh() {
+        super.refresh()
         let gl = GlobalInfos.getInstance()
         let r = gl.getActRoom()
         if(r == nil) {
@@ -52,7 +52,6 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
             return
         }
         txtDescription.text = r?.getDescription()
-        txtID.text = r?.getID()
         tableSensor.reloadData()
         navTopItem.title = gl.getApartment()?.toString()
     }
@@ -62,9 +61,6 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
         let r = gl.getActRoom()
         if(r == nil) {
             return
-        }
-        if textField == txtID {
-            r?.setID(ID: textField.text!)
         }
         if textField == txtDescription {
             r?.setDescription(description: textField.text!)

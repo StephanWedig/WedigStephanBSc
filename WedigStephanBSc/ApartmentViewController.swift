@@ -41,19 +41,27 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let gl = GlobalInfos.getInstance()
         if gl.getApartment() != nil && gl.getApartment()?.getRooms() != nil {
-            return (gl.getApartment()!.getRooms().count)
+            if gl.getIsEditing() {
+                return gl.getApartment()!.getRooms().count + 1
+            }
+            return gl.getApartment()!.getRooms().count
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell = tableRooms.dequeueReusableCell(withIdentifier: "cellRoom", for: indexPath)
+        let cell:GeneralTableDataCell = tableRooms.dequeueReusableCell(withIdentifier: "cellRoom", for: indexPath) as! GeneralTableDataCell
         
         let gl = GlobalInfos.getInstance()
         
-        if gl.getApartment() != nil && gl.getApartment()?.getRooms() != nil {
-            cell.textLabel?.text = gl.getApartment()!.getRooms()[indexPath.row].toStringTable()
+        cell.setParentController(ParentController: self)
+        if(indexPath.row == gl.getApartment()?.getRooms().count) {
+            cell.setIsLast(isLast : true)
+            cell.setDataObject(dataObject: Room(apartment: gl.getApartment()!), dataObjectList: (gl.getApartment()?.getRooms())!)
+        } else {
+            cell.setDataObject(dataObject: gl.getApartment()?.getRooms()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (gl.getApartment()?.getRooms())!)
         }
+        cell.refresh()
         return cell
     }
     public override func refresh() {
@@ -146,7 +154,7 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     }
     @IBAction func butAddRoom_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
-        gl.getApartment()?.appendRoom(room: Room(apartment: gl.getApartment()!))
+        gl.getApartment()?.addRoom(room: Room(apartment: gl.getApartment()!))
         gl.setActRoomIndex(index: (gl.getApartment()?.getRooms().count)! - 1)
         
         mainPage.nextPage(viewController: self)

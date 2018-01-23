@@ -66,31 +66,6 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
         
         NSLayoutConstraint.activate([txtTitleLeadingConstraint, txtTitleTopConstraint, txtTitleBottomConstraint, txtTitleTrailingConstraint])
         txtTitle.translatesAutoresizingMaskIntoConstraints = false
-        
-        /*butReaction.translatesAutoresizingMaskIntoConstraints = true
-        butReaction.topAnchor.constraint(equalTo: marginGuide.topAnchor).isActive = true
-        butReaction.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor).isActive = true
-        //butReaction.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor).isActive = true
-        butReaction.widthAnchor.constraint(equalToConstant: 40)
-        butReaction.heightAnchor.constraint(equalToConstant: 40)
-        
-        txtTitle.topAnchor.constraint(equalTo: marginGuide.topAnchor, constant: 0).isActive = true
-        txtTitle.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor, constant: 40).isActive = true
-        txtTitle.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor, constant: 0).isActive = true
-        //txtTitle.widthAnchor.constraint(equalToConstant: UITableViewAutomaticDimension)
-        //txtTitle.heightAnchor.constraint(equalToConstant: UITableViewAutomaticDimension)
-        txtTitle.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor, constant: 0).isActive = true
-        txtTitle.translatesAutoresizingMaskIntoConstraints = true
-        
-        labTitle.font = UIFont(name: "System", size: 17)
-        labTitle.topAnchor.constraint(equalTo: marginGuide.topAnchor).isActive = true
-        labTitle.leadingAnchor.constraint(equalTo: marginGuide.leadingAnchor, constant: 40).isActive = true
-        labTitle.bottomAnchor.constraint(equalTo: marginGuide.bottomAnchor).isActive = true
-        labTitle.trailingAnchor.constraint(equalTo: marginGuide.trailingAnchor).isActive = true
-        labTitle.translatesAutoresizingMaskIntoConstraints = true
-        //labTitle.widthAnchor.constraint(equalToConstant: UITableViewAutomaticDimension)
-        //labTitle.heightAnchor.constraint(equalToConstant: UITableViewAutomaticDimension)
- */
     }
     public func setIsLast(isLast : Bool) {
         _isLast = isLast;

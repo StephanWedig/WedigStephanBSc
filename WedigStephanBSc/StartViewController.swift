@@ -23,10 +23,8 @@ class StartViewController: GeneralViewController {
     
     @IBAction func butNew_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
-        gl.addRoomDescription(description: RoomDescription(description: "Küche"))
-        gl.addRoomDescription(description: RoomDescription(description: "Wohnzimmer"))
-        gl.addRoomDescription(description: RoomDescription(description: "Schlafzimmer"))
         gl.setApartment(apartment: Apartment())
+        gl.addActControllerToNavigationOrder()
         gl.setActMainPageIndex(actMainPageIndex: 1)
         mainPage.refreshPage()
     }

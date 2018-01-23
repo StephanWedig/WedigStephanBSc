@@ -14,7 +14,7 @@ public class Apartment {
     private var _postalcode : String? = ""
     private var _location : String? = ""
     private var _name : String? = ""
-    private var _rooms = [Room]()
+    private var _rooms = NSMutableArray()
     public init () {
         
     }
@@ -45,8 +45,8 @@ public class Apartment {
     public func setName (name : String?) {
         _name = name
     }
-    public func appendRoom (room : Room){
-        _rooms.append(room)
+    public func addRoom (room : Room){
+        _rooms.add(room)
     }
     public func setHousenumber( housenumber : String? ) {
         _housenumber = housenumber
@@ -54,7 +54,7 @@ public class Apartment {
     public func getHousenumber () -> String? {
         return _housenumber
     }
-    public func getRooms () -> [Room] {
+    public func getRooms () -> NSMutableArray {
         return _rooms
     }
     public func getName () -> String? {

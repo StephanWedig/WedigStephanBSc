@@ -24,6 +24,7 @@
 		846672FB1FCD7B69001F71AA /* apartment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846672FA1FCD7B69001F71AA /* apartment.swift */; };
 		846672FD1FCD7DC6001F71AA /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846672FC1FCD7DC6001F71AA /* Room.swift */; };
 		8480B4C51FC7160D008DE913 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8480B4C41FC7160D008DE913 /* StartViewController.swift */; };
+		84883CD620174DD8008F75B1 /* iconmonstr-computer-10-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84883CD520174DD8008F75B1 /* iconmonstr-computer-10-32.png */; };
 		84A99CFD1FB4B7F000511CA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A99CFC1FB4B7F000511CA1 /* AppDelegate.swift */; };
 		84A99CFF1FB4B7F000511CA1 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A99CFE1FB4B7F000511CA1 /* ARViewController.swift */; };
 		84A99D021FB4B7F000511CA1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A99D001FB4B7F000511CA1 /* Main.storyboard */; };
@@ -78,6 +79,7 @@
 		846672FA1FCD7B69001F71AA /* apartment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apartment.swift; sourceTree = "<group>"; };
 		846672FC1FCD7DC6001F71AA /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		8480B4C41FC7160D008DE913 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		84883CD520174DD8008F75B1 /* iconmonstr-computer-10-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-computer-10-32.png"; sourceTree = "<group>"; };
 		84A99CF91FB4B7F000511CA1 /* WedigStephanBSc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WedigStephanBSc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A99CFC1FB4B7F000511CA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84A99CFE1FB4B7F000511CA1 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				84EA26BA200CDAA900A99F2A /* iconmonstr-shape-19-32.png */,
 				84EA26B4200CD1E000A99F2A /* iconmonstr-text-28-32.png */,
 				84EA26B8200CDA5000A99F2A /* iconmonstr-x-mark-4-32.png */,
+				84883CD520174DD8008F75B1 /* iconmonstr-computer-10-32.png */,
 				84A99D081FB4B7F000511CA1 /* Info.plist */,
 				84A99D051FB4B7F000511CA1 /* LaunchScreen.storyboard */,
 				84A99D001FB4B7F000511CA1 /* Main.storyboard */,
@@ -321,6 +324,7 @@
 				84A99D041FB4B7F000511CA1 /* Assets.xcassets in Resources */,
 				845E419C2004FBFB000D2095 /* iconmonstr-power-on-off-8-32.png in Resources */,
 				84EA26B9200CDA5100A99F2A /* iconmonstr-x-mark-4-32.png in Resources */,
+				84883CD620174DD8008F75B1 /* iconmonstr-computer-10-32.png in Resources */,
 				84EA26BD200CF68D00A99F2A /* iconmonstr-pencil-9-32.png in Resources */,
 				8463B2851FE94F14000AA6A6 /* iconmonstr-arrow-64-32.png in Resources */,
 				84EA26B5200CD1E100A99F2A /* iconmonstr-text-28-32.png in Resources */,

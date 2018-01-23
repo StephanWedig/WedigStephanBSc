@@ -8,15 +8,14 @@
 
 import Foundation
 
-public class Room {
+public class Room : GeneralTableDataObject {
     private var _description : String = ""
-    private var _ID : String = ""
     private var _rooms = [Room]()
-    private var _sensors = [Sensor]()
+    private var _sensors = NSMutableArray()
     private var _apartment : Apartment
     public init (apartment : Apartment) {
         _apartment = apartment
-        _ID = NSUUID().uuidString
+        GlobalInfos.getInstance().setActRoomIndex(index: apartment.getRooms().count)
     }
     public func setDescription (description : String) {
         _description = description
@@ -28,19 +27,13 @@ public class Room {
         _rooms.append(room)
     }
     public func addSensor (sensor : Sensor){
-        _sensors.append(sensor)
+        _sensors.add(sensor)
     }
-    public func getSensors () -> [Sensor] {
+    public func getSensors () -> NSMutableArray {
         return _sensors
     }
-    public func setID (ID : String) {
-        _ID = ID
-    }
-    public func getID () -> String {
-        return _ID
-    }
     public func compare(other : Room) -> Bool {
-        return other.getID() == _ID
+        return other.getID() == getID()
     }
     public func removeRoom (room : Room) {
         for index in 1..._rooms.count {
@@ -49,10 +42,11 @@ public class Room {
             }
         }
     }
-    public func toStringTable() -> String {
-        return _description
-    }
-    public func toString() -> String {
+    public func toHeadingString() -> String {
         return _apartment.toString()! + " " + _description
     }
+    public override func toString() -> String {
+        return _description
+    }
+    public override func isOnlySmallObject() -> Bool { return false }
 }

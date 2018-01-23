@@ -17,7 +17,3 @@ public class GeneralTableDataObject {
     public func toString() -> String { return "" }
     public func isOnlySmallObject() -> Bool { return true }
 }
-
-public class GeneralTableDataObjectList {
-    public var List = [GeneralTableDataObject]()
-}
