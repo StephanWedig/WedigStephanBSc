@@ -37,6 +37,7 @@ class ARViewController: GeneralViewController {
     var editingType = 0
     var sensorArray = [SCNNode]()
     override func viewDidLoad() {
+        enumViewController = GlobalInfos.ViewControllers.AR
         super.viewDidLoad()
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         sceneView.session.run(configuration)

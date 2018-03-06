@@ -13,6 +13,7 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var txtDescription: UITextField!
     @IBOutlet weak var tableSensor: UITableView!
     override func viewDidLoad() {
+        enumViewController = GlobalInfos.ViewControllers.Room
         super.viewDidLoad()
         txtDescription.delegate = self
         tableSensor.delegate = self
@@ -32,14 +33,17 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
         
         cell.setParentController(ParentController: self)
         if gl.getActRoom() != nil && gl.getActRoom()?.getSensors() != nil {
-            cell.setDataObject(dataObject: gl.getActRoom()?.getSensors()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (gl.getActRoom()?.getSensors())!)
+            cell.setDataBinding(dataObject: gl.getActRoom()?.getSensors()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (gl.getActRoom()?.getSensors())!, viewController: GlobalInfos.ViewControllers.Sensor)
         }
         cell.refresh()
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        GlobalInfos.getInstance().setActRoomIndex(index: indexPath.row)
-        mainPage.nextPage(viewController: self)
+        let gl = GlobalInfos.getInstance()
+        gl.setActRoomIndex(index: indexPath.row)
+        gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.SensorType.rawValue)
+        mainPage.refreshPage()
+        //mainPage.nextPage(viewController: self)
     }
     public override func refresh() {
         super.refresh()

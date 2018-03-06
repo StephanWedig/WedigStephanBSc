@@ -22,6 +22,7 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        enumViewController = GlobalInfos.ViewControllers.Apartment
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -57,9 +58,9 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
         cell.setParentController(ParentController: self)
         if(indexPath.row == gl.getApartment()?.getRooms().count) {
             cell.setIsLast(isLast : true)
-            cell.setDataObject(dataObject: Room(apartment: gl.getApartment()!), dataObjectList: (gl.getApartment()?.getRooms())!)
+            cell.setDataBinding(dataObject: Room(apartment: gl.getApartment()!), dataObjectList: (gl.getApartment()?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
         } else {
-            cell.setDataObject(dataObject: gl.getApartment()?.getRooms()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (gl.getApartment()?.getRooms())!)
+            cell.setDataBinding(dataObject: gl.getApartment()?.getRooms()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (gl.getApartment()?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
         }
         cell.refresh()
         return cell
@@ -121,8 +122,11 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        GlobalInfos.getInstance().setActRoomIndex(index: indexPath.row)
-        mainPage.nextPage(viewController: self)
+        let gl = GlobalInfos.getInstance()
+        gl.setActRoomIndex(index: indexPath.row)
+        gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Room.rawValue)
+        mainPage.refreshPage()
+        //mainPage.nextPage(viewController: self)
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Get first location item returned from locations array
@@ -151,13 +155,6 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
                 }
             }
         })
-    }
-    @IBAction func butAddRoom_Click(_ sender: Any) {
-        let gl = GlobalInfos.getInstance()
-        gl.getApartment()?.addRoom(room: Room(apartment: gl.getApartment()!))
-        gl.setActRoomIndex(index: (gl.getApartment()?.getRooms().count)! - 1)
-        
-        mainPage.nextPage(viewController: self)
     }
     @IBAction func butGPS_Click(_ sender: Any) {
         locationManager.startUpdatingLocation()

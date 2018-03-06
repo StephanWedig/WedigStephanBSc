@@ -15,9 +15,11 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
     private var _DataObjectList = NSMutableArray()
     private var _DataObject : GeneralTableDataObject!
     private var _ParentController : GeneralViewController!
+    private var _DataObjectViewController : GlobalInfos.ViewControllers!
     private var labTitle: UILabel!
     private var butReaction: UIButton!
     private var txtTitle: UITextField!
+    public var savePath = ""
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -73,9 +75,10 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
     public func setParentController (ParentController : GeneralViewController ) {
         _ParentController = ParentController
     }
-    public func setDataObject (dataObject : GeneralTableDataObject, dataObjectList : NSMutableArray) {
+    public func setDataBinding (dataObject : GeneralTableDataObject, dataObjectList : NSMutableArray, viewController : GlobalInfos.ViewControllers) {
         _DataObjectList = dataObjectList
         _DataObject = dataObject
+        _DataObjectViewController = viewController
         labTitle.text = _DataObject.toString()
         txtTitle.text = _DataObject.toString()
     }
@@ -122,12 +125,56 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
     }
     public func createNewObject() {
         _DataObjectList.add(_DataObject)
-        if(!_DataObject.isOnlySmallObject()) {
-            _ParentController.mainPage.nextPage(viewController: _ParentController)
+        if(!_DataObject.isOnlySmallObject() && _DataObjectViewController != GlobalInfos.ViewControllers.unknown) {
+            let gl = GlobalInfos.getInstance()
+            gl.orderedViewControllers[_DataObjectViewController.rawValue].setActObjectListIndex(index: _DataObjectList.count - 1)
+            gl.setActPageIndex(actPageIndex: _DataObjectViewController.rawValue)
+            _ParentController.mainPage.refreshPage()
+            //_ParentController.mainPage.nextPage(viewController: _ParentController)
         }
     }
     public func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
         _DataObject.setValue(value: textField.text!)
+        if savePath != "" {
+            let FM = FileManager()
+            if FM.createFile(atPath: savePath, contents: nil, attributes: nil) {
+                print("Schreib los")
+                //_DataObjectList.write(toFile: savePath, atomically: false)
+                /*var list = NSMutableArray()
+                for d in _DataObjectList {
+                    let r = d as! RoomDescription
+                    list.add(r.getSaveMutableArray())
+                }
+                print(list.count)
+                list.write(toFile: savePath, atomically: true)*/
+                
+                /*var cocoaArray : NSArray = _DataObjectList
+                cocoaArray.write(toFile: savePath, atomically: true)*/
+                //let roomDescriptionList : NSMutableArray = [NSKeyedArchiver.archivedData(withRootObject: _DataObjectList)]
+                NSKeyedArchiver.archiveRootObject(_DataObjectList, toFile: savePath)
+                //let r : RoomDescription = _DataObjectList[0] as! RoomDescription
+                //NSKeyedArchiver.archiveRootObject(r, toFile: savePath)
+                //roomDescriptionList.write(toFile: savePath, atomically: true)
+            }
+            if !FileManager().fileExists(atPath: savePath) {
+                print ("Datei nicht da")
+            } else {
+                print ("Datei ist da")
+            }
+            //let roomDescriptionList = NSMutableArray(contentsOfFile: savePath)
+            let roomDescriptionList = NSKeyedUnarchiver.unarchiveObject(withFile: savePath) as! NSMutableArray
+            
+            if roomDescriptionList != nil {
+                for roomDescription in roomDescriptionList {
+                    let s = roomDescription as! RoomDescription
+                    print(s.getDescription())
+                }
+                print(roomDescriptionList.count)
+            } else {
+                print("Liste ist NULL")
+            }
+        }
+        print("Path: " + savePath)
     }
 }
 

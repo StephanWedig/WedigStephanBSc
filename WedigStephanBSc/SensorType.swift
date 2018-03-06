@@ -8,13 +8,20 @@
 
 import Foundation
 
-public class SensorType {
+public class SensorType : GeneralTableDataObject {
     private var _description : String = ""
     public init (description : String) {
         _description = description
     }
-    public func toString() -> String {
+    public func setDescription (description : String) {
+        _description = description
+    }
+    public func getDescription() -> String {
         return _description
     }
+    public override func toString() -> String {
+        return _description
+    }
+    public override func isOnlySmallObject() -> Bool { return false }
 }
 

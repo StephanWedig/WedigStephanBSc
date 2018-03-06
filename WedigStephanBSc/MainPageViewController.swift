@@ -11,23 +11,19 @@ import UIKit
 
 public class MainPageViewController : UIPageViewController {
     @IBAction func butBack_Click(_ sender: Any) {
-        let gl = GlobalInfos.getInstance()
-        previousPage(viewController: gl.orderedViewControllers[gl.getActMainPageIndex()].first!)
+        /*let gl = GlobalInfos.getInstance()
+        previousPage(viewController: gl.orderedViewControllers[gl.getActMainPageIndex()].first!)*/
     }
     public override func viewDidLoad() {
         super.viewDidLoad()
         dataSource = self
         let gl = GlobalInfos.getInstance()
-        if let firstViewController = gl.orderedViewControllers[gl.getActMainPageIndex()].first {
-            setViewControllers([firstViewController],
+        setViewControllers([gl.orderedViewControllers[GlobalInfos.ViewControllers.OpenSave.rawValue]],
                                direction: .forward,
                                animated: true,
                                completion: nil)
-        }
         for vc in GlobalInfos.getInstance().orderedViewControllers {
-            for v in vc {
-                v.mainPage = self
-            }
+            vc.mainPage = self
         }
         /*let svc = GlobalInfos.getInstance().orderedViewControllers[0] as! StartViewController
         svc.mainPage = self
@@ -36,9 +32,7 @@ public class MainPageViewController : UIPageViewController {
     }
     public func refreshPage() {
         let gl = GlobalInfos.getInstance()
-        let actMainPageIndex = gl.getActMainPageIndex()
-        let actPageIndex = gl.getActPageIndex()
-        let vc = gl.orderedViewControllers[actMainPageIndex][actPageIndex]
+        let vc = gl.getActViewController()
         setViewControllers([vc],
                            direction: .forward,
                            animated: true,
@@ -46,7 +40,7 @@ public class MainPageViewController : UIPageViewController {
         vc.refresh()
     }
     
-    public func nextPage(viewController: UIViewController) {
+    /*public func nextPage(viewController: UIViewController) {
         //let vc = pageViewController(self, viewControllerAfter: viewController)! as! GeneralViewController
         
         let gl = GlobalInfos.getInstance()
@@ -67,24 +61,24 @@ public class MainPageViewController : UIPageViewController {
                            animated: true,
                            completion: nil)
         vc.refresh()
-    }
+    }*/
     public func previousPage(viewController: UIViewController) {
         //let vc = pageViewController(self, viewControllerBefore: viewController)
         
         let gl = GlobalInfos.getInstance()
         gl.setToPreviousViewController()
         //let previousIndex = gl.getActPageIndex() - 1
-        let previousIndex = gl.getActPageIndex()
+        /*let previousIndex = gl.getActPageIndex()
         
         if previousIndex < 0 {
             return
         }
-        if gl.orderedViewControllers[gl.getActMainPageIndex()].count <= previousIndex {
+        if gl.orderedViewControllers.count <= previousIndex {
             return
         }
         //gl.setActPageIndex(actPageIndex: previousIndex)
-        gl.orderedViewControllers[gl.getActMainPageIndex()][previousIndex].refresh()
-        let vc = gl.orderedViewControllers[gl.getActMainPageIndex()][previousIndex]
+        gl.orderedViewControllers[previousIndex].refresh()*/
+        let vc = gl.getActViewController()
         setViewControllers([vc],
                            direction: .forward,
                            animated: true,

@@ -8,8 +8,9 @@
 
 import Foundation
 
-public class GeneralTableDataObject {
-    private let _ID = NSUUID().uuidString
+public class GeneralTableDataObject : NSObject {
+    
+    private let _ID : String! = NSUUID().uuidString
     public func getID() -> String {
         return _ID
     }

@@ -10,7 +10,9 @@ import Foundation
 import UIKit
 
 class SensorViewController: GeneralViewController {
+    
     override func viewDidLoad() {
+        enumViewController = GlobalInfos.ViewControllers.Sensor
         super.viewDidLoad()
     }
 }

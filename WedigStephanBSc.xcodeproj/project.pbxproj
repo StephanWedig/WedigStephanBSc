@@ -42,6 +42,8 @@
 		84EA26C5200D06F200A99F2A /* GeneralTableDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA26C4200D06F200A99F2A /* GeneralTableDataObject.swift */; };
 		84EA26C7200D077F00A99F2A /* GeneralTableDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA26C6200D077F00A99F2A /* GeneralTableDataCell.swift */; };
 		84FB36781FDFFBC4002B18C0 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FB36771FDFFBC4002B18C0 /* RoomViewController.swift */; };
+		84FE50BC204E912D0060EADB /* SensorTypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE50BB204E912D0060EADB /* SensorTypeListViewController.swift */; };
+		84FE50BE204EB23E0060EADB /* iconmonstr-text-25-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84FE50BD204EB23E0060EADB /* iconmonstr-text-25-32.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +105,8 @@
 		84EA26C4200D06F200A99F2A /* GeneralTableDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTableDataObject.swift; sourceTree = "<group>"; };
 		84EA26C6200D077F00A99F2A /* GeneralTableDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTableDataCell.swift; sourceTree = "<group>"; };
 		84FB36771FDFFBC4002B18C0 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
+		84FE50BB204E912D0060EADB /* SensorTypeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorTypeListViewController.swift; sourceTree = "<group>"; };
+		84FE50BD204EB23E0060EADB /* iconmonstr-text-25-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-text-25-32.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +176,7 @@
 				84EA26B4200CD1E000A99F2A /* iconmonstr-text-28-32.png */,
 				84EA26B8200CDA5000A99F2A /* iconmonstr-x-mark-4-32.png */,
 				84883CD520174DD8008F75B1 /* iconmonstr-computer-10-32.png */,
+				84FE50BD204EB23E0060EADB /* iconmonstr-text-25-32.png */,
 				84A99D081FB4B7F000511CA1 /* Info.plist */,
 				84A99D051FB4B7F000511CA1 /* LaunchScreen.storyboard */,
 				84A99D001FB4B7F000511CA1 /* Main.storyboard */,
@@ -187,6 +192,7 @@
 				8480B4C41FC7160D008DE913 /* StartViewController.swift */,
 				84EA26C4200D06F200A99F2A /* GeneralTableDataObject.swift */,
 				84EA26C6200D077F00A99F2A /* GeneralTableDataCell.swift */,
+				84FE50BB204E912D0060EADB /* SensorTypeListViewController.swift */,
 			);
 			path = WedigStephanBSc;
 			sourceTree = "<group>";
@@ -316,6 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FE50BE204EB23E0060EADB /* iconmonstr-text-25-32.png in Resources */,
 				84EA26B7200CDA4B00A99F2A /* iconmonstr-check-mark-1-32.png in Resources */,
 				84A99D071FB4B7F000511CA1 /* LaunchScreen.storyboard in Resources */,
 				842DDA97200392C4005F4055 /* iconmonstr-car-15-32.png in Resources */,
@@ -358,6 +365,7 @@
 				84A99CFF1FB4B7F000511CA1 /* ARViewController.swift in Sources */,
 				84EA26C5200D06F200A99F2A /* GeneralTableDataObject.swift in Sources */,
 				84EA26B3200CCA3400A99F2A /* RoomDescription.swift in Sources */,
+				84FE50BC204E912D0060EADB /* SensorTypeListViewController.swift in Sources */,
 				846672FB1FCD7B69001F71AA /* apartment.swift in Sources */,
 				8461CBC51FE171050076770A /* SensorViewController.swift in Sources */,
 				846672FD1FCD7DC6001F71AA /* Room.swift in Sources */,

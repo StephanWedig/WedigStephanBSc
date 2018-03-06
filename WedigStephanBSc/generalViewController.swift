@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 public class GeneralViewController: UIViewController, UITextFieldDelegate {
+    private var _actObjectListIndex:Int = 0
+    public var enumViewController : GlobalInfos.ViewControllers = GlobalInfos.ViewControllers.unknown
     public var mainPage:MainPageViewController!
     public let navTopItem = UINavigationItem(title: "SomeTitle");
     public let navBottomItem = UINavigationItem(title: "");
@@ -19,6 +21,7 @@ public class GeneralViewController: UIViewController, UITextFieldDelegate {
     public let butStart = UIBarButtonItem(image: UIImage(named: "iconmonstr-power-on-off-8-32"), style: .done, target: self, action: #selector(GeneralViewController.butStart_Click(_:)))
     public let butMain = UIBarButtonItem(image: UIImage(named: "iconmonstr-building-18-32"), style: .done, target: self, action: #selector(GeneralViewController.butMain_Click(_:)))
     public let butRoomDescription = UIBarButtonItem(image: UIImage(named: "iconmonstr-text-28-32"), style: .done, target: self, action: #selector(GeneralViewController.butRoomDescription_Click(_:)))
+    public let butSensorTypeList = UIBarButtonItem(image: UIImage(named: "iconmonstr-text-25-32"), style: .done, target: self, action: #selector(GeneralViewController.butSensortype_Click(_:)))
     public let butAR = UIBarButtonItem(image: UIImage(named: "iconmonstr-computer-10-32"), style: .done, target: self, action: #selector(GeneralViewController.butAR_Click(_:)))
     
     public override func viewDidLoad() {
@@ -44,7 +47,7 @@ public class GeneralViewController: UIViewController, UITextFieldDelegate {
         navBottomBar.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         navBottomBar.setItems([navBottomItem], animated: false);
         navBottomItem.leftBarButtonItems = [butStart, butMain, butAR]
-        navBottomItem.rightBarButtonItems = [butRoomDescription]
+        navBottomItem.rightBarButtonItems = [butSensorTypeList, butRoomDescription]
         butAR.isEnabled = false
         refresh()
     }
@@ -71,47 +74,54 @@ public class GeneralViewController: UIViewController, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    public func setActObjectListIndex(index : Int) {
+        _actObjectListIndex = index
+        refresh()
+    }
+    public func getActObjectListIndex() -> Int {
+        return _actObjectListIndex
+    }
     @IBAction func butBack_Click(_ sender: Any) {
         mainPage.previousPage(viewController: self)
     }
     @IBAction func butStart_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
-        if gl.getActMainPageIndex() == 0 && gl.getActPageIndex() == 0 {
+        if gl.getActViewController().enumViewController == GlobalInfos.ViewControllers.OpenSave {
             return
         }
-        GlobalInfos.getInstance().setActMainPageIndex(actMainPageIndex: 0)
+        GlobalInfos.getInstance().setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.OpenSave.rawValue)
         mainPage.refreshPage()
     }
     @IBAction func butAR_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
-        if gl.getActMainPageIndex() == 2 && gl.getActPageIndex() == 0 {
+        if gl.getActViewController().enumViewController == GlobalInfos.ViewControllers.AR {
             return
         }
-        GlobalInfos.getInstance().setActMainPageIndex(actMainPageIndex: 2)
+        GlobalInfos.getInstance().setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.AR.rawValue)
         mainPage.refreshPage()
     }
     @IBAction func butMain_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
-        if gl.getApartment() == nil || (gl.getActMainPageIndex() == 1 && gl.getActPageIndex() == 0) {
+        if gl.getApartment() == nil || gl.getActViewController().enumViewController == GlobalInfos.ViewControllers.Apartment {
             return
         }
-        gl.setActMainPageIndex(actMainPageIndex: 1)
+        GlobalInfos.getInstance().setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)
         mainPage.refreshPage()
     }
     @IBAction func butRoomDescription_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
-        if gl.getActMainPageIndex() == 3 && gl.getActPageIndex() == 0 {
+        if gl.getActViewController().enumViewController == GlobalInfos.ViewControllers.RoomDescription {
             return
         }
-        GlobalInfos.getInstance().setActMainPageIndex(actMainPageIndex: 3)
+        GlobalInfos.getInstance().setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.RoomDescription.rawValue)
         mainPage.refreshPage()
     }
     @IBAction func butSensortype_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
-        if gl.getActMainPageIndex() == 4 && gl.getActPageIndex() == 0 {
+        if gl.getActViewController().enumViewController == GlobalInfos.ViewControllers.SensorTypeList {
             return
         }
-        GlobalInfos.getInstance().setActMainPageIndex(actMainPageIndex: 4)
+        GlobalInfos.getInstance().setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.SensorTypeList.rawValue)
         mainPage.refreshPage()
     }
     @IBAction func butEditing_Click(_ sender: Any) {

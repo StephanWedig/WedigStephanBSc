@@ -452,10 +452,10 @@
             </objects>
             <point key="canvasLocation" x="164" y="-495"/>
         </scene>
-        <!--View Controller-->
+        <!--Sensor View Controller-->
         <scene sceneID="LRQ-ET-YgU">
             <objects>
-                <viewController id="NIa-FZ-N2x" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SensorViewController" id="NIa-FZ-N2x" customClass="SensorViewController" customModule="WedigStephanBSc" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3r6-jM-PFs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -514,28 +514,97 @@
                     <view key="view" contentMode="scaleToFill" id="ABH-qs-zeN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="oCH-Nb-kn4">
+                                <rect key="frame" x="20" y="70" width="335" height="30"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Fge-Ze-D7p">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6fe-oY-nex" userLabel="Name">
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpr-ih-xEi" userLabel="lab_Name">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="30"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="50" id="Zyv-OA-EIt"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DRf-r2-lC2" userLabel="txt_Name">
+                                                        <rect key="frame" x="50" y="0.0" width="285" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="amw-Ky-lCt"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="oCH-Nb-kn4" firstAttribute="leading" secondItem="hby-lZ-hbj" secondAttribute="leading" constant="20" id="265-9Z-BhC"/>
+                            <constraint firstItem="hby-lZ-hbj" firstAttribute="bottom" secondItem="oCH-Nb-kn4" secondAttribute="bottom" constant="50" id="Oa4-oW-v5T"/>
+                            <constraint firstItem="oCH-Nb-kn4" firstAttribute="top" secondItem="hby-lZ-hbj" secondAttribute="top" constant="50" id="iKc-KV-B7x"/>
+                            <constraint firstItem="hby-lZ-hbj" firstAttribute="trailing" secondItem="oCH-Nb-kn4" secondAttribute="trailing" constant="20" id="vHo-UD-QpG"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="hby-lZ-hbj"/>
                     </view>
+                    <connections>
+                        <outlet property="txtName" destination="DRf-r2-lC2" id="IVr-A8-GWX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Dd-Eh-NGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1852" y="253"/>
         </scene>
-        <!--View Controller-->
+        <!--Sensor Type List View Controller-->
         <scene sceneID="7Zs-zO-rUw">
             <objects>
-                <viewController id="UjE-I5-xEf" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SensorTypeListViewController" id="UjE-I5-xEf" customClass="SensorTypeListViewController" customModule="WedigStephanBSc" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VW0-eG-saL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CsK-XX-CvV" userLabel="tableSensorType">
+                                <rect key="frame" x="0.0" y="70" width="375" height="597"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellSensorType" id="Qmf-fl-MzU" userLabel="cellSensorType" customClass="GeneralTableDataCell" customModule="WedigStephanBSc" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qmf-fl-MzU" id="dp4-vg-Oao">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="CsK-XX-CvV" firstAttribute="leading" secondItem="JG6-D9-huU" secondAttribute="leading" id="BqC-4D-Md4"/>
+                            <constraint firstItem="CsK-XX-CvV" firstAttribute="trailing" secondItem="JG6-D9-huU" secondAttribute="trailing" id="qXt-BN-t0F"/>
+                            <constraint firstItem="JG6-D9-huU" firstAttribute="bottom" secondItem="CsK-XX-CvV" secondAttribute="bottom" id="qoX-gW-Dl1"/>
+                            <constraint firstItem="CsK-XX-CvV" firstAttribute="top" secondItem="JG6-D9-huU" secondAttribute="top" constant="50" id="s5B-ig-KWb"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="JG6-D9-huU"/>
                     </view>
+                    <connections>
+                        <outlet property="tableSensorType" destination="CsK-XX-CvV" id="IDR-gi-Fs4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IMc-PQ-2vB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3430" y="281"/>
+            <point key="canvasLocation" x="866" y="879"/>
         </scene>
     </scenes>
     <resources>

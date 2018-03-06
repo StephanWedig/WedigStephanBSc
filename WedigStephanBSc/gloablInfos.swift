@@ -11,11 +11,16 @@ import UIKit
 
 public class GlobalInfos {
     private static var _globalInfos:GlobalInfos = GlobalInfos()
-    private var navigationOrder = [[Int]]()
+    private var navigationOrder = [Int]()
     private var _roomDescriptions = NSMutableArray()
+    private var _sensorTypes = NSMutableArray()
     private var _apartement : Apartment?
     private var _actRoomIndex = 0
-    private var _actMainPageIndex = 0
+    public static let objectSplitter = "|##|"
+    public static let innerObjectSplitter = "|#|"
+    public static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    public static let ArchiveRoomDescription = DocumentsDirectory.appendingPathComponent("RoomDescription.plist")
+    //private var _actMainPageIndex = 0
     private var _actPageIndex = 0
     private var _isEditing = false
     private init () {
@@ -42,20 +47,29 @@ public class GlobalInfos {
     public func addRoomDescription (description : RoomDescription) {
         _roomDescriptions.add(description)
     }
-    public func setActMainPageIndex ( actMainPageIndex : Int) {
+    public func getSensorTypes () -> NSMutableArray {
+        return _sensorTypes
+    }
+    public func addSensorType (sensorType : SensorType) {
+        _sensorTypes.add(sensorType)
+    }
+    /*public func setActMainPageIndex ( actMainPageIndex : Int) {
         addActControllerToNavigationOrder()
         _actMainPageIndex = actMainPageIndex
         _actPageIndex = 0
     }
     public func getActMainPageIndex () -> Int {
         return _actMainPageIndex
-    }
+    }*/
     public func setActPageIndex ( actPageIndex : Int) {
         addActControllerToNavigationOrder()
         _actPageIndex = actPageIndex
     }
-    public func getActPageIndex () -> Int {
+    /*public func getActPageIndex () -> Int {
         return _actPageIndex
+    }*/
+    public func getActViewController() -> GeneralViewController {
+        return orderedViewControllers[_actPageIndex]
     }
     public func setIsEditing(isEditing : Bool) {
         _isEditing = isEditing
@@ -81,20 +95,32 @@ public class GlobalInfos {
     public func setToPreviousViewController() {
         let vc = navigationOrder[navigationOrder.count - 1]
         navigationOrder.remove(at: navigationOrder.count - 1)
-        _actMainPageIndex = vc[0]
-        _actPageIndex = vc[1]
+        _actPageIndex = vc
     }
     public func addActControllerToNavigationOrder () {
-        navigationOrder.append([_actMainPageIndex, _actPageIndex])
+        navigationOrder.append(_actPageIndex)
     }
     
-    private(set) lazy var orderedViewControllers: [[GeneralViewController]] = {
-        return [[self.newColoredViewController(Identifier: "OpenSave")],[
+    public enum ViewControllers : Int {
+        case unknown = -1
+        case OpenSave = 0
+        case Apartment = 1
+        case Room = 2
+        case AR = 3
+        case RoomDescription = 4
+        case SensorType = 5
+        case SensorTypeList = 6
+        case Sensor = 7
+    }
+    private(set) lazy var orderedViewControllers: [GeneralViewController] = {
+        return [self.newColoredViewController(Identifier: "OpenSave"),
                 self.newColoredViewController(Identifier: "Apartment"),
-                self.newColoredViewController(Identifier: "Room")],
-                [self.newColoredViewController(Identifier: "AR")],
-                [self.newColoredViewController(Identifier: "RoomDescription")],
-                [self.newColoredViewController(Identifier: "SensorType")]]
+                self.newColoredViewController(Identifier: "Room"),
+                self.newColoredViewController(Identifier: "AR"),
+                self.newColoredViewController(Identifier: "RoomDescription"),
+                self.newColoredViewController(Identifier: "SensorType"),
+                self.newColoredViewController(Identifier: "SensorTypeList"),
+                self.newColoredViewController(Identifier: "Sensor")]
     }()
     
     public func newColoredViewController(Identifier: String) -> GeneralViewController {
