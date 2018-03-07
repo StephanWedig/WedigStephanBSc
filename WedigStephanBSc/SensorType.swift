@@ -23,5 +23,13 @@ public class SensorType : GeneralTableDataObject {
         return _description
     }
     public override func isOnlySmallObject() -> Bool { return false }
+    public override func encode(with aCoder: NSCoder) {
+        aCoder.encode(_description, forKey:"description")
+        super.encode(with: aCoder)
+    }
+    public required convenience init?(coder aDecoder: NSCoder) {
+        self.init(description: aDecoder.decodeObject(forKey: "description") as! String)
+        super.initForLoad(aDecoder: aDecoder)
+    }
 }
 

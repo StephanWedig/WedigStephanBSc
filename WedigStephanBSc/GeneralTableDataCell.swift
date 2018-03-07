@@ -136,45 +136,8 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
     public func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
         _DataObject.setValue(value: textField.text!)
         if savePath != "" {
-            let FM = FileManager()
-            if FM.createFile(atPath: savePath, contents: nil, attributes: nil) {
-                print("Schreib los")
-                //_DataObjectList.write(toFile: savePath, atomically: false)
-                /*var list = NSMutableArray()
-                for d in _DataObjectList {
-                    let r = d as! RoomDescription
-                    list.add(r.getSaveMutableArray())
-                }
-                print(list.count)
-                list.write(toFile: savePath, atomically: true)*/
-                
-                /*var cocoaArray : NSArray = _DataObjectList
-                cocoaArray.write(toFile: savePath, atomically: true)*/
-                //let roomDescriptionList : NSMutableArray = [NSKeyedArchiver.archivedData(withRootObject: _DataObjectList)]
-                NSKeyedArchiver.archiveRootObject(_DataObjectList, toFile: savePath)
-                //let r : RoomDescription = _DataObjectList[0] as! RoomDescription
-                //NSKeyedArchiver.archiveRootObject(r, toFile: savePath)
-                //roomDescriptionList.write(toFile: savePath, atomically: true)
-            }
-            if !FileManager().fileExists(atPath: savePath) {
-                print ("Datei nicht da")
-            } else {
-                print ("Datei ist da")
-            }
-            //let roomDescriptionList = NSMutableArray(contentsOfFile: savePath)
-            let roomDescriptionList = NSKeyedUnarchiver.unarchiveObject(withFile: savePath) as! NSMutableArray
-            
-            if roomDescriptionList != nil {
-                for roomDescription in roomDescriptionList {
-                    let s = roomDescription as! RoomDescription
-                    print(s.getDescription())
-                }
-                print(roomDescriptionList.count)
-            } else {
-                print("Liste ist NULL")
-            }
+            NSKeyedArchiver.archiveRootObject(_DataObjectList, toFile: savePath)
         }
-        print("Path: " + savePath)
     }
 }
 

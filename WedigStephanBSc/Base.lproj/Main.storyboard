@@ -137,20 +137,24 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EtA-Jy-CPq" userLabel="txt_Description">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJ4-rq-TnA" userLabel="but_Description">
                                                         <rect key="frame" x="50" y="0.0" width="285" height="40"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="t7t-45-PIj"/>
+                                                            <constraint firstAttribute="height" constant="40" id="g8u-iJ-bH1"/>
                                                         </constraints>
-                                                        <nil key="textColor"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <textInputTraits key="textInputTraits"/>
-                                                    </textField>
+                                                        <state key="normal" title="Select a room description"/>
+                                                        <connections>
+                                                            <action selector="butDescription_Onclick:" destination="7MB-VX-Wej" eventType="touchUpInside" id="5QZ-au-3Vk"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="rb6-NV-TUO"/>
                                                 </constraints>
                                             </stackView>
+                                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vwT-vn-zdW" userLabel="picker_Desription">
+                                                <rect key="frame" x="0.0" y="43" width="335" height="0.0"/>
+                                            </pickerView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sensors" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bp-Q5-EJg" userLabel="lab_Sensors">
                                                 <rect key="frame" x="0.0" y="45" width="335" height="40"/>
                                                 <constraints>
@@ -193,8 +197,9 @@
                         <viewLayoutGuide key="safeArea" id="2aH-s2-qZp"/>
                     </view>
                     <connections>
+                        <outlet property="butDescription" destination="zJ4-rq-TnA" id="Nee-X6-oWF"/>
+                        <outlet property="pickerDescription" destination="vwT-vn-zdW" id="SUB-ah-AAB"/>
                         <outlet property="tableSensor" destination="rNK-34-QKR" id="Bkr-0i-K3u"/>
-                        <outlet property="txtDescription" destination="EtA-Jy-CPq" id="MCn-fG-xx5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ie5-nR-Oy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -459,9 +464,62 @@
                     <view key="view" contentMode="scaleToFill" id="3r6-jM-PFs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="bottom" semanticContentAttribute="forceLeftToRight" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BKI-Lr-HQU">
+                                <rect key="frame" x="20" y="70" width="335" height="40"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mVD-4g-HlT">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4zm-uR-1Hy">
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rl9-CC-tnL" userLabel="lab_Type">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="50" id="IYz-J6-qyi"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8P-xb-mPR" userLabel="but_Type">
+                                                        <rect key="frame" x="50" y="0.0" width="285" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="0wv-uk-X3v"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Select a sensor type"/>
+                                                        <connections>
+                                                            <action selector="butDescription_Onclick:" destination="7MB-VX-Wej" eventType="touchUpInside" id="6gz-Pe-kJ4"/>
+                                                            <action selector="butType_Onclick:" destination="NIa-FZ-N2x" eventType="touchUpInside" id="qk3-uY-UGD"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="AaN-wb-O28"/>
+                                                </constraints>
+                                            </stackView>
+                                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixC-2f-RRi" userLabel="picker_Type">
+                                                <rect key="frame" x="0.0" y="40" width="335" height="0.0"/>
+                                            </pickerView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="UbZ-mN-x9Z" firstAttribute="trailing" secondItem="BKI-Lr-HQU" secondAttribute="trailing" constant="20" id="A7p-mI-cU1"/>
+                            <constraint firstItem="UbZ-mN-x9Z" firstAttribute="bottom" secondItem="BKI-Lr-HQU" secondAttribute="bottom" constant="50" id="X9N-Xm-nkS"/>
+                            <constraint firstItem="BKI-Lr-HQU" firstAttribute="top" secondItem="UbZ-mN-x9Z" secondAttribute="top" constant="50" id="eE3-2X-jC9"/>
+                            <constraint firstItem="BKI-Lr-HQU" firstAttribute="leading" secondItem="UbZ-mN-x9Z" secondAttribute="leading" constant="20" id="n02-b2-3zC"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="UbZ-mN-x9Z"/>
                     </view>
+                    <connections>
+                        <outlet property="butType" destination="t8P-xb-mPR" id="YuC-lC-svG"/>
+                        <outlet property="pickerType" destination="ixC-2f-RRi" id="EXg-0m-npK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUq-fO-RaD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -516,25 +574,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="oCH-Nb-kn4">
-                                <rect key="frame" x="20" y="70" width="335" height="30"/>
+                                <rect key="frame" x="20" y="70" width="335" height="40"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Fge-Ze-D7p">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6fe-oY-nex" userLabel="Name">
-                                                <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpr-ih-xEi" userLabel="lab_Name">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="Zyv-OA-EIt"/>
+                                                            <constraint firstAttribute="height" constant="40" id="ajG-SH-arf"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DRf-r2-lC2" userLabel="txt_Name">
-                                                        <rect key="frame" x="50" y="0.0" width="285" height="30"/>
+                                                        <rect key="frame" x="50" y="0.0" width="285" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="LY7-L8-D8S"/>
+                                                        </constraints>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>

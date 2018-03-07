@@ -9,7 +9,7 @@
 import Foundation
 
 public class Room : GeneralTableDataObject {
-    private var _description : String = ""
+    private var _description : RoomDescription = RoomDescription(description: "")
     private var _rooms = [Room]()
     private var _sensors = NSMutableArray()
     private var _apartment : Apartment
@@ -17,11 +17,15 @@ public class Room : GeneralTableDataObject {
         _apartment = apartment
         GlobalInfos.getInstance().setActRoomIndex(index: apartment.getRooms().count)
     }
-    public func setDescription (description : String) {
+    
+    public required convenience init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    public func setDescription (description : RoomDescription) {
         _description = description
     }
     public func getDescription () -> String {
-        return _description
+        return _description.getDescription()
     }
     public func addRoom (room : Room){
         _rooms.append(room)
@@ -43,10 +47,10 @@ public class Room : GeneralTableDataObject {
         }
     }
     public func toHeadingString() -> String {
-        return _apartment.toString()! + " " + _description
+        return _apartment.toString()! + " " + _description.getDescription()
     }
     public override func toString() -> String {
-        return _description
+        return _description.getDescription()
     }
     public override func isOnlySmallObject() -> Bool { return false }
 }

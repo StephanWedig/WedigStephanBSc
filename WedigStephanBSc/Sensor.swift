@@ -11,24 +11,28 @@ import ARKit
 
 public class Sensor : GeneralTableDataObject{
     private var _position : SCNVector3?
-    private var _sensortype : SensorType?
+    private var _sensortype : SensorType!
     public init (position : SCNVector3) {
         _position = SCNVector3(position.x, position.y, position.z)
+    }
+    
+    public required convenience init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     public func setSensortype (sensortype:SensorType) {
         _sensortype = sensortype
     }
-    public func getSensortype () -> SensorType {
-        return _sensortype!
+    public func getSensortype () -> SensorType! {
+        return _sensortype
     }
     public func getPosition () -> SCNVector3 {
         return _position!
     }
     public override func toString() -> String {
-        var ret:String = getID()
+        var ret:String = ""
         
         if _sensortype != nil {
-            ret = ret + " " + _sensortype!.toString()
+            ret = _sensortype!.toString()
         }
         return ret
     }

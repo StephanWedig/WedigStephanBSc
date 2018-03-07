@@ -34,5 +34,8 @@ public class SensorTypeViewController : GeneralViewController {
         if textField == txtName {
             s.setDescription(description: textField.text!)
         }
+        if gl.ArchiveSensorType.path != "" {
+            NSKeyedArchiver.archiveRootObject(gl.getSensorTypes(), toFile: gl.ArchiveSensorType.path)
+        }
     }
 }

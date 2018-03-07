@@ -123,8 +123,10 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let gl = GlobalInfos.getInstance()
+        let controllerIndex = GlobalInfos.ViewControllers.Room.rawValue
+        gl.orderedViewControllers[controllerIndex].setActObjectListIndex(index: indexPath.row)
         gl.setActRoomIndex(index: indexPath.row)
-        gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Room.rawValue)
+        gl.setActPageIndex(actPageIndex: controllerIndex)
         mainPage.refreshPage()
         //mainPage.nextPage(viewController: self)
     }

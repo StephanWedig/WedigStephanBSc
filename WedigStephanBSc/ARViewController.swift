@@ -153,10 +153,13 @@ class ARViewController: GeneralViewController {
         refreshHiddenButton()
     }
     func refreshHiddenButton() {
-        StackViewEdit.isHidden = !(_editLevel == editLevel.editNoPositionLevel || (_editLevel == editLevel.editPointPositioning))
-        //StackViewPointSet.isHidden = !(_editLevel == editLevel.editPointPositioning)
-        butAddSensor.isHidden = rootNode == nil
-        butClearSensor.isHidden = rootNode == nil
+        UIView.animate(withDuration: 0.3, animations: {
+            self.StackViewEdit.isHidden = !(self._editLevel == editLevel.editNoPositionLevel || (self._editLevel == editLevel.editPointPositioning))
+            //StackViewPointSet.isHidden = !(_editLevel == editLevel.editPointPositioning)
+            self.butAddSensor.isHidden = self.rootNode == nil
+            self.butClearSensor.isHidden = self.rootNode == nil
+            self.view.layoutIfNeeded()
+        })
     }
     func getAbs(value : Float) -> Float {
         if(value < 0) {

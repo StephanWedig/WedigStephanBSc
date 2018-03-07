@@ -16,15 +16,14 @@ public class GlobalInfos {
     private var _sensorTypes = NSMutableArray()
     private var _apartement : Apartment?
     private var _actRoomIndex = 0
-    public static let objectSplitter = "|##|"
-    public static let innerObjectSplitter = "|#|"
     public static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-    public static let ArchiveRoomDescription = DocumentsDirectory.appendingPathComponent("RoomDescription.plist")
+    //public static let DocumentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+    public let ArchiveRoomDescription = GlobalInfos.DocumentsDirectory.appendingPathComponent("RoomDescription.plist")
+    public let ArchiveSensorType = GlobalInfos.DocumentsDirectory.appendingPathComponent("SensorType.plist")
     //private var _actMainPageIndex = 0
     private var _actPageIndex = 0
     private var _isEditing = false
     private init () {
-        
     }
     public static func getInstance() -> GlobalInfos {
         return _globalInfos

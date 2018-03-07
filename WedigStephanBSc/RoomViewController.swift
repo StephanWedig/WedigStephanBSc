@@ -9,15 +9,21 @@
 import Foundation
 import UIKit
 
-class RoomViewController: GeneralViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var txtDescription: UITextField!
+class RoomViewController: GeneralViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    private var actObject : Room!
+    @IBOutlet weak var pickerDescription: UIPickerView!
+    @IBOutlet weak var butDescription: UIButton!
+    //@IBOutlet weak var txtDescription: UITextField!
     @IBOutlet weak var tableSensor: UITableView!
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.Room
         super.viewDidLoad()
-        txtDescription.delegate = self
+        //txtDescription.delegate = self
         tableSensor.delegate = self
         tableSensor.dataSource = self
+        pickerDescription.delegate = self
+        pickerDescription.dataSource = self
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let gl = GlobalInfos.getInstance()
@@ -40,23 +46,45 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let gl = GlobalInfos.getInstance()
-        gl.setActRoomIndex(index: indexPath.row)
-        gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.SensorType.rawValue)
+        let controllerIndex = GlobalInfos.ViewControllers.Sensor.rawValue
+        gl.orderedViewControllers[controllerIndex].setActObjectListIndex(index: indexPath.row)
+        //gl.setActRoomIndex(index: indexPath.row)
+        gl.setActPageIndex(actPageIndex: controllerIndex)
+        
         mainPage.refreshPage()
         //mainPage.nextPage(viewController: self)
     }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return GlobalInfos.getInstance().getRoomDescriptions().count
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        swapPickerDescriptionVisible()
+        actObject.setDescription(description: GlobalInfos.getInstance().getRoomDescriptions()[row] as! RoomDescription)
+        refresh()
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return (GlobalInfos.getInstance().getRoomDescriptions()[row] as! RoomDescription).getDescription()
+    }
+    
     public override func refresh() {
         super.refresh()
+        actObject = GlobalInfos.getInstance().getApartment()?.getRooms()[getActObjectListIndex()] as! Room
         let gl = GlobalInfos.getInstance()
-        let r = gl.getActRoom()
-        if(r == nil) {
+        if(actObject == nil) {
             return
         }
-        if txtDescription == nil {
-            return
+        if butDescription != nil {
+            if actObject.getDescription() != "" {
+                butDescription.setTitle(actObject.getDescription(), for: .normal)
+            }
         }
-        txtDescription.text = r?.getDescription()
-        tableSensor.reloadData()
+        if tableSensor != nil {
+            tableSensor.reloadData()
+        }
         navTopItem.title = gl.getApartment()?.toString()
     }
     override func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
@@ -66,8 +94,14 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
         if(r == nil) {
             return
         }
-        if textField == txtDescription {
-            r?.setDescription(description: textField.text!)
-        }
+    }
+    @IBAction func butDescription_Onclick(_ sender: UIButton) {
+        swapPickerDescriptionVisible()
+    }
+    private func swapPickerDescriptionVisible () {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.pickerDescription.isHidden = !self.pickerDescription.isHidden
+            self.view.layoutIfNeeded()
+        })
     }
 }

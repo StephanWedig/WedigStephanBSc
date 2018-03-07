@@ -15,28 +15,25 @@ class StartViewController: GeneralViewController {
     
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.OpenSave
+        
         let gl = GlobalInfos.getInstance()
-        if gl.getRoomDescriptions().count < 0 && FileManager().fileExists(atPath: GlobalInfos.ArchiveRoomDescription.path) {
-            /*let roomDescriptionList = NSMutableArray(contentsOfFile: GlobalInfos.ArchiveRoomDescription.path)
-            if roomDescriptionList != nil {
-                for roomDescription in roomDescriptionList! {
-                    gl.addRoomDescription(description: roomDescription as! RoomDescription)
-                }
-            }*/
-            let roomDescriptionList = NSKeyedUnarchiver.unarchiveObject(withFile: GlobalInfos.ArchiveRoomDescription.path) as! NSMutableArray
-            
-            if roomDescriptionList != nil {
-                for roomDescription in roomDescriptionList {
-                    let s = roomDescription as! RoomDescription
-                    GlobalInfos.getInstance().addRoomDescription(description: s)
-                    print(s.getDescription())
-                }
-                print(roomDescriptionList.count)
-            } else {
-                print("Liste ist NULL")
+        if gl.getRoomDescriptions().count == 0 && FileManager().fileExists(atPath: gl.ArchiveRoomDescription.path) {
+            let roomDescriptionList = NSKeyedUnarchiver.unarchiveObject(withFile: gl.ArchiveRoomDescription.path) as! NSMutableArray
+            for roomDescription in roomDescriptionList {
+                let s = roomDescription as! RoomDescription
+                GlobalInfos.getInstance().addRoomDescription(description: s)
             }
         } else {
-            print("File not found")
+            print("Room Description File not found")
+        }
+        if gl.getSensorTypes().count == 0 && FileManager().fileExists(atPath: gl.ArchiveSensorType.path) {
+            let sensorTypeList = NSKeyedUnarchiver.unarchiveObject(withFile: gl.ArchiveSensorType.path) as! NSMutableArray
+            for sensorType in sensorTypeList {
+                let s = sensorType as! SensorType
+                GlobalInfos.getInstance().addSensorType(sensorType: s)
+            }
+        } else {
+            print("Sensor Type File not found")
         }
         super.viewDidLoad()
     }
@@ -47,6 +44,7 @@ class StartViewController: GeneralViewController {
     
     @IBAction func butNew_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
+        
         gl.setApartment(apartment: Apartment())
         gl.addActControllerToNavigationOrder()
         gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)

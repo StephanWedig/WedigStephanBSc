@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class RoomDescription : GeneralTableDataObject, NSCoding {
+public class RoomDescription : GeneralTableDataObject {
     private var _description : String! = ""
     public init (description : String) {
         _description = description
@@ -26,27 +26,17 @@ public class RoomDescription : GeneralTableDataObject, NSCoding {
     public override func setValue (value : String) {
         _description = value
     }
-    /*public func encodeWithCoder(aCoder: NSCoder!) {
+    public override func encode(with aCoder: NSCoder) {
         aCoder.encode(_description, forKey:"description")
-        aCoder.encode(getID(), forKey:"id")
-    }
-    
-    public init (coder aDecoder: NSCoder!) {
-        _description = aDecoder.decodeObject(forKey: "description") as! String
-    }*/
-    public func encode(with aCoder: NSCoder) {
-        aCoder.encode(_description, forKey:"description")
-        aCoder.encode(getID(), forKey:"id")
+        super.encode(with: aCoder)
+        //aCoder.encode(getID(), forKey:"id")
     }
     public required convenience init?(coder aDecoder: NSCoder) {
         self.init(description: aDecoder.decodeObject(forKey: "description") as! String)
+        super.initForLoad(aDecoder: aDecoder)
     }
-    public func encodeWithCoder(aCoder: NSCoder) {
+    /*public func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encode(_description, forKey:"description")
         aCoder.encode(getID(), forKey:"id")
-    }
-    
-    /*init (coder aDecoder: NSCoder!) {
-        self._description = aDecoder.decodeObject(forKey: "description") as! String
     }*/
 }

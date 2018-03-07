@@ -36,7 +36,7 @@ public class RoomDescriptionViewController : GeneralViewController, UITableViewD
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:GeneralTableDataCell = tableRoomDescription.dequeueReusableCell(withIdentifier: "cellRoomDescription", for: indexPath) as! GeneralTableDataCell
         let gl = GlobalInfos.getInstance()
-        cell.savePath = GlobalInfos.ArchiveRoomDescription.path
+        cell.savePath = gl.ArchiveRoomDescription.path
         cell.setParentController(ParentController: self)
         if(indexPath.row == gl.getRoomDescriptions().count) {
             cell.setIsLast(isLast : true)

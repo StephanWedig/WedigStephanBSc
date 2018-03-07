@@ -9,10 +9,55 @@
 import Foundation
 import UIKit
 
-class SensorViewController: GeneralViewController {
+class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    private var actObject : Sensor!
+    @IBOutlet weak var pickerType: UIPickerView!
+    @IBOutlet weak var butType: UIButton!
     
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.Sensor
         super.viewDidLoad()
+        pickerType.delegate = self
+        pickerType.dataSource = self
+    }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return GlobalInfos.getInstance().getSensorTypes().count
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        swapPickerDescriptionVisible()
+        actObject.setSensortype(sensortype: GlobalInfos.getInstance().getSensorTypes()[row] as! SensorType)
+        refresh()
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return (GlobalInfos.getInstance().getSensorTypes()[row] as! SensorType).getDescription()
+    }
+    public override func refresh() {
+        super.refresh()
+        actObject = GlobalInfos.getInstance().getActRoom()?.getSensors()[getActObjectListIndex()] as! Sensor
+        let gl = GlobalInfos.getInstance()
+        if(actObject == nil) {
+            return
+        }
+        if butType != nil {
+            if actObject.getSensortype() != nil {
+                butType.setTitle(actObject.getSensortype().getDescription(), for: .normal)
+            }
+        }
+        if pickerType != nil {
+            pickerType.reloadAllComponents()
+        }
+        navTopItem.title = gl.getActRoom()?.toString()
+    }
+    private func swapPickerDescriptionVisible () {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.pickerType.isHidden = !self.pickerType.isHidden
+            self.view.layoutIfNeeded()
+        })
+    }
+    @IBAction func butType_Onclick(_ sender: UIButton) {
+        swapPickerDescriptionVisible()
     }
 }
