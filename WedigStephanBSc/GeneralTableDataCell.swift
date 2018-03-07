@@ -125,6 +125,7 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
     }
     public func createNewObject() {
         _DataObjectList.add(_DataObject)
+        _DataObject.initForAdd()
         if(!_DataObject.isOnlySmallObject() && _DataObjectViewController != GlobalInfos.ViewControllers.unknown) {
             let gl = GlobalInfos.getInstance()
             gl.orderedViewControllers[_DataObjectViewController.rawValue].setActObjectListIndex(index: _DataObjectList.count - 1)

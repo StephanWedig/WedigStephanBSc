@@ -17,10 +17,9 @@ public class GlobalInfos {
     private var _apartement : Apartment?
     private var _actRoomIndex = 0
     public static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-    //public static let DocumentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
     public let ArchiveRoomDescription = GlobalInfos.DocumentsDirectory.appendingPathComponent("RoomDescription.plist")
     public let ArchiveSensorType = GlobalInfos.DocumentsDirectory.appendingPathComponent("SensorType.plist")
-    //private var _actMainPageIndex = 0
+    public let ArchiveApartment = GlobalInfos.DocumentsDirectory.appendingPathComponent("Apartment.plist")
     private var _actPageIndex = 0
     private var _isEditing = false
     private init () {

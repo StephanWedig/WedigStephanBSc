@@ -153,7 +153,7 @@
                                                 </constraints>
                                             </stackView>
                                             <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vwT-vn-zdW" userLabel="picker_Desription">
-                                                <rect key="frame" x="0.0" y="43" width="335" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="42.5" width="335" height="0.0"/>
                                             </pickerView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sensors" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bp-Q5-EJg" userLabel="lab_Sensors">
                                                 <rect key="frame" x="0.0" y="45" width="335" height="40"/>
@@ -419,6 +419,9 @@
                                         <rect key="frame" x="0.0" y="184.5" width="335" height="164"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Open Appartment"/>
+                                        <connections>
+                                            <action selector="butOpen_Click:" destination="6pV-fV-4oK" eventType="touchUpInside" id="P5H-cu-eGK"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="53O-fx-lpm" userLabel="SaveAppartment">
                                         <rect key="frame" x="0.0" y="368.5" width="335" height="164.5"/>

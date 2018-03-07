@@ -46,8 +46,18 @@ class StartViewController: GeneralViewController {
         let gl = GlobalInfos.getInstance()
         
         gl.setApartment(apartment: Apartment())
-        gl.addActControllerToNavigationOrder()
         gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)
         mainPage.refreshPage()
+    }
+    @IBAction func butOpen_Click(_ sender: UIButton) {
+        let gl = GlobalInfos.getInstance()
+        if FileManager().fileExists(atPath: gl.ArchiveApartment.path) {
+            let apartment = NSKeyedUnarchiver.unarchiveObject(withFile: gl.ArchiveApartment.path) as! Apartment
+            gl.setApartment(apartment: apartment)
+            gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)
+            mainPage.refreshPage()
+        } else {
+            print("Apartment File not found")
+        }
     }
 }

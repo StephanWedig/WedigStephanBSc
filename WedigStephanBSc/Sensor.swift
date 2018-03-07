@@ -15,9 +15,23 @@ public class Sensor : GeneralTableDataObject{
     public init (position : SCNVector3) {
         _position = SCNVector3(position.x, position.y, position.z)
     }
+    public override func encode(with aCoder: NSCoder) {
+        aCoder.encode(_position, forKey:"pos")
+        aCoder.encode(_sensortype.getID(), forKey:"sensortype")
+        super.encode(with: aCoder)
+    }
     
     public required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.init(position: aDecoder.decodeObject(forKey: "pos") as! SCNVector3)
+        let gl = GlobalInfos.getInstance()
+        let sensortypeID = aDecoder.decodeObject(forKey: "sensortype") as! String
+        for type in gl.getSensorTypes() {
+            if (type as! SensorType).getID() == sensortypeID {
+                _sensortype = type as! SensorType
+                break
+            }
+        }
+        super.initForLoad(aDecoder: aDecoder)
     }
     public func setSensortype (sensortype:SensorType) {
         _sensortype = sensortype

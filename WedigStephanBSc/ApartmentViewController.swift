@@ -105,28 +105,28 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
             return
         }
         if textField == txtStreet {
-            ap?.setStreet(street: textField.text)
+            ap?.setStreet(street: textField.text!)
         }
         if textField == txtPLZ {
-            ap?.setPostalcode(postalcode: textField.text)
+            ap?.setPostalcode(postalcode: textField.text!)
         }
         if textField == txtPlace {
-            ap?.setLocation(location: textField.text)
+            ap?.setLocation(location: textField.text!)
         }
         if textField == txtHousenumber {
-            ap?.setHousenumber(housenumber: textField.text)
+            ap?.setHousenumber(housenumber: textField.text!)
         }
         if textField == txtName {
-            ap?.setName(name: textField.text)
+            ap?.setName(name: textField.text!)
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let gl = GlobalInfos.getInstance()
         let controllerIndex = GlobalInfos.ViewControllers.Room.rawValue
-        gl.orderedViewControllers[controllerIndex].setActObjectListIndex(index: indexPath.row)
         gl.setActRoomIndex(index: indexPath.row)
         gl.setActPageIndex(actPageIndex: controllerIndex)
+        gl.orderedViewControllers[controllerIndex].setActObjectListIndex(index: indexPath.row)
         mainPage.refreshPage()
         //mainPage.nextPage(viewController: self)
     }
@@ -145,11 +145,11 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
                         gl.setApartment(apartment: Apartment())
                     }
                     let ap = gl.getApartment()!
-                    ap.setPostalcode(postalcode: placemark?.postalCode)
-                    ap.setLocation(location: placemark?.locality)
+                    ap.setPostalcode(postalcode: (placemark?.postalCode)!)
+                    ap.setLocation(location: (placemark?.locality)!)
                     if placemark?.subThoroughfare != nil {
-                        ap.setStreet(street: placemark?.thoroughfare)
-                        ap.setHousenumber(housenumber: placemark?.subThoroughfare)
+                        ap.setStreet(street: (placemark?.thoroughfare)!)
+                        ap.setHousenumber(housenumber: (placemark?.subThoroughfare)!)
                         gl.setApartment(apartment: ap)
                         self.locationManager.stopUpdatingLocation()
                     }

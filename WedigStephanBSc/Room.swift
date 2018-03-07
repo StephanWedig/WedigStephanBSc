@@ -12,17 +12,40 @@ public class Room : GeneralTableDataObject {
     private var _description : RoomDescription = RoomDescription(description: "")
     private var _rooms = [Room]()
     private var _sensors = NSMutableArray()
-    private var _apartment : Apartment
+    private var _apartment : Apartment!
     public init (apartment : Apartment) {
         _apartment = apartment
-        GlobalInfos.getInstance().setActRoomIndex(index: apartment.getRooms().count)
+    }
+    public func setApartment(apartment : Apartment) {
+        if(_apartment == nil) {
+            _apartment = apartment
+        }
+    }
+    public override init() {
+        
+    }
+    public override func encode(with aCoder: NSCoder) {
+        aCoder.encode(_description.getID(), forKey:"description")
+        aCoder.encode(_sensors, forKey:"sensors")
+        super.encode(with: aCoder)
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.init()
+        let descID = aDecoder.decodeObject(forKey: "description") as! String
+        let gl = GlobalInfos.getInstance()
+        for desc in gl.getRoomDescriptions() {
+            if (desc as! RoomDescription).getID() == descID {
+                _description = desc as! RoomDescription
+                break
+            }
+        }
+        _sensors = aDecoder.decodeObject(forKey: "sensors") as! NSMutableArray
+        super.initForLoad(aDecoder: aDecoder)
     }
     public func setDescription (description : RoomDescription) {
         _description = description
+        save()
     }
     public func getDescription () -> String {
         return _description.getDescription()
@@ -53,4 +76,12 @@ public class Room : GeneralTableDataObject {
         return _description.getDescription()
     }
     public override func isOnlySmallObject() -> Bool { return false }
+    public override func initForAdd() {
+        super.initForAdd()
+        //_apartment.addRoom(room: self)
+        GlobalInfos.getInstance().setActRoomIndex(index: _apartment.getRooms().count - 1)
+    }
+    public func save() {
+        GlobalInfos.getInstance().getApartment()?.save()
+    }
 }

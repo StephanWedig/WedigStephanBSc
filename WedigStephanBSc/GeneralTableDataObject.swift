@@ -27,4 +27,5 @@ public class GeneralTableDataObject : NSObject, NSCoding {
     public func initForLoad (aDecoder: NSCoder) {
         _ID = aDecoder.decodeObject(forKey: "id") as! String
     }
+    public func initForAdd() {}
 }
