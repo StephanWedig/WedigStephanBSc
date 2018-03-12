@@ -30,12 +30,15 @@ class ARViewController: GeneralViewController {
     let calcNodeColor = UIColor.red
     let configuration = ARWorldTrackingConfiguration()
     let SPHERESIZE = 0.05
-    var rootNode:SCNNode? = nil
-    var calcNodes = [SCNNode]()
-    var isFirstNode = true
+    var _orientationMiddleNode:SCNNode? = nil
+    var _orientationXNode:SCNNode? = nil
+    var _orientationYNode:SCNNode? = nil
+    var _calcNodes = [SCNNode]()
+    //var _isFirstNode = true
     var _editLevel : editLevel = editLevel.noEdit
-    var editingType = 0
-    var sensorArray = [SCNNode]()
+    var _editingType = 0
+    var _sensorArray = [SCNNode]()
+    var _cntOrientationNodes:Int = 0
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.AR
         super.viewDidLoad()
@@ -51,7 +54,7 @@ class ARViewController: GeneralViewController {
     @IBAction func butClearSensor_Click(_ sender: Any) {
         let alert = UIAlertController(title: "Clear AR-View", message: "Are you sure you want to clear all points without the orientation point?", preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Yes", style: .destructive) { (alert: UIAlertAction!) -> Void in
-            self.resetSensors()
+            self.clearSensors()
         }
         let noAction = UIAlertAction(title: "No", style: .destructive) { (alert: UIAlertAction!) -> Void in
         }
@@ -61,11 +64,11 @@ class ARViewController: GeneralViewController {
         
         present(alert, animated: true, completion:nil)
     }
-    func resetSensors() {
-        for node in sensorArray {
+    func clearSensors() {
+        for node in _sensorArray {
             node.removeFromParentNode()
         }
-        sensorArray = [SCNNode]()
+        _sensorArray = [SCNNode]()
     }
     func getCameraPosition() -> myCameraCoordinates {
         let cameraTransform = sceneView.session.currentFrame?.camera.transform
@@ -77,7 +80,7 @@ class ARViewController: GeneralViewController {
         return cc
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if editingType == 0 {
+        if _editingType == 0 {
             return
         }
         guard let touch = touches.first else {return}
@@ -85,42 +88,92 @@ class ARViewController: GeneralViewController {
         guard let hitResult = result.last else {return}
         let hitTransform = hitResult.worldTransform
         let hitVector = SCNVector3Make(hitTransform.columns.3.x, hitTransform.columns.3.y, hitTransform.columns.3.z)
-        switch editingType {
+        let actRoom = GlobalInfos.getInstance().getActRoom()
+        switch _editingType {
         case 1:
-            if(rootNode == nil) {
+            if(actRoom?.getOrientationMiddleNode() == nil) {
                 return
             }
             let node = SCNNode()
             node.geometry = SCNSphere(radius: CGFloat(SPHERESIZE))
             node.geometry?.firstMaterial?.diffuse.contents = calcNodeColor
-            node.position = hitVector - (rootNode?.position)!
-            rootNode?.addChildNode(node)
-            sensorArray.append(node)
-            let gl = GlobalInfos.getInstance()
+            node.position = hitVector - (actRoom?.getOrientationMiddleNode()?.position)!
+            actRoom?.getOrientationMiddleNode()?.addChildNode(node)
+            _sensorArray.append(node)
             let s = Sensor(position: node.position)
-            gl.getActRoom()?.addSensor(sensor: s)
+            actRoom?.addSensor(sensor: s)
             break
         case 2:
-            if rootNode != nil {
-                rootNode?.removeFromParentNode()
+            let rootNode = SCNNode()
+            rootNode.geometry = SCNSphere(radius: CGFloat(SPHERESIZE * 2))
+            rootNode.geometry?.firstMaterial?.diffuse.contents = UIColor.cyan
+            rootNode.position = hitVector
+            print(_cntOrientationNodes)
+            switch _cntOrientationNodes {
+            case 0:
+                if actRoom?.getOrientationMiddleNode() != nil {
+                    actRoom?.getOrientationMiddleNode()?.removeFromParentNode()
+                }
+                actRoom?.setOrientationMiddleNode(node: rootNode)
+                _orientationMiddleNode = rootNode
+                print(_orientationMiddleNode == nil)
+                print(_orientationXNode == nil)
+                print(_orientationYNode == nil)
+                break
+            case 1:
+                if actRoom?.getOrientationXNode() != nil {
+                    actRoom?.getOrientationXNode()?.removeFromParentNode()
+                }
+                actRoom?.setOrientationXNode(node: rootNode)
+                _orientationXNode = rootNode
+                print(_orientationMiddleNode == nil)
+                print(_orientationXNode == nil)
+                print(_orientationYNode == nil)
+                break
+            case 2:
+                if actRoom?.getOrientationYNode() != nil {
+                    actRoom?.getOrientationYNode()?.removeFromParentNode()
+                }
+                actRoom?.setOrientationYNode(node: rootNode)
+                _orientationYNode = rootNode
+                print(_orientationMiddleNode == nil)
+                print(_orientationXNode == nil)
+                print(_orientationYNode == nil)
+                break
+            default:
+                break
             }
-            rootNode = SCNNode()
-            rootNode?.geometry = SCNSphere(radius: CGFloat(SPHERESIZE * 2))
-            rootNode?.geometry?.firstMaterial?.diffuse.contents = UIColor.cyan
-            rootNode?.position = hitVector
-            for node in sensorArray {
-                rootNode?.addChildNode(node)
+            print(_cntOrientationNodes)
+            _cntOrientationNodes = _cntOrientationNodes + 1
+            if _cntOrientationNodes == 3 {
+                _cntOrientationNodes = 0
+                let XTube = SCNNode()
+                XTube.geometry = SCNTube(innerRadius: 0, outerRadius: 0.01, height: 1)
+                XTube.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
+                XTube.position = (_orientationMiddleNode?.position)!
+                var disX = (_orientationMiddleNode?.position)! - (_orientationXNode?.position)!
+                var disY = (_orientationMiddleNode?.position)! - (_orientationYNode?.position)!
+                disX.norm()
+                disY.norm()
+                print(disX)
+                var disZ = SCNVector3.crossProduct(lhv: disX, rhv: disY)
+                //XTube.rotation = SCNVector4(disX.x, disX.y, disX.z, 0)
+                XTube.eulerAngles = disX
+                XTube.rotation = SCNVector4(1,1,1,GLKMathDegreesToRadians(cosh(disX.x)))
+                print(GLKMathDegreesToRadians(cosh(disX.x)))
+                sceneView.scene.rootNode.addChildNode(XTube)
             }
-            sceneView.scene.rootNode.addChildNode(rootNode!)
+            sceneView.scene.rootNode.addChildNode(rootNode)
+            resetSensors()
             refreshHiddenButton()
-            isFirstNode = false
+            //_isFirstNode = false
             break
         default:
             break
         }
     }
     @IBAction func butEdit_Click(_ sender: Any) {
-        editingType = 0
+        _editingType = 0
         if(_editLevel == editLevel.noEdit) {
             _editLevel = editLevel.editNoPositionLevel
         } else {
@@ -129,17 +182,33 @@ class ARViewController: GeneralViewController {
         refreshHiddenButton()
     }
     @IBAction func butAddSensor_Click(_ sender: Any) {
-        editingType = 1
+        _editingType = 1
         editingTypeChanged()
     }
     @IBAction func butOrientationPoint_Click(_ sender: Any) {
-        editingType = 2
+        _editingType = 2
         editingTypeChanged()
+    }
+    func resetSensors() {
+        let gl = GlobalInfos.getInstance()
+        for node in _sensorArray {
+            node.removeFromParentNode()
+        }
+        _sensorArray = [SCNNode]()
+        for s in (gl.getActRoom()?.getSensors())! {
+            let sensor = s as! Sensor
+            let node = SCNNode()
+            node.geometry = SCNSphere(radius: CGFloat(SPHERESIZE))
+            node.geometry?.firstMaterial?.diffuse.contents = calcNodeColor
+            node.position = sensor.getPosition()
+            _sensorArray.append(node)
+            gl.getActRoom()?.getOrientationMiddleNode()?.addChildNode(node)
+        }
     }
     func editingTypeChanged() {
         butAddSensor.backgroundColor = UIColor.lightGray
         butOrientationPoint.backgroundColor = UIColor.lightGray
-        switch editingType {
+        switch _editingType {
         case 1:
             butAddSensor.backgroundColor = UIColor.blue
             break
@@ -153,11 +222,13 @@ class ARViewController: GeneralViewController {
         refreshHiddenButton()
     }
     func refreshHiddenButton() {
+        print("refreshHiddenButton")
         UIView.animate(withDuration: 0.3, animations: {
             self.StackViewEdit.isHidden = !(self._editLevel == editLevel.editNoPositionLevel || (self._editLevel == editLevel.editPointPositioning))
             //StackViewPointSet.isHidden = !(_editLevel == editLevel.editPointPositioning)
-            self.butAddSensor.isHidden = self.rootNode == nil
-            self.butClearSensor.isHidden = self.rootNode == nil
+            self.butAddSensor.isHidden = self._orientationMiddleNode == nil || self._orientationXNode == nil || self._orientationYNode == nil
+            self.butClearSensor.isHidden = self._orientationMiddleNode == nil || self._orientationXNode == nil || self._orientationYNode == nil
+            print("refreshHiddenButton")
             self.view.layoutIfNeeded()
         })
     }
@@ -171,6 +242,23 @@ class ARViewController: GeneralViewController {
         super.refresh()
         let gl = GlobalInfos.getInstance()
         navTopItem.title = gl.getActRoom()?.toHeadingString()
+        clearSensors()
+        _orientationMiddleNode?.removeFromParentNode()
+        _orientationMiddleNode = gl.getActRoom()?.getOrientationMiddleNode()
+        if _orientationMiddleNode != nil {
+            sceneView.scene.rootNode.addChildNode(_orientationMiddleNode!)
+            resetSensors()
+        }
+        _orientationXNode?.removeFromParentNode()
+        _orientationXNode = gl.getActRoom()?.getOrientationXNode()
+        if _orientationXNode != nil {
+            sceneView.scene.rootNode.addChildNode(_orientationXNode!)
+        }
+        _orientationYNode?.removeFromParentNode()
+        _orientationYNode = gl.getActRoom()?.getOrientationYNode()
+        if _orientationYNode != nil {
+            sceneView.scene.rootNode.addChildNode(_orientationYNode!)
+        }
     }
 }
 func +(lhv:SCNVector3, rhv:SCNVector3) -> SCNVector3 {
@@ -181,4 +269,25 @@ func -(lhv:SCNVector3, rhv:SCNVector3) -> SCNVector3 {
 }
 func -(lhv:SCNVector3, rhv:Float) -> SCNVector3 {
     return SCNVector3(lhv.x - rhv, lhv.y - rhv, lhv.z - rhv)
+}
+func /(lhv:SCNVector3, rhv:Float) -> SCNVector3 {
+    return SCNVector3(lhv.x / rhv, lhv.y / rhv, lhv.z / rhv)
+}
+extension SCNVector3 {
+    func length () -> Float {
+        return (x * x + y * y + z * z).squareRoot()
+    }
+    mutating func norm() {
+        let n = self / length()
+        self.x = n.x
+        self.y = n.y
+        self.z = n.z
+    }
+    static func crossProduct(lhv:SCNVector3, rhv:SCNVector3) -> SCNVector3 {
+        var ret = SCNVector3()
+        ret.x = lhv.y * rhv.z - lhv.z * rhv.y
+        ret.y = lhv.z * rhv.x - lhv.x * rhv.z
+        ret.z = lhv.x * rhv.y - lhv.y * rhv.x
+        return ret
+    }
 }

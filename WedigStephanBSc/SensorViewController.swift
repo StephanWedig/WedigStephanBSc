@@ -13,6 +13,7 @@ class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPicke
     private var actObject : Sensor!
     @IBOutlet weak var pickerType: UIPickerView!
     @IBOutlet weak var butType: UIButton!
+    @IBOutlet weak var labPosition: UILabel!
     
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.Sensor
@@ -48,6 +49,9 @@ class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPicke
         }
         if pickerType != nil {
             pickerType.reloadAllComponents()
+        }
+        if labPosition != nil {
+            labPosition.text = String(actObject.getPosition().x) + " " + String(actObject.getPosition().y) + " " + String(actObject.getPosition().z)
         }
         navTopItem.title = gl.getActRoom()?.toString()
     }

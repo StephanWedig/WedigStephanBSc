@@ -7,22 +7,26 @@
 //
 
 import Foundation
+import ARKit
 
 public class Room : GeneralTableDataObject {
     private var _description : RoomDescription = RoomDescription(description: "")
     private var _rooms = [Room]()
     private var _sensors = NSMutableArray()
     private var _apartment : Apartment!
+    private var _orientationMiddleNode:SCNNode? = nil
+    private var _orientationXNode:SCNNode? = nil
+    private var _orientationYNode:SCNNode? = nil
     public init (apartment : Apartment) {
         _apartment = apartment
+    }
+    public override init() {
+        
     }
     public func setApartment(apartment : Apartment) {
         if(_apartment == nil) {
             _apartment = apartment
         }
-    }
-    public override init() {
-        
     }
     public override func encode(with aCoder: NSCoder) {
         aCoder.encode(_description.getID(), forKey:"description")
@@ -83,5 +87,23 @@ public class Room : GeneralTableDataObject {
     }
     public func save() {
         GlobalInfos.getInstance().getApartment()?.save()
+    }
+    public func getOrientationMiddleNode() -> SCNNode? {
+        return _orientationMiddleNode
+    }
+    public func setOrientationMiddleNode(node : SCNNode) {
+        _orientationMiddleNode = node
+    }
+    public func getOrientationXNode() -> SCNNode? {
+        return _orientationXNode
+    }
+    public func setOrientationXNode(node : SCNNode) {
+        _orientationXNode = node
+    }
+    public func getOrientationYNode() -> SCNNode? {
+        return _orientationYNode
+    }
+    public func setOrientationYNode(node : SCNNode) {
+        _orientationYNode = node
     }
 }

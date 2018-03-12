@@ -469,10 +469,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="bottom" semanticContentAttribute="forceLeftToRight" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BKI-Lr-HQU">
-                                <rect key="frame" x="20" y="70" width="335" height="40"/>
+                                <rect key="frame" x="20" y="70" width="335" height="547"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mVD-4g-HlT">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="547"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4zm-uR-1Hy">
                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
@@ -503,8 +503,14 @@
                                                 </constraints>
                                             </stackView>
                                             <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixC-2f-RRi" userLabel="picker_Type">
-                                                <rect key="frame" x="0.0" y="40" width="335" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="42.5" width="335" height="0.0"/>
                                             </pickerView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Position" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OrA-xQ-CvC" userLabel="lab_Position">
+                                                <rect key="frame" x="0.0" y="45" width="335" height="502"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -521,6 +527,7 @@
                     </view>
                     <connections>
                         <outlet property="butType" destination="t8P-xb-mPR" id="YuC-lC-svG"/>
+                        <outlet property="labPosition" destination="OrA-xQ-CvC" id="dZm-d2-o01"/>
                         <outlet property="pickerType" destination="ixC-2f-RRi" id="EXg-0m-npK"/>
                     </connections>
                 </viewController>
@@ -577,16 +584,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="oCH-Nb-kn4">
-                                <rect key="frame" x="20" y="70" width="335" height="40"/>
+                                <rect key="frame" x="20" y="70" width="335" height="547"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Fge-Ze-D7p">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="547"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6fe-oY-nex" userLabel="Name">
-                                                <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="547"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpr-ih-xEi" userLabel="lab_Name">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="547"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="Zyv-OA-EIt"/>
                                                             <constraint firstAttribute="height" constant="40" id="ajG-SH-arf"/>
@@ -596,7 +603,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DRf-r2-lC2" userLabel="txt_Name">
-                                                        <rect key="frame" x="50" y="0.0" width="285" height="40"/>
+                                                        <rect key="frame" x="50" y="0.0" width="285" height="547"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="LY7-L8-D8S"/>
                                                         </constraints>
