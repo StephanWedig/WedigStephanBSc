@@ -145,23 +145,41 @@ class ARViewController: GeneralViewController {
             }
             print(_cntOrientationNodes)
             _cntOrientationNodes = _cntOrientationNodes + 1
+            //https://www.uninformativ.de/bin/SpaceSim-2401fee.pdf
             if _cntOrientationNodes == 3 {
                 _cntOrientationNodes = 0
                 let XTube = SCNNode()
                 XTube.geometry = SCNTube(innerRadius: 0, outerRadius: 0.01, height: 1)
                 XTube.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
                 XTube.position = (_orientationMiddleNode?.position)!
-                var disX = (_orientationMiddleNode?.position)! - (_orientationXNode?.position)!
-                var disY = (_orientationMiddleNode?.position)! - (_orientationYNode?.position)!
+                var disX = (_orientationXNode?.position)! - (_orientationMiddleNode?.position)!
+                var disY = (_orientationYNode?.position)! - (_orientationMiddleNode?.position)!
                 disX.norm()
                 disY.norm()
                 print(disX)
                 var disZ = SCNVector3.crossProduct(lhv: disX, rhv: disY)
+                disZ.norm()
+                disY = SCNVector3.crossProduct(lhv: disX, rhv: disZ)
+                disY.norm()
                 //XTube.rotation = SCNVector4(disX.x, disX.y, disX.z, 0)
-                XTube.eulerAngles = disX
-                XTube.rotation = SCNVector4(1,1,1,GLKMathDegreesToRadians(cosh(disX.x)))
+                //XTube.eulerAngles = disX
+                //XTube.rotation = SCNVector4(disX.x,disX.y,disX.z, Float.pi)
+                XTube.rotate(by: SCNQuaternion(disX.x, disX.y, disX.z, 1), aroundTarget: (_orientationMiddleNode?.position)!)
+                //XTube.runAction(SCNAction.repeatForever(SCNAction.rotate(by: CGFloat(Float.pi / 4), around: disX, duration: TimeInterval(10))))
                 print(GLKMathDegreesToRadians(cosh(disX.x)))
+                let YTube = SCNNode()
+                YTube.geometry = SCNTube(innerRadius: 0, outerRadius: 0.01, height: 1)
+                YTube.geometry?.firstMaterial?.diffuse.contents = UIColor.green
+                YTube.position = (_orientationMiddleNode?.position)!
+                YTube.rotate(by: SCNQuaternion(disY.x, disY.y, disY.z, 1), aroundTarget: (_orientationMiddleNode?.position)!)
+                let ZTube = SCNNode()
+                ZTube.geometry = SCNTube(innerRadius: 0, outerRadius: 0.01, height: 1)
+                ZTube.geometry?.firstMaterial?.diffuse.contents = UIColor.black
+                ZTube.position = (_orientationMiddleNode?.position)!
+                ZTube.rotate(by: SCNQuaternion(disZ.x, disZ.y, disZ.z, 1), aroundTarget: (_orientationMiddleNode?.position)!)
                 sceneView.scene.rootNode.addChildNode(XTube)
+                sceneView.scene.rootNode.addChildNode(YTube)
+                sceneView.scene.rootNode.addChildNode(ZTube)
             }
             sceneView.scene.rootNode.addChildNode(rootNode)
             resetSensors()
