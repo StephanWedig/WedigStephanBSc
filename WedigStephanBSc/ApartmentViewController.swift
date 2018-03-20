@@ -12,6 +12,7 @@ import UIKit
 
 class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
+    @IBOutlet weak var butGPS: UIButton!
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtStreet: UITextField!
     @IBOutlet weak var txtHousenumber: UITextField!
@@ -81,6 +82,12 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
         }
         tableRooms.reloadData()
         navTopItem.title = "Apartment"
+        txtStreet.isEnabled = gl.getIsEditing()
+        txtHousenumber.isEnabled = gl.getIsEditing()
+        txtPLZ.isEnabled = gl.getIsEditing()
+        txtPlace.isEnabled = gl.getIsEditing()
+        txtName.isEnabled = gl.getIsEditing()
+        butGPS.isEnabled = gl.getIsEditing()
     }
     
     public func refreshGPS() {

@@ -22,30 +22,19 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
                                 <subviews>
                                     <arscnView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pAF-pt-DCk">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="517"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="587"/>
                                     </arscnView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="itj-z0-K44">
-                                        <rect key="frame" x="0.0" y="517" width="375" height="100"/>
+                                        <rect key="frame" x="0.0" y="587" width="375" height="30"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NxC-Uw-pz2">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="oKa-Gi-0eP"/>
-                                                </constraints>
-                                                <state key="normal" title="Edit"/>
-                                                <connections>
-                                                    <action selector="butEdit_Click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JYv-Bv-Nof"/>
-                                                </connections>
-                                            </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="V4A-61-8Ge" userLabel="StackViewEdit">
-                                                <rect key="frame" x="0.0" y="35" width="375" height="65"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-Yv-hjN">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ksv-7d-8oE" userLabel="butAddSensor">
-                                                                <rect key="frame" x="0.0" y="0.0" width="185" height="30"/>
+                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ksv-7d-8oE" userLabel="butAddSensor">
+                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
                                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <state key="normal" title="add Sensor"/>
                                                                 <connections>
@@ -53,7 +42,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ky8-y8-TOr" userLabel="butOrientationPoint">
-                                                                <rect key="frame" x="190" y="0.0" width="185" height="30"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <state key="normal" title="set Orientation Point"/>
                                                                 <connections>
@@ -65,8 +54,8 @@
                                                             <constraint firstAttribute="height" constant="30" id="PuI-mu-5Yr"/>
                                                         </constraints>
                                                     </stackView>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AmL-bm-Ab2" userLabel="butClearSensor">
-                                                        <rect key="frame" x="0.0" y="35" width="375" height="30"/>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AmL-bm-Ab2" userLabel="butClearSensor">
+                                                        <rect key="frame" x="0.0" y="-587" width="375" height="30"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="30" id="0Mu-gA-grX"/>
@@ -278,7 +267,7 @@
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits"/>
                                                             </textField>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAr-bu-olk">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAr-bu-olk" userLabel="but_GPS">
                                                                 <rect key="frame" x="82.5" y="0.0" width="82.5" height="40"/>
                                                                 <state key="normal" image="iconmonstr-car-15-32.png"/>
                                                                 <connections>
@@ -382,6 +371,7 @@
                         <viewLayoutGuide key="safeArea" id="4SS-Te-gc7"/>
                     </view>
                     <connections>
+                        <outlet property="butGPS" destination="iAr-bu-olk" id="GUt-Zm-6cN"/>
                         <outlet property="tableRooms" destination="cqt-5G-zhQ" id="ptl-6v-zJy"/>
                         <outlet property="txtHousenumber" destination="cSv-es-m9d" id="Mil-HS-LfQ"/>
                         <outlet property="txtName" destination="MX4-WT-9ou" id="sK0-cH-4Ce"/>
@@ -584,16 +574,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="oCH-Nb-kn4">
-                                <rect key="frame" x="20" y="70" width="335" height="547"/>
+                                <rect key="frame" x="20" y="70" width="335" height="40"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Fge-Ze-D7p">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="547"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6fe-oY-nex" userLabel="Name">
-                                                <rect key="frame" x="0.0" y="0.0" width="335" height="547"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpr-ih-xEi" userLabel="lab_Name">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="547"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="Zyv-OA-EIt"/>
                                                             <constraint firstAttribute="height" constant="40" id="ajG-SH-arf"/>
@@ -603,7 +593,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DRf-r2-lC2" userLabel="txt_Name">
-                                                        <rect key="frame" x="50" y="0.0" width="285" height="547"/>
+                                                        <rect key="frame" x="50" y="0.0" width="285" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="LY7-L8-D8S"/>
                                                         </constraints>

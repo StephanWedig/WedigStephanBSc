@@ -12,12 +12,22 @@ import ARKit
 public class Sensor : GeneralTableDataObject{
     private var _position : SCNVector3?
     private var _sensortype : SensorType!
-    public init (position : SCNVector3) {
+    private var _room : Room?
+    private var _color : UIColor? = UIColor.red
+    public init (position : SCNVector3, room : Room) {
+        _position = SCNVector3(position.x, position.y, position.z)
+        _room = room
+    }
+    private init (position : SCNVector3) {
         _position = SCNVector3(position.x, position.y, position.z)
     }
     public override func encode(with aCoder: NSCoder) {
         aCoder.encode(_position, forKey:"pos")
-        aCoder.encode(_sensortype.getID(), forKey:"sensortype")
+        var type : String = ""
+        if _sensortype != nil {
+            type = _sensortype.getID()
+        }
+        aCoder.encode(type, forKey:"sensortype")
         super.encode(with: aCoder)
     }
     
@@ -35,12 +45,22 @@ public class Sensor : GeneralTableDataObject{
     }
     public func setSensortype (sensortype:SensorType) {
         _sensortype = sensortype
+        save()
     }
     public func getSensortype () -> SensorType! {
         return _sensortype
     }
     public func getPosition () -> SCNVector3 {
         return _position!
+    }
+    public func getColor() -> UIColor? {
+        return _color
+    }
+    public func setRoom (r: Room) {
+        _room = r
+    }
+    public func save() {
+        GlobalInfos.getInstance().saveApartements()
     }
     public override func toString() -> String {
         var ret:String = ""

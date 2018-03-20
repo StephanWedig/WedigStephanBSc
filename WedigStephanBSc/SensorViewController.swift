@@ -37,15 +37,18 @@ class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPicke
     }
     public override func refresh() {
         super.refresh()
-        actObject = GlobalInfos.getInstance().getActRoom()?.getSensors()[getActObjectListIndex()] as! Sensor
         let gl = GlobalInfos.getInstance()
+        actObject = gl.getActRoom()?.getSensors()[getActObjectListIndex()] as! Sensor
         if(actObject == nil) {
             return
         }
         if butType != nil {
             if actObject.getSensortype() != nil {
                 butType.setTitle(actObject.getSensortype().getDescription(), for: .normal)
+            } else {
+                butType.setTitle("Select a sensor type", for: .normal)
             }
+            butType.isEnabled = gl.getIsEditing()
         }
         if pickerType != nil {
             pickerType.reloadAllComponents()

@@ -17,11 +17,18 @@ public class Room : GeneralTableDataObject {
     private var _orientationMiddleNode:SCNNode? = nil
     private var _orientationXNode:SCNNode? = nil
     private var _orientationYNode:SCNNode? = nil
+    private var _orientationX1Vector:SCNVector3? = nil
+    private var _orientationY1Vector:SCNVector3? = nil
+    private var _orientationZ1Vector:SCNVector3? = nil
+    private var _orientationX2Vector:SCNVector3? = nil
+    private var _orientationY2Vector:SCNVector3? = nil
+    private var _orientationZ2Vector:SCNVector3? = nil
+    private var _isNew = true
     public init (apartment : Apartment) {
         _apartment = apartment
     }
-    public override init() {
-        
+    private override init() {
+        _isNew = false
     }
     public func setApartment(apartment : Apartment) {
         if(_apartment == nil) {
@@ -31,11 +38,17 @@ public class Room : GeneralTableDataObject {
     public override func encode(with aCoder: NSCoder) {
         aCoder.encode(_description.getID(), forKey:"description")
         aCoder.encode(_sensors, forKey:"sensors")
+        aCoder.encode(_orientationX1Vector, forKey:"xOrientationVector")
+        aCoder.encode(_orientationY1Vector, forKey:"yOrientationVector")
+        aCoder.encode(_orientationZ1Vector, forKey:"zOrientationVector")
         super.encode(with: aCoder)
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         self.init()
+        _orientationX1Vector = aDecoder.decodeObject(forKey: "xOrientationVector") as? SCNVector3
+        _orientationY1Vector = aDecoder.decodeObject(forKey: "yOrientationVector") as? SCNVector3
+        _orientationZ1Vector = aDecoder.decodeObject(forKey: "zOrientationVector") as? SCNVector3
         let descID = aDecoder.decodeObject(forKey: "description") as! String
         let gl = GlobalInfos.getInstance()
         for desc in gl.getRoomDescriptions() {
@@ -45,6 +58,9 @@ public class Room : GeneralTableDataObject {
             }
         }
         _sensors = aDecoder.decodeObject(forKey: "sensors") as! NSMutableArray
+        for s in _sensors {
+            (s as! Sensor).setRoom(r: self)
+        }
         super.initForLoad(aDecoder: aDecoder)
     }
     public func setDescription (description : RoomDescription) {
@@ -56,9 +72,11 @@ public class Room : GeneralTableDataObject {
     }
     public func addRoom (room : Room){
         _rooms.append(room)
+        save()
     }
     public func addSensor (sensor : Sensor){
         _sensors.add(sensor)
+        save()
     }
     public func getSensors () -> NSMutableArray {
         return _sensors
@@ -85,8 +103,8 @@ public class Room : GeneralTableDataObject {
         //_apartment.addRoom(room: self)
         GlobalInfos.getInstance().setActRoomIndex(index: _apartment.getRooms().count - 1)
     }
-    public func save() {
-        GlobalInfos.getInstance().getApartment()?.save()
+    private func save() {
+        GlobalInfos.getInstance().saveApartements()
     }
     public func getOrientationMiddleNode() -> SCNNode? {
         return _orientationMiddleNode
@@ -105,5 +123,50 @@ public class Room : GeneralTableDataObject {
     }
     public func setOrientationYNode(node : SCNNode) {
         _orientationYNode = node
+    }
+    public func setXVector(v:SCNVector3) {
+        if _orientationX1Vector == nil || _isNew {
+            _orientationX1Vector = v
+            save()
+            print("Vector1X")
+        } else {
+            _orientationX2Vector = v
+        }
+    }
+    public func setYVector(v:SCNVector3) {
+        if _orientationY1Vector == nil || _isNew {
+            _orientationY1Vector = v
+            save()
+            print("Vector1Y")
+        } else {
+            _orientationY2Vector = v
+        }
+    }
+    public func setZVector(v:SCNVector3) {
+        if _orientationZ1Vector == nil || _isNew {
+            _orientationZ1Vector = v
+            save()
+            print("Vector1Z")
+        } else {
+            _orientationZ2Vector = v
+        }
+    }
+    public func getX1Vector() -> SCNVector3? {
+        return _orientationX1Vector
+    }
+    public func getX2Vector() -> SCNVector3? {
+        return _orientationX2Vector
+    }
+    public func getY1Vector() -> SCNVector3? {
+        return _orientationY1Vector
+    }
+    public func getY2Vector() -> SCNVector3? {
+        return _orientationY2Vector
+    }
+    public func getZ1Vector() -> SCNVector3? {
+        return _orientationZ1Vector
+    }
+    public func getZ2Vector() -> SCNVector3? {
+        return _orientationZ2Vector
     }
 }

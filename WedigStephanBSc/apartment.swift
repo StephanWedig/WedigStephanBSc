@@ -89,10 +89,7 @@ public class Apartment : NSObject, NSCoding {
     public func toString () -> String? {
         return _name
     }
-    public func save() {
-        let gl = GlobalInfos.getInstance()
-        if gl.ArchiveApartment.path != "" {
-            NSKeyedArchiver.archiveRootObject(gl.getApartment(), toFile: gl.ArchiveApartment.path)
-        }
+    private func save() {
+        GlobalInfos.getInstance().saveApartements()
     }
 }

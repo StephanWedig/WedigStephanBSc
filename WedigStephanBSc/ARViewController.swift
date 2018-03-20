@@ -27,24 +27,33 @@ class ARViewController: GeneralViewController {
     }
     let orientationNodeColor = UIColor.cyan
     let sensorColor = UIColor.black
-    let calcNodeColor = UIColor.red
+    var calcNodeColor = [UIColor]()
     let configuration = ARWorldTrackingConfiguration()
     let SPHERESIZE = 0.05
     var _orientationMiddleNode:SCNNode? = nil
     var _orientationXNode:SCNNode? = nil
     var _orientationYNode:SCNNode? = nil
     var _calcNodes = [SCNNode]()
-    //var _isFirstNode = true
     var _editLevel : editLevel = editLevel.noEdit
     var _editingType = 0
     var _sensorArray = [SCNNode]()
     var _cntOrientationNodes:Int = 0
+    var _rotationMatrix:SCNMatrix4 = SCNMatrix4.init(m11: 1, m12: 0, m13: 0, m14: 0, m21: 0, m22: 1, m23: 0, m24: 0, m31: 0, m32: 0, m33: 1, m34: 0, m41: 0, m42: 0, m43: 0, m44: 1)
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.AR
         super.viewDidLoad()
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
-        sceneView.session.run(configuration)
+        configuration.planeDetection = ARWorldTrackingConfiguration.PlaneDetection.horizontal
+        configuration.isLightEstimationEnabled = true
+        sceneView.session.run(configuration, options: ARSession.RunOptions.resetTracking)
+        sceneView.automaticallyUpdatesLighting = true
         StackViewEdit.isHidden = true
+        butAddSensor.isHidden = true
+        butClearSensor.isHidden = true
+        calcNodeColor.append(UIColor.red)
+        calcNodeColor.append(UIColor.brown)
+        calcNodeColor.append(UIColor.green)
+        calcNodeColor.append(UIColor.orange)
     }
 
     override func didReceiveMemoryWarning() {
@@ -96,11 +105,11 @@ class ARViewController: GeneralViewController {
             }
             let node = SCNNode()
             node.geometry = SCNSphere(radius: CGFloat(SPHERESIZE))
-            node.geometry?.firstMaterial?.diffuse.contents = calcNodeColor
+            node.geometry?.firstMaterial?.diffuse.contents = calcNodeColor[(_sensorArray.count + 1) % calcNodeColor.count]
             node.position = hitVector - (actRoom?.getOrientationMiddleNode()?.position)!
             actRoom?.getOrientationMiddleNode()?.addChildNode(node)
             _sensorArray.append(node)
-            let s = Sensor(position: node.position)
+            let s = Sensor(position: node.position, room: actRoom!)
             actRoom?.addSensor(sensor: s)
             break
         case 2:
@@ -116,9 +125,6 @@ class ARViewController: GeneralViewController {
                 }
                 actRoom?.setOrientationMiddleNode(node: rootNode)
                 _orientationMiddleNode = rootNode
-                print(_orientationMiddleNode == nil)
-                print(_orientationXNode == nil)
-                print(_orientationYNode == nil)
                 break
             case 1:
                 if actRoom?.getOrientationXNode() != nil {
@@ -126,9 +132,6 @@ class ARViewController: GeneralViewController {
                 }
                 actRoom?.setOrientationXNode(node: rootNode)
                 _orientationXNode = rootNode
-                print(_orientationMiddleNode == nil)
-                print(_orientationXNode == nil)
-                print(_orientationYNode == nil)
                 break
             case 2:
                 if actRoom?.getOrientationYNode() != nil {
@@ -136,9 +139,6 @@ class ARViewController: GeneralViewController {
                 }
                 actRoom?.setOrientationYNode(node: rootNode)
                 _orientationYNode = rootNode
-                print(_orientationMiddleNode == nil)
-                print(_orientationXNode == nil)
-                print(_orientationYNode == nil)
                 break
             default:
                 break
@@ -161,10 +161,13 @@ class ARViewController: GeneralViewController {
                 disZ.norm()
                 disY = SCNVector3.crossProduct(lhv: disX, rhv: disZ)
                 disY.norm()
+                actRoom?.setXVector(v: disX)
+                actRoom?.setYVector(v: disY)
+                actRoom?.setZVector(v: disZ)
                 //XTube.rotation = SCNVector4(disX.x, disX.y, disX.z, 0)
                 //XTube.eulerAngles = disX
                 //XTube.rotation = SCNVector4(disX.x,disX.y,disX.z, Float.pi)
-                XTube.rotate(by: SCNQuaternion(disX.x, disX.y, disX.z, 1), aroundTarget: (_orientationMiddleNode?.position)!)
+                /*XTube.rotate(by: SCNQuaternion(disX.x, disX.y, disX.z, 1), aroundTarget: (_orientationMiddleNode?.position)!)
                 //XTube.runAction(SCNAction.repeatForever(SCNAction.rotate(by: CGFloat(Float.pi / 4), around: disX, duration: TimeInterval(10))))
                 print(GLKMathDegreesToRadians(cosh(disX.x)))
                 let YTube = SCNNode()
@@ -179,7 +182,7 @@ class ARViewController: GeneralViewController {
                 ZTube.rotate(by: SCNQuaternion(disZ.x, disZ.y, disZ.z, 1), aroundTarget: (_orientationMiddleNode?.position)!)
                 sceneView.scene.rootNode.addChildNode(XTube)
                 sceneView.scene.rootNode.addChildNode(YTube)
-                sceneView.scene.rootNode.addChildNode(ZTube)
+                sceneView.scene.rootNode.addChildNode(ZTube)*/
             }
             sceneView.scene.rootNode.addChildNode(rootNode)
             resetSensors()
@@ -189,15 +192,6 @@ class ARViewController: GeneralViewController {
         default:
             break
         }
-    }
-    @IBAction func butEdit_Click(_ sender: Any) {
-        _editingType = 0
-        if(_editLevel == editLevel.noEdit) {
-            _editLevel = editLevel.editNoPositionLevel
-        } else {
-            _editLevel = editLevel.noEdit
-        }
-        refreshHiddenButton()
     }
     @IBAction func butAddSensor_Click(_ sender: Any) {
         _editingType = 1
@@ -212,15 +206,34 @@ class ARViewController: GeneralViewController {
         for node in _sensorArray {
             node.removeFromParentNode()
         }
+        
+        let actRoom = GlobalInfos.getInstance().getActRoom()
+        if actRoom?.getX2Vector() != nil && actRoom?.getY2Vector() != nil && actRoom?.getZ2Vector() != nil {
+            //Rotiere
+            let mOrigX:SCNVector3! = actRoom?.getX1Vector()
+            let mOrigY:SCNVector3! = actRoom?.getY1Vector()
+            let mOrigZ:SCNVector3! = actRoom?.getZ1Vector()
+            let mOrig = SCNMatrix4.init(m11: mOrigX.x, m12: mOrigY.x, m13: mOrigZ.x, m14: 0, m21: mOrigX.y, m22: mOrigY.y, m23: mOrigZ.y, m24: 0, m31: mOrigX.z, m32: mOrigY.z, m33: mOrigZ.z, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)
+            let mNewX:SCNVector3! = actRoom?.getX2Vector()
+            let mNewY:SCNVector3! = actRoom?.getY2Vector()
+            let mNewZ:SCNVector3! = actRoom?.getZ2Vector()
+            //orthogonal matrix => invers matrix = transponet matrix
+            let mNew = SCNMatrix4.init(m11: mNewX.x, m12: mNewX.y, m13: mNewX.z, m14: 0, m21: mNewY.x, m22: mNewY.y, m23: mNewY.z, m24: 0, m31: mNewZ.x, m32: mNewZ.y, m33: mNewZ.z, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)
+            _rotationMatrix = SCNMatrix4Mult(mOrig, mNew)
+        } else {
+            _rotationMatrix = SCNMatrix4.init(m11: 1, m12: 0, m13: 0, m14: 0, m21: 0, m22: 1, m23: 0, m24: 0, m31: 0, m32: 0, m33: 1, m34: 0, m41: 0, m42: 0, m43: 0, m44: 1)
+        }
         _sensorArray = [SCNNode]()
+        var i:Int = 0
         for s in (gl.getActRoom()?.getSensors())! {
             let sensor = s as! Sensor
             let node = SCNNode()
             node.geometry = SCNSphere(radius: CGFloat(SPHERESIZE))
-            node.geometry?.firstMaterial?.diffuse.contents = calcNodeColor
-            node.position = sensor.getPosition()
+            node.geometry?.firstMaterial?.diffuse.contents = calcNodeColor[i % calcNodeColor.count]
+            node.position = _rotationMatrix * sensor.getPosition()
             _sensorArray.append(node)
             gl.getActRoom()?.getOrientationMiddleNode()?.addChildNode(node)
+            i = i + 1
         }
     }
     func editingTypeChanged() {
@@ -240,13 +253,16 @@ class ARViewController: GeneralViewController {
         refreshHiddenButton()
     }
     func refreshHiddenButton() {
-        print("refreshHiddenButton")
         UIView.animate(withDuration: 0.3, animations: {
             self.StackViewEdit.isHidden = !(self._editLevel == editLevel.editNoPositionLevel || (self._editLevel == editLevel.editPointPositioning))
-            //StackViewPointSet.isHidden = !(_editLevel == editLevel.editPointPositioning)
-            self.butAddSensor.isHidden = self._orientationMiddleNode == nil || self._orientationXNode == nil || self._orientationYNode == nil
-            self.butClearSensor.isHidden = self._orientationMiddleNode == nil || self._orientationXNode == nil || self._orientationYNode == nil
-            print("refreshHiddenButton")
+            self.view.layoutIfNeeded()
+        })
+        UIView.animate(withDuration: 0.3, animations: {
+            self.butClearSensor.isHidden = (self._orientationMiddleNode == nil || self._orientationXNode == nil || self._orientationYNode == nil)
+            self.view.layoutIfNeeded()
+        })
+        UIView.animate(withDuration: 0.3, animations: {
+            self.butAddSensor.isHidden = (self._orientationMiddleNode == nil || self._orientationXNode == nil || self._orientationYNode == nil)
             self.view.layoutIfNeeded()
         })
     }
@@ -258,6 +274,15 @@ class ARViewController: GeneralViewController {
     }
     public override func refresh() {
         super.refresh()
+        _editingType = 0
+        if GlobalInfos.getInstance().getIsEditing() {
+            if _editLevel == editLevel.noEdit {
+                _editLevel = editLevel.editNoPositionLevel
+            }
+        } else {
+            _editLevel = editLevel.noEdit
+        }
+        refreshHiddenButton()
         let gl = GlobalInfos.getInstance()
         navTopItem.title = gl.getActRoom()?.toHeadingString()
         clearSensors()
@@ -291,6 +316,12 @@ func -(lhv:SCNVector3, rhv:Float) -> SCNVector3 {
 func /(lhv:SCNVector3, rhv:Float) -> SCNVector3 {
     return SCNVector3(lhv.x / rhv, lhv.y / rhv, lhv.z / rhv)
 }
+func *(lhv:SCNMatrix4, rhv:SCNVector3) -> SCNVector3 {
+    let x = lhv.m11 * rhv.x + lhv.m12 * rhv.y + lhv.m13 * rhv.z
+    let y = lhv.m21 * rhv.x + lhv.m22 * rhv.y + lhv.m23 * rhv.z
+    let z = lhv.m31 * rhv.x + lhv.m32 * rhv.y + lhv.m33 * rhv.z
+    return SCNVector3(x, y, z)
+}
 extension SCNVector3 {
     func length () -> Float {
         return (x * x + y * y + z * z).squareRoot()
@@ -309,3 +340,4 @@ extension SCNVector3 {
         return ret
     }
 }
+

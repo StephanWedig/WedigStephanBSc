@@ -80,7 +80,10 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
         if butDescription != nil {
             if actObject.getDescription() != "" {
                 butDescription.setTitle(actObject.getDescription(), for: .normal)
+            } else {
+                butDescription.setTitle("Select a room description", for: .normal)
             }
+            butDescription.isEnabled = gl.getIsEditing()
         }
         if tableSensor != nil {
             tableSensor.reloadData()

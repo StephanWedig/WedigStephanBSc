@@ -110,6 +110,11 @@ public class GlobalInfos {
         case SensorTypeList = 6
         case Sensor = 7
     }
+    public func saveApartements() {
+        if ArchiveApartment.path != "" {
+            NSKeyedArchiver.archiveRootObject(_apartement, toFile: ArchiveApartment.path)
+        }
+    }
     private(set) lazy var orderedViewControllers: [GeneralViewController] = {
         return [self.newColoredViewController(Identifier: "OpenSave"),
                 self.newColoredViewController(Identifier: "Apartment"),

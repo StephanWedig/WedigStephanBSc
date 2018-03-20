@@ -20,11 +20,13 @@ public class SensorTypeViewController : GeneralViewController {
     }
     public override func refresh() {
         super.refresh()
-        actObject = GlobalInfos.getInstance().getSensorTypes()[getActObjectListIndex()] as! SensorType
+        let gl = GlobalInfos.getInstance()
+        actObject = gl.getSensorTypes()[getActObjectListIndex()] as! SensorType
         if actObject == nil || txtName == nil {
             return
         }
         txtName.text = actObject.getDescription()
+        txtName.isEnabled = gl.getIsEditing()
     }
     
     override public func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
