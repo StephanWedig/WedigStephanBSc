@@ -19,66 +19,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="QrE-zo-BSt">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="617"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <arscnView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pAF-pt-DCk">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="587"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </arscnView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="itj-z0-K44">
-                                        <rect key="frame" x="0.0" y="587" width="375" height="30"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="V4A-61-8Ge" userLabel="StackViewEdit">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="cPb-Yv-hjN">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
-                                                        <subviews>
-                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ksv-7d-8oE" userLabel="butAddSensor">
-                                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
-                                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <state key="normal" title="add Sensor"/>
-                                                                <connections>
-                                                                    <action selector="butAddSensor_Click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pdS-Yz-zEf"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ky8-y8-TOr" userLabel="butOrientationPoint">
-                                                                <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
-                                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <state key="normal" title="set Orientation Point"/>
-                                                                <connections>
-                                                                    <action selector="butOrientationPoint_Click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kKx-cf-d0Z"/>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="30" id="PuI-mu-5Yr"/>
-                                                        </constraints>
-                                                    </stackView>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AmL-bm-Ab2" userLabel="butClearSensor">
-                                                        <rect key="frame" x="0.0" y="-587" width="375" height="30"/>
-                                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="30" id="0Mu-gA-grX"/>
-                                                        </constraints>
-                                                        <state key="normal" title="clear Sensors"/>
-                                                        <connections>
-                                                            <action selector="butClearSensor_Click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FHl-Mc-4RN"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                    </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="itj-z0-K44" secondAttribute="bottom" constant="20" id="rW1-R0-QuI"/>
-                                </constraints>
                                 <viewLayoutGuide key="safeArea" id="m6I-zJ-TFJ"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="QrE-zo-BSt" secondAttribute="bottom" constant="50" id="141-4w-2Ur"/>
+                            <constraint firstAttribute="bottom" secondItem="QrE-zo-BSt" secondAttribute="bottom" id="141-4w-2Ur"/>
                             <constraint firstItem="QrE-zo-BSt" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="fgS-HS-N6b"/>
                             <constraint firstItem="SVS-Nr-rIF" firstAttribute="trailing" secondItem="QrE-zo-BSt" secondAttribute="trailing" id="hqA-V8-Rvu"/>
                             <constraint firstItem="QrE-zo-BSt" firstAttribute="leading" secondItem="SVS-Nr-rIF" secondAttribute="leading" id="z8s-XJ-Pc8"/>
@@ -89,16 +41,12 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="StackViewEdit" destination="V4A-61-8Ge" id="OO2-An-oPz"/>
-                        <outlet property="butAddSensor" destination="ksv-7d-8oE" id="jl6-7n-kgf"/>
-                        <outlet property="butClearSensor" destination="AmL-bm-Ab2" id="nc9-JX-TRU"/>
-                        <outlet property="butOrientationPoint" destination="Ky8-y8-TOr" id="RVh-er-nqJ"/>
                         <outlet property="sceneView" destination="pAF-pt-DCk" id="hGH-sN-Hff"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-743" y="-494"/>
+            <point key="canvasLocation" x="-743.20000000000005" y="-494.30284857571218"/>
         </scene>
         <!--Room View Controller-->
         <scene sceneID="lcH-gH-Utv">
@@ -392,11 +340,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="bottom" semanticContentAttribute="forceLeftToRight" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="isk-N7-F6l" userLabel="Main_View">
-                                <rect key="frame" x="20" y="40" width="335" height="533"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Joh-QT-tno" userLabel="tableApartement">
+                                <rect key="frame" x="0.0" y="35" width="375" height="597"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellApartment" id="XLu-D7-oZA" userLabel="cellApartment" customClass="GeneralTableDataCell" customModule="WedigStephanBSc" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XLu-D7-oZA" id="cy3-dG-a9V">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <stackView hidden="YES" opaque="NO" contentMode="bottom" semanticContentAttribute="forceLeftToRight" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="isk-N7-F6l" userLabel="Main_View">
+                                <rect key="frame" x="0.0" y="20" width="375" height="553"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DZJ-7e-7Af" userLabel="NewAppartment">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="164.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="171"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <size key="titleShadowOffset" width="5" height="5"/>
@@ -406,7 +369,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jxh-Zj-9Jt" userLabel="OpenAppartment">
-                                        <rect key="frame" x="0.0" y="184.5" width="335" height="164"/>
+                                        <rect key="frame" x="0.0" y="191" width="375" height="171"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Open Appartment"/>
                                         <connections>
@@ -414,7 +377,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="53O-fx-lpm" userLabel="SaveAppartment">
-                                        <rect key="frame" x="0.0" y="368.5" width="335" height="164.5"/>
+                                        <rect key="frame" x="0.0" y="382" width="375" height="171"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Save Appartment"/>
                                     </button>
@@ -423,10 +386,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="isk-N7-F6l" firstAttribute="leading" secondItem="wvt-Rs-IGr" secondAttribute="leading" constant="20" id="iJZ-c2-scK"/>
+                            <constraint firstItem="isk-N7-F6l" firstAttribute="leading" secondItem="wvt-Rs-IGr" secondAttribute="leading" id="iJZ-c2-scK"/>
                             <constraint firstItem="wvt-Rs-IGr" firstAttribute="bottom" secondItem="isk-N7-F6l" secondAttribute="bottom" constant="50" id="sac-Jd-IQP"/>
-                            <constraint firstItem="wvt-Rs-IGr" firstAttribute="trailing" secondItem="isk-N7-F6l" secondAttribute="trailing" constant="20" id="ymy-pa-fiS"/>
-                            <constraint firstItem="isk-N7-F6l" firstAttribute="top" secondItem="wvt-Rs-IGr" secondAttribute="top" constant="20" id="z3r-jD-uvb"/>
+                            <constraint firstItem="wvt-Rs-IGr" firstAttribute="trailing" secondItem="isk-N7-F6l" secondAttribute="trailing" id="ymy-pa-fiS"/>
+                            <constraint firstItem="isk-N7-F6l" firstAttribute="top" secondItem="wvt-Rs-IGr" secondAttribute="top" id="z3r-jD-uvb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wvt-Rs-IGr"/>
                     </view>
@@ -435,6 +398,7 @@
                     <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="butNew" destination="DZJ-7e-7Af" id="9vf-wp-nSk"/>
+                        <outlet property="tableApartement" destination="Joh-QT-tno" id="wxP-zg-wqs"/>
                         <segue destination="pcJ-Ef-NUk" kind="show" id="ZON-66-TDA"/>
                     </connections>
                 </viewController>
@@ -574,16 +538,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="oCH-Nb-kn4">
-                                <rect key="frame" x="20" y="70" width="335" height="40"/>
+                                <rect key="frame" x="20" y="70" width="335" height="547"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Fge-Ze-D7p">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="547"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6fe-oY-nex" userLabel="Name">
-                                                <rect key="frame" x="0.0" y="0.0" width="335" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="335" height="547"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpr-ih-xEi" userLabel="lab_Name">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="547"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="50" id="Zyv-OA-EIt"/>
                                                             <constraint firstAttribute="height" constant="40" id="ajG-SH-arf"/>
@@ -593,7 +557,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DRf-r2-lC2" userLabel="txt_Name">
-                                                        <rect key="frame" x="50" y="0.0" width="285" height="40"/>
+                                                        <rect key="frame" x="50" y="0.0" width="285" height="547"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="LY7-L8-D8S"/>
                                                         </constraints>

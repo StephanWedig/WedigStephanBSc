@@ -38,7 +38,7 @@ class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPicke
     public override func refresh() {
         super.refresh()
         let gl = GlobalInfos.getInstance()
-        actObject = gl.getActRoom()?.getSensors()[getActObjectListIndex()] as! Sensor
+        actObject = gl.getActRoom()?.getSensors()[getActObjectListIndex()] as! Sensor!
         if(actObject == nil) {
             return
         }
@@ -56,7 +56,7 @@ class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPicke
         if labPosition != nil {
             labPosition.text = String(actObject.getPosition().x) + " " + String(actObject.getPosition().y) + " " + String(actObject.getPosition().z)
         }
-        navTopItem.title = gl.getActRoom()?.toString()
+        navTopItem.title = actObject.getRoom()?.toString()
     }
     private func swapPickerDescriptionVisible () {
         UIView.animate(withDuration: 0.3, animations: {

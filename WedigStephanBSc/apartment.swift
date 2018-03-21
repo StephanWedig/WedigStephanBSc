@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Apartment : NSObject, NSCoding {
+public class Apartment : GeneralTableDataObject {
     private var _street : String = ""
     private var _housenumber : String = ""
     private var _postalcode : String = ""
@@ -35,8 +35,10 @@ public class Apartment : NSObject, NSCoding {
         for room in _rooms {
             (room as! Room).setApartment(apartment: self)
         }
+        initForLoad(aDecoder: aDecoder)
     }
-    public func encode(with aCoder: NSCoder) {
+    public override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
         aCoder.encode(_street, forKey:"street")
         aCoder.encode(_housenumber, forKey:"housenumber")
         aCoder.encode(_postalcode, forKey:"postalcode")

@@ -11,7 +11,8 @@ import UIKit
 
 class RoomViewController: GeneralViewController, UITableViewDelegate, UITableViewDataSource, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    private var actObject : Room!
+    private var actObject:Room?
+    
     @IBOutlet weak var pickerDescription: UIPickerView!
     @IBOutlet weak var butDescription: UIButton!
     //@IBOutlet weak var txtDescription: UITextField!
@@ -26,20 +27,18 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
         pickerDescription.dataSource = self
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let gl = GlobalInfos.getInstance()
-        if gl.getActRoom() != nil && gl.getActRoom()?.getSensors() != nil {
-            return (gl.getActRoom()?.getSensors().count)!
+        if actObject != nil && actObject?.getSensors() != nil {
+            return (actObject?.getSensors().count)!
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:GeneralTableDataCell = tableSensor.dequeueReusableCell(withIdentifier: "cellSensor", for: indexPath) as! GeneralTableDataCell
-        let gl = GlobalInfos.getInstance()
         
         cell.setParentController(ParentController: self)
-        if gl.getActRoom() != nil && gl.getActRoom()?.getSensors() != nil {
-            cell.setDataBinding(dataObject: gl.getActRoom()?.getSensors()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (gl.getActRoom()?.getSensors())!, viewController: GlobalInfos.ViewControllers.Sensor)
+        if actObject != nil && actObject?.getSensors() != nil {
+            cell.setDataBinding(dataObject: actObject?.getSensors()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (actObject?.getSensors())!, viewController: GlobalInfos.ViewControllers.Sensor)
         }
         cell.refresh()
         return cell
@@ -63,7 +62,7 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         swapPickerDescriptionVisible()
-        actObject.setDescription(description: GlobalInfos.getInstance().getRoomDescriptions()[row] as! RoomDescription)
+        actObject?.setDescription(description: GlobalInfos.getInstance().getRoomDescriptions()[row] as! RoomDescription)
         refresh()
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -72,14 +71,14 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
     
     public override func refresh() {
         super.refresh()
-        actObject = GlobalInfos.getInstance().getApartment()?.getRooms()[getActObjectListIndex()] as! Room
         let gl = GlobalInfos.getInstance()
+        actObject = GlobalInfos.getInstance().getActRoom()
         if(actObject == nil) {
             return
         }
         if butDescription != nil {
-            if actObject.getDescription() != "" {
-                butDescription.setTitle(actObject.getDescription(), for: .normal)
+            if actObject?.getDescription() != "" {
+                butDescription.setTitle(actObject?.getDescription(), for: .normal)
             } else {
                 butDescription.setTitle("Select a room description", for: .normal)
             }
@@ -88,13 +87,11 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
         if tableSensor != nil {
             tableSensor.reloadData()
         }
-        navTopItem.title = gl.getApartment()?.toString()
+        navTopItem.title = actObject?.getApartment().toString()
     }
     override func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
         super.textFieldDidEndEditing(textField)
-        let gl = GlobalInfos.getInstance()
-        let r = gl.getActRoom()
-        if(r == nil) {
+        if(actObject == nil) {
             return
         }
     }

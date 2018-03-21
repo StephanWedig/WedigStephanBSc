@@ -12,6 +12,7 @@ import UIKit
 
 class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate {
     
+    private var actObject:Apartment?
     @IBOutlet weak var butGPS: UIButton!
     @IBOutlet weak var txtName: UITextField!
     @IBOutlet weak var txtStreet: UITextField!
@@ -42,11 +43,11 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let gl = GlobalInfos.getInstance()
-        if gl.getApartment() != nil && gl.getApartment()?.getRooms() != nil {
+        if actObject != nil {
             if gl.getIsEditing() {
-                return gl.getApartment()!.getRooms().count + 1
+                return (actObject?.getRooms().count)! + 1
             }
-            return gl.getApartment()!.getRooms().count
+            return (actObject?.getRooms().count)!
         }
         return 0
     }
@@ -54,14 +55,12 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:GeneralTableDataCell = tableRooms.dequeueReusableCell(withIdentifier: "cellRoom", for: indexPath) as! GeneralTableDataCell
         
-        let gl = GlobalInfos.getInstance()
-        
         cell.setParentController(ParentController: self)
-        if(indexPath.row == gl.getApartment()?.getRooms().count) {
+        if(indexPath.row == actObject?.getRooms().count) {
             cell.setIsLast(isLast : true)
-            cell.setDataBinding(dataObject: Room(apartment: gl.getApartment()!), dataObjectList: (gl.getApartment()?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
+            cell.setDataBinding(dataObject: Room(apartment: (actObject)!), dataObjectList: (actObject?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
         } else {
-            cell.setDataBinding(dataObject: gl.getApartment()?.getRooms()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (gl.getApartment()?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
+            cell.setDataBinding(dataObject: actObject?.getRooms()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (actObject?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
         }
         cell.refresh()
         return cell
@@ -69,16 +68,16 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     public override func refresh() {
         super.refresh()
         let gl = GlobalInfos.getInstance()
-        let ap = gl.getApartment()
         if txtStreet == nil {
             return;
         }
-        if ap != nil {
-            txtStreet.text = ap?.getStreet()
-            txtHousenumber.text = ap?.getHousenumber()
-            txtPLZ.text = ap?.getPostalcode()
-            txtPlace.text = ap?.getLocation()
-            txtName.text = ap?.getName()
+        actObject = gl.getActApartment()!
+        if actObject != nil {
+            txtStreet.text = actObject?.getStreet()
+            txtHousenumber.text = actObject?.getHousenumber()
+            txtPLZ.text = actObject?.getPostalcode()
+            txtPlace.text = actObject?.getLocation()
+            txtName.text = actObject?.getName()
         }
         tableRooms.reloadData()
         navTopItem.title = "Apartment"
@@ -91,40 +90,36 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     }
     
     public func refreshGPS() {
-        let gl = GlobalInfos.getInstance()
-        let ap = gl.getApartment()
         if txtStreet == nil {
             return;
         }
-        if ap != nil {
-            txtStreet.text = ap?.getStreet()
-            txtHousenumber.text = ap?.getHousenumber()
-            txtPLZ.text = ap?.getPostalcode()
-            txtPlace.text = ap?.getLocation()
+        if actObject != nil {
+            txtStreet.text = actObject?.getStreet()
+            txtHousenumber.text = actObject?.getHousenumber()
+            txtPLZ.text = actObject?.getPostalcode()
+            txtPlace.text = actObject?.getLocation()
         }
     }
     
     override func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
         super.textFieldDidEndEditing(textField)
-        let gl = GlobalInfos.getInstance()
-        let ap = gl.getApartment()
-        if(ap == nil) {
+        if(actObject == nil) {
             return
         }
         if textField == txtStreet {
-            ap?.setStreet(street: textField.text!)
+            actObject?.setStreet(street: textField.text!)
         }
         if textField == txtPLZ {
-            ap?.setPostalcode(postalcode: textField.text!)
+            actObject?.setPostalcode(postalcode: textField.text!)
         }
         if textField == txtPlace {
-            ap?.setLocation(location: textField.text!)
+            actObject?.setLocation(location: textField.text!)
         }
         if textField == txtHousenumber {
-            ap?.setHousenumber(housenumber: textField.text!)
+            actObject?.setHousenumber(housenumber: textField.text!)
         }
         if textField == txtName {
-            ap?.setName(name: textField.text!)
+            actObject?.setName(name: textField.text!)
         }
     }
     
@@ -147,17 +142,11 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
             } else {
                 let placemark = placemarks?.last as CLPlacemark?
                 if placemark != nil {
-                    let gl = GlobalInfos.getInstance()
-                    if gl.getApartment() == nil {
-                        gl.setApartment(apartment: Apartment())
-                    }
-                    let ap = gl.getApartment()!
-                    ap.setPostalcode(postalcode: (placemark?.postalCode)!)
-                    ap.setLocation(location: (placemark?.locality)!)
+                    self.actObject?.setPostalcode(postalcode: (placemark?.postalCode)!)
+                    self.actObject?.setLocation(location: (placemark?.locality)!)
                     if placemark?.subThoroughfare != nil {
-                        ap.setStreet(street: (placemark?.thoroughfare)!)
-                        ap.setHousenumber(housenumber: (placemark?.subThoroughfare)!)
-                        gl.setApartment(apartment: ap)
+                        self.actObject?.setStreet(street: (placemark?.thoroughfare)!)
+                        self.actObject?.setHousenumber(housenumber: (placemark?.subThoroughfare)!)
                         self.locationManager.stopUpdatingLocation()
                     }
                     self.refreshGPS()

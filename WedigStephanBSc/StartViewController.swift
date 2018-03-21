@@ -12,6 +12,7 @@ import UIKit
 class StartViewController: GeneralViewController {
     
     @IBOutlet weak var butNew: UIButton!
+    @IBOutlet weak var tableApartement: UITableView!
     
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.OpenSave
@@ -37,25 +38,94 @@ class StartViewController: GeneralViewController {
         }
         super.viewDidLoad()
     }
-    override func refresh() {
+    
+    public override func refresh() {
         super.refresh()
-        navTopBar.isHidden = true
+        print(tableApartement == nil)
+        if tableApartement == nil {
+            return;
+        }
+        tableApartement.reloadData()
+        navTopItem.title = "Apartments"
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let gl = GlobalInfos.getInstance()
+        print("E: " + String(gl.getIsEditing()))
+        if gl.getIsEditing() {
+            return (gl.getApartments()?.count)! + 1
+        }
+        return (gl.getApartments()!.count)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:GeneralTableDataCell = tableApartement.dequeueReusableCell(withIdentifier: "cellApartment", for: indexPath) as! GeneralTableDataCell
+        
+        cell.setParentController(ParentController: self)
+        let gl = GlobalInfos.getInstance()
+        if(indexPath.row == gl.getApartments()?.count) {
+            cell.setIsLast(isLast : true)
+            cell.setDataBinding(dataObject: Apartment(), dataObjectList: (gl.getApartments())!, viewController: GlobalInfos.ViewControllers.Apartment)
+        } else {
+            cell.setDataBinding(dataObject: gl.getApartments()![indexPath.row] as! GeneralTableDataObject, dataObjectList:  gl.getApartments()!, viewController: GlobalInfos.ViewControllers.Apartment)
+        }
+        cell.refresh()
+        return cell
+    }
+    /*
+ 
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     let cell:GeneralTableDataCell = tableRooms.dequeueReusableCell(withIdentifier: "cellRoom", for: indexPath) as! GeneralTableDataCell
+     
+     cell.setParentController(ParentController: self)
+     if(indexPath.row == actObject?.getRooms().count) {
+     cell.setIsLast(isLast : true)
+     cell.setDataBinding(dataObject: Room(apartment: (actObject)!), dataObjectList: (actObject?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
+     } else {
+     cell.setDataBinding(dataObject: actObject?.getRooms()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (actObject?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
+     }
+     cell.refresh()
+     return cell
+     }
+ */
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let gl = GlobalInfos.getInstance()
+        let controllerIndex = GlobalInfos.ViewControllers.Apartment.rawValue
+        gl.orderedViewControllers[controllerIndex].setActObjectListIndex(index: indexPath.row)
+        gl.setActApartment(index: indexPath.row)
+        gl.setActPageIndex(actPageIndex: controllerIndex)
+        
+        mainPage.refreshPage()
+    }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
     }
     
     @IBAction func butNew_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
         
-        gl.setApartment(apartment: Apartment())
+        gl.addApartment(apartment: Apartment())
+        gl.orderedViewControllers[GlobalInfos.ViewControllers.Apartment.rawValue].setActObjectListIndex(index: 0)
+        gl.setActApartment(index: 0)
         gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)
         mainPage.refreshPage()
     }
     @IBAction func butOpen_Click(_ sender: UIButton) {
         let gl = GlobalInfos.getInstance()
         if FileManager().fileExists(atPath: gl.ArchiveApartment.path) {
-            let apartment = NSKeyedUnarchiver.unarchiveObject(withFile: gl.ArchiveApartment.path) as! Apartment
-            gl.setApartment(apartment: apartment)
+            /*let apartment = NSKeyedUnarchiver.unarchiveObject(withFile: gl.ArchiveApartment.path) as! Apartment
+            gl.addApartment(apartment: apartment)
+            gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)
+            mainPage.refreshPage()*/
+            let apartments = NSKeyedUnarchiver.unarchiveObject(withFile: gl.ArchiveApartment.path) as! NSMutableArray
+            for a in apartments {
+                gl.addApartment(apartment: a as! Apartment)
+            }
+            gl.orderedViewControllers[GlobalInfos.ViewControllers.Apartment.rawValue].setActObjectListIndex(index: 0)
+            gl.setActApartment(index: 0)
             gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)
             mainPage.refreshPage()
+            
         } else {
             print("Apartment File not found")
         }

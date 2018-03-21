@@ -14,12 +14,14 @@ public class GlobalInfos {
     private var navigationOrder = [Int]()
     private var _roomDescriptions = NSMutableArray()
     private var _sensorTypes = NSMutableArray()
-    private var _apartement : Apartment?
+    private var _apartements = NSMutableArray()
     private var _actRoomIndex = 0
+    private var _actApartementIndex = 0
     public static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     public let ArchiveRoomDescription = GlobalInfos.DocumentsDirectory.appendingPathComponent("RoomDescription.plist")
     public let ArchiveSensorType = GlobalInfos.DocumentsDirectory.appendingPathComponent("SensorType.plist")
     public let ArchiveApartment = GlobalInfos.DocumentsDirectory.appendingPathComponent("Apartment.plist")
+    public let selectedNodeColor = UIColor.yellow
     private var _actPageIndex = 0
     private var _isEditing = false
     private init () {
@@ -27,11 +29,20 @@ public class GlobalInfos {
     public static func getInstance() -> GlobalInfos {
         return _globalInfos
     }
-    public func setApartment (apartment : Apartment) {
-        _apartement = apartment
+    public func addApartment (apartment : Apartment) {
+        _apartements.add(apartment)
     }
-    public func getApartment () -> Apartment? {
-        return _apartement
+    public func getActApartment () -> Apartment? {
+        if _actApartementIndex >= _apartements.count || _actApartementIndex < 0 {
+            return nil
+        }
+        return _apartements[_actApartementIndex] as? Apartment
+    }
+    public func setActApartment(index : Int) {
+        _actApartementIndex = index
+    }
+    public func getApartments () -> NSMutableArray? {
+        return _apartements
     }
     public func setActRoomIndex(index:Int) {
         _actRoomIndex = index
@@ -51,21 +62,10 @@ public class GlobalInfos {
     public func addSensorType (sensorType : SensorType) {
         _sensorTypes.add(sensorType)
     }
-    /*public func setActMainPageIndex ( actMainPageIndex : Int) {
-        addActControllerToNavigationOrder()
-        _actMainPageIndex = actMainPageIndex
-        _actPageIndex = 0
-    }
-    public func getActMainPageIndex () -> Int {
-        return _actMainPageIndex
-    }*/
     public func setActPageIndex ( actPageIndex : Int) {
         addActControllerToNavigationOrder()
         _actPageIndex = actPageIndex
     }
-    /*public func getActPageIndex () -> Int {
-        return _actPageIndex
-    }*/
     public func getActViewController() -> GeneralViewController {
         return orderedViewControllers[_actPageIndex]
     }
@@ -76,21 +76,19 @@ public class GlobalInfos {
         return _isEditing
     }
     public func getActRoom() -> Room? {
-        if _apartement == nil {
+        let a = getActApartment()
+        if a == nil {
             return nil
         }
-        if _apartement?.getRooms() == nil {
+        if (a!.getRooms().count) <= _actRoomIndex {
             return nil
         }
-        if (_apartement?.getRooms().count)! <= _actRoomIndex {
-            return nil
-        }
-        /*if _apartement?.getRooms().count == _actRoomIndex {
-            return nil
-        }*/
-        return (_apartement?.getRooms()[_actRoomIndex]) as? Room
+        return (a!.getRooms()[_actRoomIndex]) as? Room
     }
     public func setToPreviousViewController() {
+        if navigationOrder.count == 0 {
+            return
+        }
         let vc = navigationOrder[navigationOrder.count - 1]
         navigationOrder.remove(at: navigationOrder.count - 1)
         _actPageIndex = vc
@@ -112,8 +110,17 @@ public class GlobalInfos {
     }
     public func saveApartements() {
         if ArchiveApartment.path != "" {
-            NSKeyedArchiver.archiveRootObject(_apartement, toFile: ArchiveApartment.path)
+            NSKeyedArchiver.archiveRootObject(_apartements, toFile: ArchiveApartment.path)
         }
+    }
+    public func saveSensorTypes() {
+        if ArchiveSensorType.path != "" {
+            NSKeyedArchiver.archiveRootObject(_sensorTypes, toFile: ArchiveSensorType.path)
+        }
+    }
+    public func save() {
+        saveSensorTypes()
+        saveApartements()
     }
     private(set) lazy var orderedViewControllers: [GeneralViewController] = {
         return [self.newColoredViewController(Identifier: "OpenSave"),

@@ -119,6 +119,9 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
                 _ParentController.refresh()
             } else {
                 _DataObjectList.remove(_DataObject)
+                if savePath != "" {
+                    NSKeyedArchiver.archiveRootObject(_DataObjectList, toFile: savePath)
+                }
             }
             _ParentController.refresh()
         }

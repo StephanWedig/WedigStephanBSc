@@ -13,13 +13,23 @@ public class Sensor : GeneralTableDataObject{
     private var _position : SCNVector3?
     private var _sensortype : SensorType!
     private var _room : Room?
+    private var _node : SCNNode?
     private var _color : UIColor? = UIColor.red
+    private var _orientationX1Vector:SCNVector3? = nil
+    private var _orientationY1Vector:SCNVector3? = nil
+    private var _orientationZ1Vector:SCNVector3? = nil
+    private var _orientationX2Vector:SCNVector3? = nil
+    private var _orientationY2Vector:SCNVector3? = nil
+    private var _orientationZ2Vector:SCNVector3? = nil
+    private var _isNew = true
+    private var _isSelected = false
     public init (position : SCNVector3, room : Room) {
         _position = SCNVector3(position.x, position.y, position.z)
         _room = room
     }
     private init (position : SCNVector3) {
         _position = SCNVector3(position.x, position.y, position.z)
+        _isNew = false
     }
     public override func encode(with aCoder: NSCoder) {
         aCoder.encode(_position, forKey:"pos")
@@ -28,11 +38,17 @@ public class Sensor : GeneralTableDataObject{
             type = _sensortype.getID()
         }
         aCoder.encode(type, forKey:"sensortype")
+        aCoder.encode(_orientationX1Vector, forKey:"xOrientationVector")
+        aCoder.encode(_orientationY1Vector, forKey:"yOrientationVector")
+        aCoder.encode(_orientationZ1Vector, forKey:"zOrientationVector")
         super.encode(with: aCoder)
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
         self.init(position: aDecoder.decodeObject(forKey: "pos") as! SCNVector3)
+        _orientationX1Vector = aDecoder.decodeObject(forKey: "xOrientationVector") as? SCNVector3
+        _orientationY1Vector = aDecoder.decodeObject(forKey: "yOrientationVector") as? SCNVector3
+        _orientationZ1Vector = aDecoder.decodeObject(forKey: "zOrientationVector") as? SCNVector3
         let gl = GlobalInfos.getInstance()
         let sensortypeID = aDecoder.decodeObject(forKey: "sensortype") as! String
         for type in gl.getSensorTypes() {
@@ -58,6 +74,82 @@ public class Sensor : GeneralTableDataObject{
     }
     public func setRoom (r: Room) {
         _room = r
+    }
+    public func getRoom() -> Room? {
+        return _room
+    }
+    public func setXVector(v:SCNVector3) {
+        if _orientationX1Vector == nil || _isNew {
+            _orientationX1Vector = v
+            save()
+            print("Vector1X")
+        } else {
+            _orientationX2Vector = v
+        }
+    }
+    public func setYVector(v:SCNVector3) {
+        if _orientationY1Vector == nil || _isNew {
+            _orientationY1Vector = v
+            save()
+            print("Vector1Y")
+        } else {
+            _orientationY2Vector = v
+        }
+    }
+    public func setZVector(v:SCNVector3) {
+        if _orientationZ1Vector == nil || _isNew {
+            _orientationZ1Vector = v
+            save()
+            print("Vector1Z")
+        } else {
+            _orientationZ2Vector = v
+        }
+    }
+    public func getX1Vector() -> SCNVector3? {
+        return _orientationX1Vector
+    }
+    public func getX2Vector() -> SCNVector3? {
+        return _orientationX2Vector
+    }
+    public func getY1Vector() -> SCNVector3? {
+        return _orientationY1Vector
+    }
+    public func getY2Vector() -> SCNVector3? {
+        return _orientationY2Vector
+    }
+    public func getZ1Vector() -> SCNVector3? {
+        return _orientationZ1Vector
+    }
+    public func getZ2Vector() -> SCNVector3? {
+        return _orientationZ2Vector
+    }
+    public func invertSelection() {
+        _isSelected = !_isSelected
+        selectionChanged()
+    }
+    private func selectionChanged() {
+        if _node != nil {
+            if _isSelected {
+                _color = _node?.geometry?.firstMaterial?.diffuse.contents as? UIColor
+                _node?.geometry?.firstMaterial?.diffuse.contents = GlobalInfos.getInstance().selectedNodeColor
+            } else {
+                _node?.geometry?.firstMaterial?.diffuse.contents = _color
+            }
+        }
+    }
+    
+    public func setIsSelected( isSelected: Bool) {
+        _isSelected = isSelected
+        selectionChanged()
+    }
+    public func getIsSelected() -> Bool {
+        return _isSelected
+    }
+    public func setNode(node:SCNNode) {
+        _node = node
+    }
+    public func getNode() -> SCNNode? {
+        return _node
     }
     public func save() {
         GlobalInfos.getInstance().saveApartements()

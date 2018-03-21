@@ -59,7 +59,7 @@ public class GeneralViewController: UIViewController, UITextFieldDelegate {
     }
     public func refresh () {
         let gl = GlobalInfos.getInstance()
-        if gl.getApartment() != nil && gl.getActRoom() != nil {
+        if gl.getActApartment() != nil && gl.getActRoom() != nil {
             butAR.isEnabled = true
         } else {
             butAR.isEnabled = false
@@ -102,7 +102,7 @@ public class GeneralViewController: UIViewController, UITextFieldDelegate {
     }
     @IBAction func butMain_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
-        if gl.getApartment() == nil || gl.getActViewController().enumViewController == GlobalInfos.ViewControllers.Apartment {
+        if gl.getActApartment() == nil || gl.getActViewController().enumViewController == GlobalInfos.ViewControllers.Apartment {
             return
         }
         GlobalInfos.getInstance().setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)
