@@ -18,7 +18,7 @@ public class GeneralViewController: UIViewController, UITextFieldDelegate {
     public let navTopBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: 200, height: 44))
     public let navBottomBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: 200, height: 44))
     
-    public let butStart = UIBarButtonItem(image: UIImage(named: "iconmonstr-power-on-off-8-32"), style: .done, target: self, action: #selector(GeneralViewController.butStart_Click(_:)))
+    public let butStart = UIBarButtonItem(image: UIImage(named: "iconmonstr-home-6-32"), style: .done, target: self, action: #selector(GeneralViewController.butStart_Click(_:)))
     public let butMain = UIBarButtonItem(image: UIImage(named: "iconmonstr-building-18-32"), style: .done, target: self, action: #selector(GeneralViewController.butMain_Click(_:)))
     public let butRoomDescription = UIBarButtonItem(image: UIImage(named: "iconmonstr-text-28-32"), style: .done, target: self, action: #selector(GeneralViewController.butRoomDescription_Click(_:)))
     public let butSensorTypeList = UIBarButtonItem(image: UIImage(named: "iconmonstr-text-25-32"), style: .done, target: self, action: #selector(GeneralViewController.butSensortype_Click(_:)))

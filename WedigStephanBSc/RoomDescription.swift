@@ -29,14 +29,9 @@ public class RoomDescription : GeneralTableDataObject {
     public override func encode(with aCoder: NSCoder) {
         aCoder.encode(_description, forKey:"description")
         super.encode(with: aCoder)
-        //aCoder.encode(getID(), forKey:"id")
     }
     public required convenience init?(coder aDecoder: NSCoder) {
         self.init(description: aDecoder.decodeObject(forKey: "description") as! String)
         super.initForLoad(aDecoder: aDecoder)
     }
-    /*public func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encode(_description, forKey:"description")
-        aCoder.encode(getID(), forKey:"id")
-    }*/
 }

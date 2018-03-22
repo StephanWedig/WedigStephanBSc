@@ -9,13 +9,19 @@
 import Foundation
 import UIKit
 
-class StartViewController: GeneralViewController {
+class StartViewController: GeneralViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var butNew: UIButton!
+    //@IBOutlet weak var butNew: UIButton!
     @IBOutlet weak var tableApartement: UITableView!
+    @IBAction func butOpen_Click(_ sender: Any) {
+        open()
+        refresh()
+    }
     
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.OpenSave
+        tableApartement.delegate = self
+        tableApartement.dataSource = self
         
         let gl = GlobalInfos.getInstance()
         if gl.getRoomDescriptions().count == 0 && FileManager().fileExists(atPath: gl.ArchiveRoomDescription.path) {
@@ -36,12 +42,26 @@ class StartViewController: GeneralViewController {
         } else {
             print("Sensor Type File not found")
         }
+        open()
+        refresh()
         super.viewDidLoad()
+    }
+    private func open() {
+        
+        let gl = GlobalInfos.getInstance()
+        if FileManager().fileExists(atPath: gl.ArchiveApartment.path) {
+            let apartments = NSKeyedUnarchiver.unarchiveObject(withFile: gl.ArchiveApartment.path) as! NSMutableArray
+            for a in apartments {
+                gl.addApartment(apartment: a as! Apartment)
+            }
+            gl.orderedViewControllers[GlobalInfos.ViewControllers.Apartment.rawValue].setActObjectListIndex(index: 0)
+        } else {
+            print("Apartment File not found")
+        }
     }
     
     public override func refresh() {
         super.refresh()
-        print(tableApartement == nil)
         if tableApartement == nil {
             return;
         }
@@ -51,11 +71,19 @@ class StartViewController: GeneralViewController {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let gl = GlobalInfos.getInstance()
-        print("E: " + String(gl.getIsEditing()))
         if gl.getIsEditing() {
             return (gl.getApartments()?.count)! + 1
         }
         return (gl.getApartments()!.count)
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let gl = GlobalInfos.getInstance()
+        let controllerIndex = GlobalInfos.ViewControllers.Apartment.rawValue
+        gl.orderedViewControllers[controllerIndex].setActObjectListIndex(index: indexPath.row)
+        gl.setActApartment(index: indexPath.row)
+        gl.setActPageIndex(actPageIndex: controllerIndex)
+        
+        mainPage.refreshPage()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,36 +100,11 @@ class StartViewController: GeneralViewController {
         cell.refresh()
         return cell
     }
-    /*
- 
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell:GeneralTableDataCell = tableRooms.dequeueReusableCell(withIdentifier: "cellRoom", for: indexPath) as! GeneralTableDataCell
-     
-     cell.setParentController(ParentController: self)
-     if(indexPath.row == actObject?.getRooms().count) {
-     cell.setIsLast(isLast : true)
-     cell.setDataBinding(dataObject: Room(apartment: (actObject)!), dataObjectList: (actObject?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
-     } else {
-     cell.setDataBinding(dataObject: actObject?.getRooms()[indexPath.row] as! GeneralTableDataObject, dataObjectList:  (actObject?.getRooms())!, viewController: GlobalInfos.ViewControllers.Room)
-     }
-     cell.refresh()
-     return cell
-     }
- */
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let gl = GlobalInfos.getInstance()
-        let controllerIndex = GlobalInfos.ViewControllers.Apartment.rawValue
-        gl.orderedViewControllers[controllerIndex].setActObjectListIndex(index: indexPath.row)
-        gl.setActApartment(index: indexPath.row)
-        gl.setActPageIndex(actPageIndex: controllerIndex)
-        
-        mainPage.refreshPage()
-    }
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    @IBAction func butNew_Click(_ sender: Any) {
+    /*@IBAction func butNew_Click(_ sender: Any) {
         let gl = GlobalInfos.getInstance()
         
         gl.addApartment(apartment: Apartment())
@@ -125,9 +128,8 @@ class StartViewController: GeneralViewController {
             gl.setActApartment(index: 0)
             gl.setActPageIndex(actPageIndex: GlobalInfos.ViewControllers.Apartment.rawValue)
             mainPage.refreshPage()
-            
         } else {
             print("Apartment File not found")
         }
-    }
+    }*/
 }

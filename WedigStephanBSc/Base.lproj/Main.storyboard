@@ -340,56 +340,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Joh-QT-tno" userLabel="tableApartement">
-                                <rect key="frame" x="0.0" y="35" width="375" height="597"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellApartment" id="XLu-D7-oZA" userLabel="cellApartment" customClass="GeneralTableDataCell" customModule="WedigStephanBSc" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XLu-D7-oZA" id="cy3-dG-a9V">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                            <stackView hidden="YES" opaque="NO" contentMode="bottom" semanticContentAttribute="forceLeftToRight" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="isk-N7-F6l" userLabel="Main_View">
-                                <rect key="frame" x="0.0" y="20" width="375" height="553"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="Jc5-dH-COM">
+                                <rect key="frame" x="0.0" y="70" width="375" height="547"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DZJ-7e-7Af" userLabel="NewAppartment">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="171"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <inset key="contentEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <size key="titleShadowOffset" width="5" height="5"/>
-                                        <state key="normal" title="New Appartment"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OKb-So-VSd">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
+                                        <color key="backgroundColor" red="0.0056815127334148841" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="TyZ-2G-Zxx"/>
+                                        </constraints>
+                                        <state key="normal" title="open">
+                                            <color key="titleShadowColor" red="0.1048414795" green="1" blue="0.00074388167699999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
-                                            <action selector="butNew_Click:" destination="6pV-fV-4oK" eventType="touchUpInside" id="LRy-tG-wRL"/>
+                                            <action selector="butOpen_Click:" destination="6pV-fV-4oK" eventType="touchUpInside" id="0JW-n7-Czh"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jxh-Zj-9Jt" userLabel="OpenAppartment">
-                                        <rect key="frame" x="0.0" y="191" width="375" height="171"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Open Appartment"/>
-                                        <connections>
-                                            <action selector="butOpen_Click:" destination="6pV-fV-4oK" eventType="touchUpInside" id="P5H-cu-eGK"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="53O-fx-lpm" userLabel="SaveAppartment">
-                                        <rect key="frame" x="0.0" y="382" width="375" height="171"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Save Appartment"/>
-                                    </button>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Joh-QT-tno" userLabel="tableApartement">
+                                        <rect key="frame" x="0.0" y="347" width="375" height="200"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellApartment" id="XLu-D7-oZA" userLabel="cellApartment" customClass="GeneralTableDataCell" customModule="WedigStephanBSc" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XLu-D7-oZA" id="cy3-dG-a9V">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
                                 </subviews>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="isk-N7-F6l" firstAttribute="leading" secondItem="wvt-Rs-IGr" secondAttribute="leading" id="iJZ-c2-scK"/>
-                            <constraint firstItem="wvt-Rs-IGr" firstAttribute="bottom" secondItem="isk-N7-F6l" secondAttribute="bottom" constant="50" id="sac-Jd-IQP"/>
-                            <constraint firstItem="wvt-Rs-IGr" firstAttribute="trailing" secondItem="isk-N7-F6l" secondAttribute="trailing" id="ymy-pa-fiS"/>
-                            <constraint firstItem="isk-N7-F6l" firstAttribute="top" secondItem="wvt-Rs-IGr" secondAttribute="top" id="z3r-jD-uvb"/>
+                            <constraint firstAttribute="trailing" secondItem="Jc5-dH-COM" secondAttribute="trailing" id="aNY-of-a9k"/>
+                            <constraint firstItem="Jc5-dH-COM" firstAttribute="top" secondItem="wvt-Rs-IGr" secondAttribute="top" constant="50" id="hnG-l9-Gc6"/>
+                            <constraint firstItem="Jc5-dH-COM" firstAttribute="leading" secondItem="wvt-Rs-IGr" secondAttribute="leading" id="mf5-oj-91A"/>
+                            <constraint firstAttribute="bottom" secondItem="Jc5-dH-COM" secondAttribute="bottom" constant="50" id="vbp-Pf-21d"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wvt-Rs-IGr"/>
                     </view>
@@ -397,7 +386,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="butNew" destination="DZJ-7e-7Af" id="9vf-wp-nSk"/>
                         <outlet property="tableApartement" destination="Joh-QT-tno" id="wxP-zg-wqs"/>
                         <segue destination="pcJ-Ef-NUk" kind="show" id="ZON-66-TDA"/>
                     </connections>
@@ -601,7 +589,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CsK-XX-CvV" userLabel="tableSensorType">
-                                <rect key="frame" x="0.0" y="70" width="375" height="597"/>
+                                <rect key="frame" x="0.0" y="70" width="375" height="547"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellSensorType" id="Qmf-fl-MzU" userLabel="cellSensorType" customClass="GeneralTableDataCell" customModule="WedigStephanBSc" customModuleProvider="target">
@@ -619,7 +607,7 @@
                         <constraints>
                             <constraint firstItem="CsK-XX-CvV" firstAttribute="leading" secondItem="JG6-D9-huU" secondAttribute="leading" id="BqC-4D-Md4"/>
                             <constraint firstItem="CsK-XX-CvV" firstAttribute="trailing" secondItem="JG6-D9-huU" secondAttribute="trailing" id="qXt-BN-t0F"/>
-                            <constraint firstItem="JG6-D9-huU" firstAttribute="bottom" secondItem="CsK-XX-CvV" secondAttribute="bottom" id="qoX-gW-Dl1"/>
+                            <constraint firstItem="JG6-D9-huU" firstAttribute="bottom" secondItem="CsK-XX-CvV" secondAttribute="bottom" constant="50" id="qoX-gW-Dl1"/>
                             <constraint firstItem="CsK-XX-CvV" firstAttribute="top" secondItem="JG6-D9-huU" secondAttribute="top" constant="50" id="s5B-ig-KWb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JG6-D9-huU"/>

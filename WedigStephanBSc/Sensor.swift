@@ -21,7 +21,7 @@ public class Sensor : GeneralTableDataObject{
     private var _orientationX2Vector:SCNVector3? = nil
     private var _orientationY2Vector:SCNVector3? = nil
     private var _orientationZ2Vector:SCNVector3? = nil
-    private var _isNew = true
+    //private var _isNew = true
     private var _isSelected = false
     public init (position : SCNVector3, room : Room) {
         _position = SCNVector3(position.x, position.y, position.z)
@@ -29,7 +29,8 @@ public class Sensor : GeneralTableDataObject{
     }
     private init (position : SCNVector3) {
         _position = SCNVector3(position.x, position.y, position.z)
-        _isNew = false
+        /*_isNew = false
+        print(_position)*/
     }
     public override func encode(with aCoder: NSCoder) {
         aCoder.encode(_position, forKey:"pos")
@@ -41,6 +42,12 @@ public class Sensor : GeneralTableDataObject{
         aCoder.encode(_orientationX1Vector, forKey:"xOrientationVector")
         aCoder.encode(_orientationY1Vector, forKey:"yOrientationVector")
         aCoder.encode(_orientationZ1Vector, forKey:"zOrientationVector")
+        if _sensortype != nil {
+            print(_sensortype.description)
+            print(_orientationX1Vector)
+            print(_orientationY1Vector)
+            print(_orientationZ1Vector)
+        }
         super.encode(with: aCoder)
     }
     
@@ -49,6 +56,15 @@ public class Sensor : GeneralTableDataObject{
         _orientationX1Vector = aDecoder.decodeObject(forKey: "xOrientationVector") as? SCNVector3
         _orientationY1Vector = aDecoder.decodeObject(forKey: "yOrientationVector") as? SCNVector3
         _orientationZ1Vector = aDecoder.decodeObject(forKey: "zOrientationVector") as? SCNVector3
+        if _orientationX1Vector != nil {
+            _orientationX1Vector = SCNVector3((_orientationX1Vector?.x)!, (_orientationX1Vector?.y)!, (_orientationZ1Vector?.z)!)
+        }
+        if _orientationY1Vector != nil {
+            _orientationY1Vector = SCNVector3((_orientationY1Vector?.x)!, (_orientationY1Vector?.y)!, (_orientationY1Vector?.z)!)
+        }
+        if _orientationZ1Vector != nil {
+            _orientationZ1Vector = SCNVector3((_orientationZ1Vector?.x)!, (_orientationZ1Vector?.y)!, (_orientationZ1Vector?.z)!)
+        }
         let gl = GlobalInfos.getInstance()
         let sensortypeID = aDecoder.decodeObject(forKey: "sensortype") as! String
         for type in gl.getSensorTypes() {
@@ -57,6 +73,13 @@ public class Sensor : GeneralTableDataObject{
                 break
             }
         }
+        if _sensortype != nil {
+            print(_sensortype.description)
+            print(_orientationX1Vector)
+            print(_orientationY1Vector)
+            print(_orientationZ1Vector)
+        }
+        //_isNew = false
         super.initForLoad(aDecoder: aDecoder)
     }
     public func setSensortype (sensortype:SensorType) {
@@ -79,7 +102,7 @@ public class Sensor : GeneralTableDataObject{
         return _room
     }
     public func setXVector(v:SCNVector3) {
-        if _orientationX1Vector == nil || _isNew {
+        if _orientationX1Vector == nil/* || _isNew*/ {
             _orientationX1Vector = v
             save()
             print("Vector1X")
@@ -88,7 +111,7 @@ public class Sensor : GeneralTableDataObject{
         }
     }
     public func setYVector(v:SCNVector3) {
-        if _orientationY1Vector == nil || _isNew {
+        if _orientationY1Vector == nil/* || _isNew*/ {
             _orientationY1Vector = v
             save()
             print("Vector1Y")
@@ -97,7 +120,7 @@ public class Sensor : GeneralTableDataObject{
         }
     }
     public func setZVector(v:SCNVector3) {
-        if _orientationZ1Vector == nil || _isNew {
+        if _orientationZ1Vector == nil/* || _isNew*/ {
             _orientationZ1Vector = v
             save()
             print("Vector1Z")

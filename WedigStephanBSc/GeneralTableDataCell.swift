@@ -134,7 +134,6 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
             gl.orderedViewControllers[_DataObjectViewController.rawValue].setActObjectListIndex(index: _DataObjectList.count - 1)
             gl.setActPageIndex(actPageIndex: _DataObjectViewController.rawValue)
             _ParentController.mainPage.refreshPage()
-            //_ParentController.mainPage.nextPage(viewController: _ParentController)
         }
     }
     public func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method

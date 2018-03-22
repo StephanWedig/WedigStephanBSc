@@ -79,11 +79,13 @@ public class MainPageViewController : UIPageViewController {
         //gl.setActPageIndex(actPageIndex: previousIndex)
         gl.orderedViewControllers[previousIndex].refresh()*/
         let vc = gl.getActViewController()
-        setViewControllers([vc],
-                           direction: .forward,
-                           animated: true,
-                           completion: nil)
-        vc.refresh()
+        if vc != viewController {
+            setViewControllers([vc],
+                               direction: .forward,
+                               animated: true,
+                               completion: nil)
+            vc.refresh()
+        }
     }
 }
 extension MainPageViewController: UIPageViewControllerDataSource {

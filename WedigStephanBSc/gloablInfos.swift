@@ -15,8 +15,8 @@ public class GlobalInfos {
     private var _roomDescriptions = NSMutableArray()
     private var _sensorTypes = NSMutableArray()
     private var _apartements = NSMutableArray()
-    private var _actRoomIndex = 0
-    private var _actApartementIndex = 0
+    private var _actRoomIndex = -1
+    private var _actApartementIndex = -1
     public static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     public let ArchiveRoomDescription = GlobalInfos.DocumentsDirectory.appendingPathComponent("RoomDescription.plist")
     public let ArchiveSensorType = GlobalInfos.DocumentsDirectory.appendingPathComponent("SensorType.plist")
@@ -81,6 +81,9 @@ public class GlobalInfos {
             return nil
         }
         if (a!.getRooms().count) <= _actRoomIndex {
+            return nil
+        }
+        if(_actRoomIndex < 0) {
             return nil
         }
         return (a!.getRooms()[_actRoomIndex]) as? Room

@@ -91,6 +91,7 @@ class ARViewController: GeneralViewController {
             let s = Sensor(position: node.position, room: actRoom!)
             s.setNode(node: node)
             actRoom?.addSensor(sensor: s)
+            calcSensorVector(sensor: s)
             break
         case editLevel.setOrientationPoint:
             let rootNode = SCNNode()
@@ -126,28 +127,7 @@ class ARViewController: GeneralViewController {
                 break
             }
             _cntOrientationNodes = (_cntOrientationNodes + 1) % 3
-            //https://www.uninformativ.de/bin/SpaceSim-2401fee.pdf
-            if _orientationMiddleNode != nil && _orientationXNode != nil && _orientationYNode != nil {
-                let XTube = SCNNode()
-                XTube.geometry = SCNTube(innerRadius: 0, outerRadius: 0.01, height: 1)
-                XTube.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
-                XTube.position = (_orientationMiddleNode?.position)!
-                var disX = (_orientationXNode?.position)! - (_orientationMiddleNode?.position)!
-                var disY = (_orientationYNode?.position)! - (_orientationMiddleNode?.position)!
-                disX.norm()
-                disY.norm()
-                print(disX)
-                var disZ = SCNVector3.crossProduct(lhv: disX, rhv: disY)
-                disZ.norm()
-                disY = SCNVector3.crossProduct(lhv: disX, rhv: disZ)
-                disY.norm()
-                for s in (actRoom?.getSensors())! {
-                    let sensor = s as! Sensor
-                    sensor.setXVector(v: disX)
-                    sensor.setYVector(v: disY)
-                    sensor.setZVector(v: disZ)
-                }
-            }
+            calcSensorVector(sensor: nil)
             sceneView.scene.rootNode.addChildNode(rootNode)
             resetSensors()
             refreshHiddenButton()
@@ -179,6 +159,32 @@ class ARViewController: GeneralViewController {
             break
         }
     }
+    private func calcSensorVector(sensor: Sensor?) {
+        //https://www.uninformativ.de/bin/SpaceSim-2401fee.pdf
+        let actRoom = GlobalInfos.getInstance().getActRoom()!
+        if _orientationMiddleNode != nil && _orientationXNode != nil && _orientationYNode != nil {
+            var disX = (_orientationMiddleNode?.position)! - (_orientationXNode?.position)!
+            var disY = (_orientationMiddleNode?.position)! - (_orientationYNode?.position)!
+            disX.norm()
+            disY.norm()
+            var disZ = SCNVector3.crossProduct(lhv: disX, rhv: disY)
+            disZ.norm()
+            disY = SCNVector3.crossProduct(lhv: disX, rhv: disZ)
+            disY.norm()
+            if sensor == nil {
+                for s in actRoom.getSensors() {
+                    let sensor = s as! Sensor
+                    sensor.setXVector(v: disX)
+                    sensor.setYVector(v: disY)
+                    sensor.setZVector(v: disZ)
+                }
+            } else {
+                sensor?.setXVector(v: disX)
+                sensor?.setYVector(v: disY)
+                sensor?.setZVector(v: disZ)
+            }
+        }
+    }
     @IBAction func butAddSensor_Click(_ sender: Any) {
         _editLevel = editLevel.addSensor
     }
@@ -192,10 +198,11 @@ class ARViewController: GeneralViewController {
         let gl = GlobalInfos.getInstance()
         var i:Int = 0
         var rotationMatrix:SCNMatrix4
+        for node in (gl.getActRoom()?.getOrientationMiddleNode()?.childNodes)! {
+            node.removeFromParentNode()
+        }
         for s in (gl.getActRoom()?.getSensors())! {
-            
             let sensor = s as! Sensor
-            sensor.getNode()?.removeFromParentNode()
             if _orientationMiddleNode != nil && _orientationXNode != nil && _orientationYNode != nil {
                 if sensor.getX2Vector() != nil && sensor.getY2Vector() != nil && sensor.getZ2Vector() != nil {
                     //Rotiere
@@ -206,9 +213,27 @@ class ARViewController: GeneralViewController {
                     let mNewX:SCNVector3! = sensor.getX2Vector()
                     let mNewY:SCNVector3! = sensor.getY2Vector()
                     let mNewZ:SCNVector3! = sensor.getZ2Vector()
+                    let angleX = acos(SCNVector3.scalarProduct(lhv: mOrigX, rhv: mNewX))
+                    let angleY = acos(SCNVector3.scalarProduct(lhv: mOrigY, rhv: mNewY))
+                    let angleZ = acos(SCNVector3.scalarProduct(lhv: mOrigZ, rhv: mNewZ))
+                    print(angleX)
+                    print(angleY)
+                    print(angleZ)
+                    let m11 = cos(angleY) * cos(angleZ)
+                    let m12 = -cos(angleX) * sin(angleZ) + sin(angleX) * sin(angleY) * cos(angleZ)
+                    let m13 = sin(angleX) * sin(angleZ) + cos(angleX) * sin(angleY) * cos(angleZ)
+                    let m21 = cos(angleY) * sin(angleZ)
+                    let m22 = cos(angleX) * cos(angleZ) + sin(angleX) * sin(angleY) * sin(angleZ)
+                    let m23 = -sin(angleX) * cos(angleZ) + cos(angleX) * sin(angleY) * sin(angleZ)
+                    let m31 = -sin(angleY)
+                    let m32 = sin(angleX) * cos(angleY)
+                    let m33 = cos(angleX) * cos(angleY)
+                    rotationMatrix = SCNMatrix4.init(m11: m11, m12: m12, m13: m13, m14: 0, m21: m21, m22: m22, m23: m23, m24: 0, m31: m31, m32: m32, m33: m33, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)
+                    print(rotationMatrix)
                     //orthogonal matrix => invers matrix = transponet matrix
                     let mNew = SCNMatrix4.init(m11: mNewX.x, m12: mNewX.y, m13: mNewX.z, m14: 0, m21: mNewY.x, m22: mNewY.y, m23: mNewY.z, m24: 0, m31: mNewZ.x, m32: mNewZ.y, m33: mNewZ.z, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)
-                    rotationMatrix = SCNMatrix4Mult(mNew, mOrig)
+                    //rotationMatrix = SCNMatrix4Mult(mNew, mOrig)
+                    
                 } else {
                     rotationMatrix = SCNMatrix4.init(m11: 1, m12: 0, m13: 0, m14: 0, m21: 0, m22: 1, m23: 0, m24: 0, m31: 0, m32: 0, m33: 1, m34: 0, m41: 0, m42: 0, m43: 0, m44: 1)
                 }
@@ -298,6 +323,9 @@ extension SCNVector3 {
         ret.y = lhv.z * rhv.x - lhv.x * rhv.z
         ret.z = lhv.x * rhv.y - lhv.y * rhv.x
         return ret
+    }
+    static func scalarProduct(lhv:SCNVector3, rhv:SCNVector3) -> Float {
+        return lhv.x * rhv.x + lhv.y * rhv.y + lhv.z * rhv.z
     }
 }
 

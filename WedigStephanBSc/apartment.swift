@@ -88,10 +88,16 @@ public class Apartment : GeneralTableDataObject {
     public func getName () -> String? {
         return _name
     }
-    public func toString () -> String? {
+    public override func toString () -> String {
         return _name
     }
     private func save() {
         GlobalInfos.getInstance().saveApartements()
     }
+    public override func initForAdd() {
+        super.initForAdd()
+        let gl = GlobalInfos.getInstance()
+        gl.setActApartment(index: (gl.getApartments()?.count)! - 1)
+    }
+    public override func isOnlySmallObject() -> Bool { return false }
 }

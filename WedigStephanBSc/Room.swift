@@ -32,7 +32,7 @@ public class Room : GeneralTableDataObject {
     }
     public override func encode(with aCoder: NSCoder) {
         aCoder.encode(_description.getID(), forKey:"description")
-        aCoder.encode(_sensors, forKey:"sensors")
+        aCoder.encode(_sensors as NSMutableArray, forKey:"sensors")
         super.encode(with: aCoder)
     }
     
@@ -81,7 +81,7 @@ public class Room : GeneralTableDataObject {
         }
     }
     public func toHeadingString() -> String {
-        return _apartment.toString()! + " " + _description.getDescription()
+        return _apartment.toString() + " " + _description.getDescription()
     }
     public override func toString() -> String {
         return _description.getDescription()

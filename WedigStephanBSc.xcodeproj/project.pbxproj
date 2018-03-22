@@ -43,6 +43,7 @@
 		84EA26BF200CF69400A99F2A /* iconmonstr-shape-19-16.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA26BE200CF69300A99F2A /* iconmonstr-shape-19-16.png */; };
 		84EA26C5200D06F200A99F2A /* GeneralTableDataObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA26C4200D06F200A99F2A /* GeneralTableDataObject.swift */; };
 		84EA26C7200D077F00A99F2A /* GeneralTableDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA26C6200D077F00A99F2A /* GeneralTableDataCell.swift */; };
+		84EA95F22063DB5D00B710EE /* iconmonstr-home-6-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA95F12063DB5D00B710EE /* iconmonstr-home-6-32.png */; };
 		84FB36781FDFFBC4002B18C0 /* RoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FB36771FDFFBC4002B18C0 /* RoomViewController.swift */; };
 		84FE50BC204E912D0060EADB /* SensorTypeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FE50BB204E912D0060EADB /* SensorTypeListViewController.swift */; };
 		84FE50BE204EB23E0060EADB /* iconmonstr-text-25-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84FE50BD204EB23E0060EADB /* iconmonstr-text-25-32.png */; };
@@ -108,6 +109,7 @@
 		84EA26BE200CF69300A99F2A /* iconmonstr-shape-19-16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-shape-19-16.png"; sourceTree = "<group>"; };
 		84EA26C4200D06F200A99F2A /* GeneralTableDataObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTableDataObject.swift; sourceTree = "<group>"; };
 		84EA26C6200D077F00A99F2A /* GeneralTableDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTableDataCell.swift; sourceTree = "<group>"; };
+		84EA95F12063DB5D00B710EE /* iconmonstr-home-6-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-home-6-32.png"; sourceTree = "<group>"; };
 		84FB36771FDFFBC4002B18C0 /* RoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewController.swift; sourceTree = "<group>"; };
 		84FE50BB204E912D0060EADB /* SensorTypeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorTypeListViewController.swift; sourceTree = "<group>"; };
 		84FE50BD204EB23E0060EADB /* iconmonstr-text-25-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-text-25-32.png"; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				84FE50BD204EB23E0060EADB /* iconmonstr-text-25-32.png */,
 				84D40E2620626CEC00A98F9F /* iconmonstr-square-6-32.png */,
 				84D40E2820626DA000A98F9F /* iconmonstr-crosshair-4-32.png */,
+				84EA95F12063DB5D00B710EE /* iconmonstr-home-6-32.png */,
 				84A99D081FB4B7F000511CA1 /* Info.plist */,
 				84A99D051FB4B7F000511CA1 /* LaunchScreen.storyboard */,
 				84A99D001FB4B7F000511CA1 /* Main.storyboard */,
@@ -338,6 +341,7 @@
 				84D40E2720626CED00A98F9F /* iconmonstr-square-6-32.png in Resources */,
 				845E419C2004FBFB000D2095 /* iconmonstr-power-on-off-8-32.png in Resources */,
 				84EA26B9200CDA5100A99F2A /* iconmonstr-x-mark-4-32.png in Resources */,
+				84EA95F22063DB5D00B710EE /* iconmonstr-home-6-32.png in Resources */,
 				84883CD620174DD8008F75B1 /* iconmonstr-computer-10-32.png in Resources */,
 				84EA26BD200CF68D00A99F2A /* iconmonstr-pencil-9-32.png in Resources */,
 				84D40E2920626DA100A98F9F /* iconmonstr-crosshair-4-32.png in Resources */,
