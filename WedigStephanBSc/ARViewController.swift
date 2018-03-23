@@ -38,7 +38,13 @@ class ARViewController: GeneralViewController {
         enumViewController = GlobalInfos.ViewControllers.AR
         super.viewDidLoad()
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
-        configuration.planeDetection = ARWorldTrackingConfiguration.PlaneDetection.horizontal
+        if #available(iOS 11.3, *) {
+            configuration.planeDetection = [.horizontal, .vertical]
+            print("11.3")
+        } else {
+            configuration.planeDetection = [.horizontal]
+            print("11.2")
+        }
         configuration.isLightEstimationEnabled = true
         sceneView.session.run(configuration, options: ARSession.RunOptions.resetTracking)
         sceneView.automaticallyUpdatesLighting = true
@@ -61,6 +67,21 @@ class ARViewController: GeneralViewController {
         navARBottomBar.setItems([navARBottomItem], animated: false);
         navARBottomItem.leftBarButtonItems = [butSetOrientationPoint, butAddSensor]
         navARBottomItem.rightBarButtonItems = [butSelect]
+        
+        
+        guard let camera = sceneView.pointOfView?.camera else {
+            return
+        }
+        print("Camera")
+        
+        /*
+         Enable HDR camera settings for the most realistic appearance
+         with environmental lighting and physically based materials.
+         */
+        camera.wantsHDR = true
+        camera.exposureOffset = -1
+        camera.minimumExposure = -1
+        camera.maximumExposure = 3
     }
 
     override func didReceiveMemoryWarning() {
@@ -92,6 +113,8 @@ class ARViewController: GeneralViewController {
             s.setNode(node: node)
             actRoom?.addSensor(sensor: s)
             calcSensorVector(sensor: s)
+            let rotationMatrix = SCNMatrix4.getSCNMatrix(X: s.getX1Vector()!,Y: s.getY1Vector()!, Z: s.getZ1Vector()!).trans()
+            s.setPosition(pos: rotationMatrix * s.getPosition())
             break
         case editLevel.setOrientationPoint:
             let rootNode = SCNNode()
@@ -133,26 +156,19 @@ class ARViewController: GeneralViewController {
             refreshHiddenButton()
             break
         case editLevel.select:
-            var nearest:Sensor? = nil
+            let results = sceneView.hitTest(touch.location(in: sceneView), options: nil)
             for s in (actRoom?.getSensors())! {
                 let sensor = s as! Sensor
-                let disVector = ((sensor.getNode()?.position)! - hitVector)
-                let dis = (disVector.x * disVector.x + disVector.y * disVector.y).squareRoot()
-                print(String(dis))
-                if dis < 0.4 {
-                    if nearest == nil {
-                        nearest = sensor
-                    } else {
-                        let disVectorNearest = ((nearest?.getNode()?.position)! - hitVector)
-                        let disNearest = (disVectorNearest.x * disVectorNearest.x + disVectorNearest.y * disVectorNearest.y).squareRoot()
-                        if dis < disNearest {
-                            nearest = sensor
-                        }
+                sensor.setIsSelected(isSelected: false)
+            }
+            for r in results {
+                for s in (actRoom?.getSensors())! {
+                    let sensor = s as! Sensor
+                    if(sensor.getNode() == r.node) {
+                        sensor.invertSelection()
+                        return
                     }
                 }
-            }
-            if nearest != nil {
-                nearest?.invertSelection()
             }
             break
         default:
@@ -198,8 +214,10 @@ class ARViewController: GeneralViewController {
         let gl = GlobalInfos.getInstance()
         var i:Int = 0
         var rotationMatrix:SCNMatrix4
-        for node in (gl.getActRoom()?.getOrientationMiddleNode()?.childNodes)! {
-            node.removeFromParentNode()
+        if gl.getActRoom()?.getOrientationMiddleNode() != nil {
+            for node in (gl.getActRoom()?.getOrientationMiddleNode()?.childNodes)! {
+                node.removeFromParentNode()
+            }
         }
         for s in (gl.getActRoom()?.getSensors())! {
             let sensor = s as! Sensor
@@ -209,11 +227,12 @@ class ARViewController: GeneralViewController {
                     let mOrigX:SCNVector3! = sensor.getX1Vector()
                     let mOrigY:SCNVector3! = sensor.getY1Vector()
                     let mOrigZ:SCNVector3! = sensor.getZ1Vector()
-                    let mOrig = SCNMatrix4.init(m11: mOrigX.x, m12: mOrigY.x, m13: mOrigZ.x, m14: 0, m21: mOrigX.y, m22: mOrigY.y, m23: mOrigZ.y, m24: 0, m31: mOrigX.z, m32: mOrigY.z, m33: mOrigZ.z, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)
+                    /*let mOrig = SCNMatrix4.init(m11: mOrigX.x, m12: mOrigY.x, m13: mOrigZ.x, m14: 0, m21: mOrigX.y, m22: mOrigY.y, m23: mOrigZ.y, m24: 0, m31: mOrigX.z, m32: mOrigY.z, m33: mOrigZ.z, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)*/
+                    let mOrig = SCNMatrix4.getSCNMatrix(X: mOrigX, Y: mOrigY, Z: mOrigZ)
                     let mNewX:SCNVector3! = sensor.getX2Vector()
                     let mNewY:SCNVector3! = sensor.getY2Vector()
                     let mNewZ:SCNVector3! = sensor.getZ2Vector()
-                    let angleX = acos(SCNVector3.scalarProduct(lhv: mOrigX, rhv: mNewX))
+                    /*let angleX = acos(SCNVector3.scalarProduct(lhv: mOrigX, rhv: mNewX))
                     let angleY = acos(SCNVector3.scalarProduct(lhv: mOrigY, rhv: mNewY))
                     let angleZ = acos(SCNVector3.scalarProduct(lhv: mOrigZ, rhv: mNewZ))
                     print(angleX)
@@ -229,10 +248,11 @@ class ARViewController: GeneralViewController {
                     let m32 = sin(angleX) * cos(angleY)
                     let m33 = cos(angleX) * cos(angleY)
                     rotationMatrix = SCNMatrix4.init(m11: m11, m12: m12, m13: m13, m14: 0, m21: m21, m22: m22, m23: m23, m24: 0, m31: m31, m32: m32, m33: m33, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)
-                    print(rotationMatrix)
+                    print(rotationMatrix)*/
                     //orthogonal matrix => invers matrix = transponet matrix
-                    let mNew = SCNMatrix4.init(m11: mNewX.x, m12: mNewX.y, m13: mNewX.z, m14: 0, m21: mNewY.x, m22: mNewY.y, m23: mNewY.z, m24: 0, m31: mNewZ.x, m32: mNewZ.y, m33: mNewZ.z, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)
-                    //rotationMatrix = SCNMatrix4Mult(mNew, mOrig)
+                    /*let mNew = SCNMatrix4.init(m11: mNewX.x, m12: mNewX.y, m13: mNewX.z, m14: 0, m21: mNewY.x, m22: mNewY.y, m23: mNewY.z, m24: 0, m31: mNewZ.x, m32: mNewZ.y, m33: mNewZ.z, m34: 0, m41: 0, m42: 0, m43: 0, m44: 0)*/
+                    let mNew = SCNMatrix4.getSCNMatrix(X: mNewX, Y: mNewY, Z: mNewZ).trans()
+                    rotationMatrix = SCNMatrix4Mult(mNew, mOrig)
                     
                 } else {
                     rotationMatrix = SCNMatrix4.init(m11: 1, m12: 0, m13: 0, m14: 0, m21: 0, m22: 1, m23: 0, m24: 0, m31: 0, m32: 0, m33: 1, m34: 0, m41: 0, m42: 0, m43: 0, m44: 1)
@@ -289,43 +309,3 @@ class ARViewController: GeneralViewController {
         }
     }
 }
-func +(lhv:SCNVector3, rhv:SCNVector3) -> SCNVector3 {
-    return SCNVector3(lhv.x + rhv.x, lhv.y + rhv.y, lhv.z + rhv.z)
-}
-func -(lhv:SCNVector3, rhv:SCNVector3) -> SCNVector3 {
-    return SCNVector3(lhv.x - rhv.x, lhv.y - rhv.y, lhv.z - rhv.z)
-}
-func -(lhv:SCNVector3, rhv:Float) -> SCNVector3 {
-    return SCNVector3(lhv.x - rhv, lhv.y - rhv, lhv.z - rhv)
-}
-func /(lhv:SCNVector3, rhv:Float) -> SCNVector3 {
-    return SCNVector3(lhv.x / rhv, lhv.y / rhv, lhv.z / rhv)
-}
-func *(lhv:SCNMatrix4, rhv:SCNVector3) -> SCNVector3 {
-    let x = lhv.m11 * rhv.x + lhv.m12 * rhv.y + lhv.m13 * rhv.z
-    let y = lhv.m21 * rhv.x + lhv.m22 * rhv.y + lhv.m23 * rhv.z
-    let z = lhv.m31 * rhv.x + lhv.m32 * rhv.y + lhv.m33 * rhv.z
-    return SCNVector3(x, y, z)
-}
-extension SCNVector3 {
-    func length () -> Float {
-        return (x * x + y * y + z * z).squareRoot()
-    }
-    mutating func norm() {
-        let n = self / length()
-        self.x = n.x
-        self.y = n.y
-        self.z = n.z
-    }
-    static func crossProduct(lhv:SCNVector3, rhv:SCNVector3) -> SCNVector3 {
-        var ret = SCNVector3()
-        ret.x = lhv.y * rhv.z - lhv.z * rhv.y
-        ret.y = lhv.z * rhv.x - lhv.x * rhv.z
-        ret.z = lhv.x * rhv.y - lhv.y * rhv.x
-        return ret
-    }
-    static func scalarProduct(lhv:SCNVector3, rhv:SCNVector3) -> Float {
-        return lhv.x * rhv.x + lhv.y * rhv.y + lhv.z * rhv.z
-    }
-}
-

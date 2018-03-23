@@ -42,12 +42,6 @@ public class Sensor : GeneralTableDataObject{
         aCoder.encode(_orientationX1Vector, forKey:"xOrientationVector")
         aCoder.encode(_orientationY1Vector, forKey:"yOrientationVector")
         aCoder.encode(_orientationZ1Vector, forKey:"zOrientationVector")
-        if _sensortype != nil {
-            print(_sensortype.description)
-            print(_orientationX1Vector)
-            print(_orientationY1Vector)
-            print(_orientationZ1Vector)
-        }
         super.encode(with: aCoder)
     }
     
@@ -72,12 +66,6 @@ public class Sensor : GeneralTableDataObject{
                 _sensortype = type as! SensorType
                 break
             }
-        }
-        if _sensortype != nil {
-            print(_sensortype.description)
-            print(_orientationX1Vector)
-            print(_orientationY1Vector)
-            print(_orientationZ1Vector)
         }
         //_isNew = false
         super.initForLoad(aDecoder: aDecoder)
@@ -104,8 +92,8 @@ public class Sensor : GeneralTableDataObject{
     public func setXVector(v:SCNVector3) {
         if _orientationX1Vector == nil/* || _isNew*/ {
             _orientationX1Vector = v
+            _orientationX2Vector = SCNVector3(1,0,0)
             save()
-            print("Vector1X")
         } else {
             _orientationX2Vector = v
         }
@@ -113,8 +101,8 @@ public class Sensor : GeneralTableDataObject{
     public func setYVector(v:SCNVector3) {
         if _orientationY1Vector == nil/* || _isNew*/ {
             _orientationY1Vector = v
+            _orientationY2Vector = SCNVector3(0,1,0)
             save()
-            print("Vector1Y")
         } else {
             _orientationY2Vector = v
         }
@@ -122,8 +110,8 @@ public class Sensor : GeneralTableDataObject{
     public func setZVector(v:SCNVector3) {
         if _orientationZ1Vector == nil/* || _isNew*/ {
             _orientationZ1Vector = v
+            _orientationZ2Vector = SCNVector3(0,0,1)
             save()
-            print("Vector1Z")
         } else {
             _orientationZ2Vector = v
         }
@@ -173,6 +161,9 @@ public class Sensor : GeneralTableDataObject{
     }
     public func getNode() -> SCNNode? {
         return _node
+    }
+    public func setPosition(pos : SCNVector3) {
+        _position = SCNVector3(pos.x, pos.y, pos.z)
     }
     public func save() {
         GlobalInfos.getInstance().saveApartements()
