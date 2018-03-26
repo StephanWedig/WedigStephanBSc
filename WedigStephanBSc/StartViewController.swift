@@ -22,7 +22,6 @@ class StartViewController: GeneralViewController, UITableViewDelegate, UITableVi
         enumViewController = GlobalInfos.ViewControllers.OpenSave
         tableApartement.delegate = self
         tableApartement.dataSource = self
-        
         let gl = GlobalInfos.getInstance()
         if gl.getRoomDescriptions().count == 0 && FileManager().fileExists(atPath: gl.ArchiveRoomDescription.path) {
             let roomDescriptionList = NSKeyedUnarchiver.unarchiveObject(withFile: gl.ArchiveRoomDescription.path) as! NSMutableArray
@@ -45,6 +44,10 @@ class StartViewController: GeneralViewController, UITableViewDelegate, UITableVi
         open()
         refresh()
         super.viewDidLoad()
+        butAppartmentlist.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
+    }
+    override func save() {
+        GlobalInfos.getInstance().saveApartements()
     }
     private func open() {
         
@@ -91,7 +94,7 @@ class StartViewController: GeneralViewController, UITableViewDelegate, UITableVi
         
         cell.setParentController(ParentController: self)
         let gl = GlobalInfos.getInstance()
-        if(indexPath.row == gl.getApartments()?.count) {
+        if indexPath.row == gl.getApartments()?.count {
             cell.setIsLast(isLast : true)
             cell.setDataBinding(dataObject: Apartment(), dataObjectList: (gl.getApartments())!, viewController: GlobalInfos.ViewControllers.Apartment)
         } else {

@@ -18,6 +18,7 @@ class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPicke
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.Sensor
         super.viewDidLoad()
+        butAppartment.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
         pickerType.delegate = self
         pickerType.dataSource = self
     }
@@ -38,7 +39,7 @@ class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPicke
     public override func refresh() {
         super.refresh()
         let gl = GlobalInfos.getInstance()
-        actObject = gl.getActRoom()?.getSensors()[getActObjectListIndex()] as! Sensor!
+        actObject = gl.getActRoom()?.getSensors()[getActObjectListIndex()] as! Sensor?
         if(actObject == nil) {
             return
         }
@@ -56,7 +57,7 @@ class SensorViewController: GeneralViewController, UIPickerViewDelegate, UIPicke
         if labPosition != nil {
             labPosition.text = String(actObject.getPosition().x) + " " + String(actObject.getPosition().y) + " " + String(actObject.getPosition().z)
         }
-        navTopItem.title = actObject.getRoom()?.toString()
+        navTopItem.title = actObject.getRoom()?.toHeadingString()
     }
     private func swapPickerDescriptionVisible () {
         UIView.animate(withDuration: 0.3, animations: {

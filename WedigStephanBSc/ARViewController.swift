@@ -9,15 +9,20 @@
 import UIKit
 import ARKit
 
-class ARViewController: GeneralViewController {
+class ARViewController: GeneralViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
     @IBOutlet weak var sceneView: ARSCNView!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var ViewSensor: UIStackView!
+    @IBOutlet weak var butSensorType: UIButton!
+    @IBOutlet weak var pickerSensorType: UIPickerView!
+    
     private let navARBottomBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: 200, height: 44))
     private let navARBottomItem = UINavigationItem(title: "");
     
-    private let butSelect = UIBarButtonItem(image: UIImage(named: "iconmonstr-square-6-32"), style: .done, target: self, action: #selector(butSelect_Click(_:)))
-    private let butAddSensor = UIBarButtonItem(image: UIImage(named: "iconmonstr-plus-4-32"), style: .done, target: self, action: #selector(butAddSensor_Click(_:)))
-    private let butSetOrientationPoint = UIBarButtonItem(image: UIImage(named: "iconmonstr-crosshair-4-32"), style: .done, target: self, action: #selector(butOrientationPoint_Click(_:)))
+    private var butSelect = UIBarButtonItem(image: UIImage(named: "iconmonstr-square-6-32"), style: .done, target: self, action: #selector(butSelect_Click(_:)))
+    private var butAddSensor = UIBarButtonItem(image: UIImage(named: "iconmonstr-plus-4-32"), style: .done, target: self, action: #selector(butAddSensor_Click(_:)))
+    private var butSetOrientationPoint = UIBarButtonItem(image: UIImage(named: "iconmonstr-crosshair-4-32"), style: .done, target: self, action: #selector(butOrientationPoint_Click(_:)))
     
     enum editLevel { case addSensor
         case setOrientationPoint
@@ -25,7 +30,6 @@ class ARViewController: GeneralViewController {
         case unknown
     }
     var orientationNodeColor = [UIColor]()
-    var calcNodeColor = [UIColor]()
     let configuration = ARWorldTrackingConfiguration()
     let SPHERESIZE = 0.05
     var _orientationMiddleNode:SCNNode? = nil
@@ -37,6 +41,7 @@ class ARViewController: GeneralViewController {
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.AR
         super.viewDidLoad()
+        butAR.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
         if #available(iOS 11.3, *) {
             configuration.planeDetection = [.horizontal, .vertical]
@@ -49,14 +54,29 @@ class ARViewController: GeneralViewController {
         sceneView.session.run(configuration, options: ARSession.RunOptions.resetTracking)
         sceneView.automaticallyUpdatesLighting = true
         navARBottomBar.isHidden = true
-        calcNodeColor.append(UIColor.red)
-        calcNodeColor.append(UIColor.brown)
-        calcNodeColor.append(UIColor.green)
-        calcNodeColor.append(UIColor.orange)
         
         orientationNodeColor.append(UIColor.cyan)
         orientationNodeColor.append(UIColor.blue)
         orientationNodeColor.append(UIColor.gray)
+        
+        //create editing buttons
+        var but = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        but.layer.cornerRadius = but.frame.size.width/2
+        but.setImage(UIImage(named: "iconmonstr-square-6-32"), for: UIControlState.normal)
+        but.addTarget(self, action: #selector(butSelect_Click(_:)), for: .touchUpInside)
+        butSelect = UIBarButtonItem(customView: but)
+        but = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        but.layer.cornerRadius = but.frame.size.width/2
+        but.setImage(UIImage(named: "iconmonstr-plus-4-32"), for: UIControlState.normal)
+        but.addTarget(self, action: #selector(butAddSensor_Click(_:)), for: .touchUpInside)
+        butAddSensor = UIBarButtonItem(customView: but)
+        but = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        but.layer.cornerRadius = but.frame.size.width/2
+        but.setImage(UIImage(named: "iconmonstr-crosshair-4-32"), for: UIControlState.normal)
+        but.addTarget(self, action: #selector(butOrientationPoint_Click(_:)), for: .touchUpInside)
+        butSetOrientationPoint = UIBarButtonItem(customView: but)
+        
+        //build editing bar
         let margins = self.view.layoutMarginsGuide
         navARBottomBar.backgroundColor = nil
         self.view.addSubview(navARBottomBar);
@@ -68,6 +88,8 @@ class ARViewController: GeneralViewController {
         navARBottomItem.leftBarButtonItems = [butSetOrientationPoint, butAddSensor]
         navARBottomItem.rightBarButtonItems = [butSelect]
         
+        pickerSensorType.delegate = self
+        pickerSensorType.dataSource = self
         
         guard let camera = sceneView.pointOfView?.camera else {
             return
@@ -101,12 +123,13 @@ class ARViewController: GeneralViewController {
         let actRoom = GlobalInfos.getInstance().getActRoom()
         switch _editLevel {
         case editLevel.addSensor:
-            if(actRoom?.getOrientationMiddleNode() == nil) {
+            if actRoom?.getOrientationMiddleNode() == nil {
                 return
             }
+            deselectAllSensors()
             let node = SCNNode()
             node.geometry = SCNSphere(radius: CGFloat(SPHERESIZE))
-            node.geometry?.firstMaterial?.diffuse.contents = calcNodeColor[(actRoom?.getSensors().count)! % calcNodeColor.count]
+            node.geometry?.firstMaterial?.diffuse.contents = gl.calcNodeColor[(actRoom?.getSensors().count)! % gl.calcNodeColor.count]
             node.position = hitVector - (actRoom?.getOrientationMiddleNode()?.position)!
             actRoom?.getOrientationMiddleNode()?.addChildNode(node)
             let s = Sensor(position: node.position, room: actRoom!)
@@ -115,6 +138,9 @@ class ARViewController: GeneralViewController {
             calcSensorVector(sensor: s)
             let rotationMatrix = SCNMatrix4.getSCNMatrix(X: s.getX1Vector()!,Y: s.getY1Vector()!, Z: s.getZ1Vector()!).trans()
             s.setPosition(pos: rotationMatrix * s.getPosition())
+            s.setColor(color: gl.calcNodeColor[(actRoom?.getSensors().count)! % gl.calcNodeColor.count])
+            s.setIsSelected(isSelected: true)
+            setViewSensorVisible(hidden: false)
             break
         case editLevel.setOrientationPoint:
             let rootNode = SCNNode()
@@ -156,19 +182,23 @@ class ARViewController: GeneralViewController {
             refreshHiddenButton()
             break
         case editLevel.select:
-            let results = sceneView.hitTest(touch.location(in: sceneView), options: nil)
+            let result = sceneView.hitTest(touch.location(in: sceneView), options: nil).first
+            if result == nil {
+                return
+            }
+            var found :Bool = false
             for s in (actRoom?.getSensors())! {
                 let sensor = s as! Sensor
-                sensor.setIsSelected(isSelected: false)
-            }
-            for r in results {
-                for s in (actRoom?.getSensors())! {
-                    let sensor = s as! Sensor
-                    if(sensor.getNode() == r.node) {
-                        sensor.invertSelection()
-                        return
-                    }
+                if(sensor.getID() == result?.node.name) {
+                    sensor.invertSelection()
+                    setViewSensorVisible(hidden: !sensor.getIsSelected())
+                    found = true
+                } else {
+                    sensor.setIsSelected(isSelected: false)
                 }
+            }
+            if !found {
+                setViewSensorVisible(hidden: true)
             }
             break
         default:
@@ -203,12 +233,23 @@ class ARViewController: GeneralViewController {
     }
     @IBAction func butAddSensor_Click(_ sender: Any) {
         _editLevel = editLevel.addSensor
+        deselectAllSensors()
+        butSelect.customView?.backgroundColor = GlobalInfos.unselectedButtonBackgroundColor
+        butAddSensor.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
+        butSetOrientationPoint.customView?.backgroundColor = GlobalInfos.unselectedButtonBackgroundColor
     }
     @IBAction func butOrientationPoint_Click(_ sender: Any) {
         _editLevel = editLevel.setOrientationPoint
+        deselectAllSensors()
+        butSelect.customView?.backgroundColor = GlobalInfos.unselectedButtonBackgroundColor
+        butAddSensor.customView?.backgroundColor = GlobalInfos.unselectedButtonBackgroundColor
+        butSetOrientationPoint.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
     }
     @IBAction func butSelect_Click(_ sender: Any) {
         _editLevel = editLevel.select
+        butSelect.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
+        butAddSensor.customView?.backgroundColor = GlobalInfos.unselectedButtonBackgroundColor
+        butSetOrientationPoint.customView?.backgroundColor = GlobalInfos.unselectedButtonBackgroundColor
     }
     func resetSensors() {
         let gl = GlobalInfos.getInstance()
@@ -259,7 +300,11 @@ class ARViewController: GeneralViewController {
                 }
                 let node = SCNNode()
                 node.geometry = SCNSphere(radius: CGFloat(SPHERESIZE))
-                node.geometry?.firstMaterial?.diffuse.contents = calcNodeColor[i % calcNodeColor.count]
+                if(sensor.getIsSelected()) {
+                    node.geometry?.firstMaterial?.diffuse.contents = gl.selectedNodeColor
+                } else {
+                    node.geometry?.firstMaterial?.diffuse.contents = sensor.getColor()
+                }
                 node.position = rotationMatrix * sensor.getPosition()
                 sensor.setNode(node: node)
                 gl.getActRoom()?.getOrientationMiddleNode()?.addChildNode(node)
@@ -308,4 +353,99 @@ class ARViewController: GeneralViewController {
             resetSensors()
         }
     }
+    func refreshSensorView() {
+        let gl = GlobalInfos.getInstance()
+        let actRoom = gl.getActRoom()
+        for s in (actRoom?.getSensors())! {
+            let sensor = s as! Sensor
+            if(sensor.getIsSelected()) {
+                if sensor.getSensortype() != nil {
+                    butSensorType.setTitle(sensor.getSensortype().getDescription(), for: .normal)
+                } else {
+                    butSensorType.setTitle("Select a sensor type", for: .normal)
+                }
+                break
+            }
+        }
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return GlobalInfos.getInstance().getSensorTypes().count
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        swapPickerDescriptionVisible()
+        let gl = GlobalInfos.getInstance()
+        let actRoom = gl.getActRoom()
+        for s in (actRoom?.getSensors())! {
+            let sensor = s as! Sensor
+            if(sensor.getIsSelected()) {
+                sensor.setSensortype(sensortype: gl.getSensorTypes()[row] as! SensorType)
+                break
+            }
+        }
+        refreshSensorView()
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return (GlobalInfos.getInstance().getSensorTypes()[row] as! SensorType).getDescription()
+    }
+    private func swapPickerDescriptionVisible () {
+        setPickerDescriptionVisible(hidden: !self.pickerSensorType.isHidden)
+    }
+    private func setPickerDescriptionVisible(hidden:Bool) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.pickerSensorType.isHidden = hidden
+            self.view.layoutIfNeeded()
+        })
+        refreshSensorView()
+    }
+    private func setViewSensorVisible(hidden:Bool) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.ViewSensor.isHidden = hidden
+            self.view.layoutIfNeeded()
+        })
+        ViewSensor.isHidden = hidden
+        refreshSensorView()
+    }
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    @IBAction func butSensorType_Click(_ sender: Any) {
+        swapPickerDescriptionVisible()
+    }
+    private func deselectAllSensors() {
+        let actRoom = GlobalInfos.getInstance().getActRoom()
+        for s in (actRoom?.getSensors())! {
+            let sensor = s as! Sensor
+            sensor.setIsSelected(isSelected: false)
+        }
+        setViewSensorVisible(hidden: true)
+    }
+    @IBAction func butAccept_Click(_ sender: Any) {
+        deselectAllSensors()
+    }
+    @IBAction func butDelete_Click(_ sender: Any) {
+        guard let actRoom = GlobalInfos.getInstance().getActRoom() else {
+            return
+        }
+        for s in actRoom.getSensors() {
+            let sensor = s as! Sensor
+            if sensor.getIsSelected() {
+                let alert = UIAlertController(title: "Delete " + sensor.toString(), message: "Are you sure you want to delete " + sensor.toString() + "?", preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: "Yes", style: .destructive) { (alert: UIAlertAction!) -> Void in
+                    sensor.getNode()?.removeFromParentNode()
+                    actRoom.getSensors().remove(sensor)
+                    actRoom.save()
+                    self.setViewSensorVisible(hidden: true)
+                }
+                let noAction = UIAlertAction(title: "No", style: .destructive) { (alert: UIAlertAction!) -> Void in
+                }
+                
+                alert.addAction(yesAction)
+                alert.addAction(noAction)
+                
+                present(alert, animated: true, completion:nil)
+                break
+            }
+        }
+    }
 }
+

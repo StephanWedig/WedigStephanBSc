@@ -19,7 +19,6 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
     private var labTitle: UILabel!
     private var butReaction: UIButton!
     private var txtTitle: UITextField!
-    public var savePath = ""
     
     public override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -118,10 +117,21 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
                 refresh()
                 _ParentController.refresh()
             } else {
-                _DataObjectList.remove(_DataObject)
-                if savePath != "" {
-                    NSKeyedArchiver.archiveRootObject(_DataObjectList, toFile: savePath)
+                let alert = UIAlertController(title: "Delete " + _DataObject.toString(), message: "Are you sure you want to delete " + _DataObject.toString() + "?", preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: "Yes", style: .destructive) { (alert: UIAlertAction!) -> Void in
+                    self._DataObjectList.remove(self._DataObject)
+                    self._ParentController.save()
+                    self._ParentController.refresh()
                 }
+                let noAction = UIAlertAction(title: "No", style: .destructive) { (alert: UIAlertAction!) -> Void in
+                }
+                
+                alert.addAction(yesAction)
+                alert.addAction(noAction)
+                
+                alert.show(_ParentController, sender: self)
+                
+                _ParentController.present(alert, animated: true, completion:nil)
             }
             _ParentController.refresh()
         }
@@ -138,9 +148,7 @@ public class GeneralTableDataCell : UITableViewCell, UITextFieldDelegate {
     }
     public func textFieldDidEndEditing(_ textField: UITextField) {    //delegate method
         _DataObject.setValue(value: textField.text!)
-        if savePath != "" {
-            NSKeyedArchiver.archiveRootObject(_DataObjectList, toFile: savePath)
-        }
+        _ParentController.save()
     }
 }
 

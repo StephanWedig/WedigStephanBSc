@@ -47,8 +47,11 @@ public class Room : GeneralTableDataObject {
             }
         }
         _sensors = aDecoder.decodeObject(forKey: "sensors") as! NSMutableArray
+        var i:Int = 0
         for s in _sensors {
             (s as! Sensor).setRoom(r: self)
+            (s as! Sensor).setColor(color: gl.calcNodeColor[i%gl.calcNodeColor.count])
+            i = i + 1
         }
         super.initForLoad(aDecoder: aDecoder)
     }
@@ -92,7 +95,7 @@ public class Room : GeneralTableDataObject {
         //_apartment.addRoom(room: self)
         GlobalInfos.getInstance().setActRoomIndex(index: _apartment.getRooms().count - 1)
     }
-    private func save() {
+    public func save() {
         GlobalInfos.getInstance().saveApartements()
     }
     public func getOrientationMiddleNode() -> SCNNode? {

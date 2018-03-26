@@ -15,6 +15,7 @@ public class SensorTypeViewController : GeneralViewController {
     override public func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.SensorType
         super.viewDidLoad()
+        butSensorTypeList.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
         txtName.delegate = self
         refresh()
     }

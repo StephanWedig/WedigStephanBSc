@@ -18,22 +18,89 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="QrE-zo-BSt">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Yry-wx-Lnk">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <arscnView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pAF-pt-DCk">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    <arscnView autoresizesSubviews="NO" opaque="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pAF-pt-DCk">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                     </arscnView>
+                                    <stackView hidden="YES" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="gVb-AK-z1S" userLabel="ViewSensor">
+                                        <rect key="frame" x="0.0" y="-20" width="375" height="140"/>
+                                        <subviews>
+                                            <stackView contentMode="scaleToFill" ambiguous="YES" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="onk-pX-4IM" userLabel="ViewSensorInner">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VSg-go-auO" userLabel="butDelete">
+                                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="40" id="ej1-Cv-S7e"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Button" image="iconmonstr-x-mark-4-32.png"/>
+                                                        <connections>
+                                                            <action selector="butDelete_Click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="v9s-gF-52n"/>
+                                                        </connections>
+                                                    </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHx-E5-4DC" userLabel="lab_Type">
+                                                        <rect key="frame" x="40" y="0.0" width="50" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="50" id="Y7V-ME-njI"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gvd-TK-MJX" userLabel="but_Type">
+                                                        <rect key="frame" x="90" y="0.0" width="245" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="899-NW-iPR"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Select a sensor type"/>
+                                                        <connections>
+                                                            <action selector="butDescription_Onclick:" destination="7MB-VX-Wej" eventType="touchUpInside" id="jDp-lX-qvZ"/>
+                                                            <action selector="butSensorType_Click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pCa-T6-PQs"/>
+                                                            <action selector="butType_Onclick:" destination="NIa-FZ-N2x" eventType="touchUpInside" id="8An-QC-uG5"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdd-UG-eY6" userLabel="butAccept">
+                                                        <rect key="frame" x="335" y="0.0" width="40" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="40" id="8tT-fn-sgI"/>
+                                                        </constraints>
+                                                        <state key="normal" title="Button" image="iconmonstr-check-mark-1-32.png"/>
+                                                        <connections>
+                                                            <action selector="butAccept_Click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="don-bu-57a"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="MN3-MI-CGu"/>
+                                                </constraints>
+                                            </stackView>
+                                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6D7-qT-bEN" userLabel="picker_Type">
+                                                <rect key="frame" x="0.0" y="40" width="375" height="0.0"/>
+                                            </pickerView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ta9-fv-twU">
+                                                <rect key="frame" x="0.0" y="40" width="375" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="100" id="nI7-04-9er"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </stackView>
                                 </subviews>
-                                <viewLayoutGuide key="safeArea" id="m6I-zJ-TFJ"/>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="QrE-zo-BSt" secondAttribute="bottom" id="141-4w-2Ur"/>
-                            <constraint firstItem="QrE-zo-BSt" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="fgS-HS-N6b"/>
-                            <constraint firstItem="SVS-Nr-rIF" firstAttribute="trailing" secondItem="QrE-zo-BSt" secondAttribute="trailing" id="hqA-V8-Rvu"/>
-                            <constraint firstItem="QrE-zo-BSt" firstAttribute="leading" secondItem="SVS-Nr-rIF" secondAttribute="leading" id="z8s-XJ-Pc8"/>
+                            <constraint firstItem="Yry-wx-Lnk" firstAttribute="leading" secondItem="SVS-Nr-rIF" secondAttribute="leading" id="T6e-WW-XwK"/>
+                            <constraint firstItem="Yry-wx-Lnk" firstAttribute="top" secondItem="SVS-Nr-rIF" secondAttribute="top" id="bSh-2m-kno"/>
+                            <constraint firstAttribute="bottom" secondItem="Yry-wx-Lnk" secondAttribute="bottom" id="oqi-JV-xfT"/>
+                            <constraint firstAttribute="trailing" secondItem="Yry-wx-Lnk" secondAttribute="trailing" id="wuD-To-fOb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="SVS-Nr-rIF"/>
                     </view>
@@ -41,6 +108,9 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="ViewSensor" destination="gVb-AK-z1S" id="Szz-Pm-TSj"/>
+                        <outlet property="butSensorType" destination="Gvd-TK-MJX" id="1tZ-26-85c"/>
+                        <outlet property="pickerSensorType" destination="6D7-qT-bEN" id="nl2-sV-fjm"/>
                         <outlet property="sceneView" destination="pAF-pt-DCk" id="hGH-sN-Hff"/>
                     </connections>
                 </viewController>
@@ -610,6 +680,8 @@
     </scenes>
     <resources>
         <image name="iconmonstr-car-15-32.png" width="32" height="32"/>
+        <image name="iconmonstr-check-mark-1-32.png" width="32" height="32"/>
+        <image name="iconmonstr-x-mark-4-32.png" width="32" height="32"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

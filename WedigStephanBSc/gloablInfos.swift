@@ -18,13 +18,20 @@ public class GlobalInfos {
     private var _actRoomIndex = -1
     private var _actApartementIndex = -1
     public static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    public static let selectedButtonBackgroundColor = UIColor.yellow
+    public static let unselectedButtonBackgroundColor = UIColor.clear
     public let ArchiveRoomDescription = GlobalInfos.DocumentsDirectory.appendingPathComponent("RoomDescription.plist")
     public let ArchiveSensorType = GlobalInfos.DocumentsDirectory.appendingPathComponent("SensorType.plist")
     public let ArchiveApartment = GlobalInfos.DocumentsDirectory.appendingPathComponent("Apartment.plist")
     public let selectedNodeColor = UIColor.yellow
+    public var calcNodeColor = [UIColor]()
     private var _actPageIndex = 0
     private var _isEditing = false
     private init () {
+        calcNodeColor.append(UIColor.red)
+        calcNodeColor.append(UIColor.brown)
+        calcNodeColor.append(UIColor.green)
+        calcNodeColor.append(UIColor.orange)
     }
     public static func getInstance() -> GlobalInfos {
         return _globalInfos
@@ -119,6 +126,11 @@ public class GlobalInfos {
     public func saveSensorTypes() {
         if ArchiveSensorType.path != "" {
             NSKeyedArchiver.archiveRootObject(_sensorTypes, toFile: ArchiveSensorType.path)
+        }
+    }
+    public func saveRoomDescriptions() {
+        if ArchiveRoomDescription.path != "" {
+            NSKeyedArchiver.archiveRootObject(_roomDescriptions, toFile: ArchiveRoomDescription.path)
         }
     }
     public func save() {

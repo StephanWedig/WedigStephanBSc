@@ -32,6 +32,8 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //butAppartment.tintColor = GlobalInfos.selectedButtonBackgroundColor
+        butAppartment.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
         tableRooms.delegate = self
         tableRooms.dataSource = self
         txtStreet.delegate = self
@@ -39,6 +41,9 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
         txtPLZ.delegate = self
         txtPlace.delegate = self
         txtHousenumber.delegate = self
+    }
+    override func save() {
+        GlobalInfos.getInstance().saveApartements()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -134,7 +139,7 @@ class ApartmentViewController: GeneralViewController, UITableViewDelegate, UITab
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Get first location item returned from locations array
-        let userLocation = locations.last as CLLocation!
+        let userLocation = locations.last as CLLocation?
         // Convert location into object with human readable address components
         CLGeocoder().reverseGeocodeLocation(userLocation!, completionHandler: { (placemarks, e) -> Void in
             if e != nil {

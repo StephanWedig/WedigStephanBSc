@@ -15,6 +15,7 @@ public class RoomDescriptionViewController : GeneralViewController, UITableViewD
     public override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.RoomDescription
         super.viewDidLoad()
+        butRoomDescription.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
         tableRoomDescription.delegate = self
         tableRoomDescription.dataSource = self
         tableRoomDescription.rowHeight = UITableViewAutomaticDimension
@@ -23,6 +24,9 @@ public class RoomDescriptionViewController : GeneralViewController, UITableViewD
     public override func refresh() {
         super.refresh()
         tableRoomDescription.reloadData()
+    }
+    public override func save() {
+        GlobalInfos.getInstance().saveRoomDescriptions()
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -36,7 +40,6 @@ public class RoomDescriptionViewController : GeneralViewController, UITableViewD
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:GeneralTableDataCell = tableRoomDescription.dequeueReusableCell(withIdentifier: "cellRoomDescription", for: indexPath) as! GeneralTableDataCell
         let gl = GlobalInfos.getInstance()
-        cell.savePath = gl.ArchiveRoomDescription.path
         cell.setParentController(ParentController: self)
         if(indexPath.row == gl.getRoomDescriptions().count) {
             cell.setIsLast(isLast : true)

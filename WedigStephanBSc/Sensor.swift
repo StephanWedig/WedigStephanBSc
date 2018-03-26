@@ -14,7 +14,7 @@ public class Sensor : GeneralTableDataObject{
     private var _sensortype : SensorType!
     private var _room : Room?
     private var _node : SCNNode?
-    private var _color : UIColor? = UIColor.red
+    private var _color : UIColor = UIColor.red
     private var _orientationX1Vector:SCNVector3? = nil
     private var _orientationY1Vector:SCNVector3? = nil
     private var _orientationZ1Vector:SCNVector3? = nil
@@ -141,7 +141,6 @@ public class Sensor : GeneralTableDataObject{
     private func selectionChanged() {
         if _node != nil {
             if _isSelected {
-                _color = _node?.geometry?.firstMaterial?.diffuse.contents as? UIColor
                 _node?.geometry?.firstMaterial?.diffuse.contents = GlobalInfos.getInstance().selectedNodeColor
             } else {
                 _node?.geometry?.firstMaterial?.diffuse.contents = _color
@@ -158,12 +157,19 @@ public class Sensor : GeneralTableDataObject{
     }
     public func setNode(node:SCNNode) {
         _node = node
+        _node?.name = getID()
     }
     public func getNode() -> SCNNode? {
         return _node
     }
     public func setPosition(pos : SCNVector3) {
         _position = SCNVector3(pos.x, pos.y, pos.z)
+    }
+    public func setColor(color : UIColor) {
+        _color = color
+    }
+    public func getColor() -> UIColor {
+        return _color
     }
     public func save() {
         GlobalInfos.getInstance().saveApartements()

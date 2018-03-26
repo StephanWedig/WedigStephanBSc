@@ -20,11 +20,15 @@ class RoomViewController: GeneralViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         enumViewController = GlobalInfos.ViewControllers.Room
         super.viewDidLoad()
+        butAppartment.customView?.backgroundColor = GlobalInfos.selectedButtonBackgroundColor
         //txtDescription.delegate = self
         tableSensor.delegate = self
         tableSensor.dataSource = self
         pickerDescription.delegate = self
         pickerDescription.dataSource = self
+    }
+    override func save() {
+        GlobalInfos.getInstance().saveApartements()
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if actObject != nil && actObject?.getSensors() != nil {
