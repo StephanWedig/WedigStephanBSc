@@ -116,6 +116,14 @@ public class Sensor : GeneralTableDataObject{
             _orientationZ2Vector = v
         }
     }
+    public func nilVectors() {
+        _orientationX1Vector = nil
+        _orientationY1Vector = nil
+        _orientationZ1Vector = nil
+        _orientationX2Vector = nil
+        _orientationY2Vector = nil
+        _orientationZ2Vector = nil
+    }
     public func getX1Vector() -> SCNVector3? {
         return _orientationX1Vector
     }
@@ -164,6 +172,7 @@ public class Sensor : GeneralTableDataObject{
     }
     public func setPosition(pos : SCNVector3) {
         _position = SCNVector3(pos.x, pos.y, pos.z)
+        save()
     }
     public func setColor(color : UIColor) {
         _color = color

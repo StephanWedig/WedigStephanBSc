@@ -11,6 +11,7 @@
 		8406C9101FD6BA97000B47B4 /* SensorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8406C90F1FD6BA97000B47B4 /* SensorType.swift */; };
 		8406C9121FD6C026000B47B4 /* gloablInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8406C9111FD6C026000B47B4 /* gloablInfos.swift */; };
 		8406C9141FD6C472000B47B4 /* ApartmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8406C9131FD6C472000B47B4 /* ApartmentViewController.swift */; };
+		8419294A206A260F008B910C /* iconmonstr-crosshair-7-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 84192949206A260E008B910C /* iconmonstr-crosshair-7-32.png */; };
 		842DDA9520038FC8005F4055 /* iconmonstr-plus-4-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 842DDA9420038FC8005F4055 /* iconmonstr-plus-4-32.png */; };
 		842DDA97200392C4005F4055 /* iconmonstr-car-15-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 842DDA96200392C3005F4055 /* iconmonstr-car-15-32.png */; };
 		845E419C2004FBFB000D2095 /* iconmonstr-power-on-off-8-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 845E419B2004FBFB000D2095 /* iconmonstr-power-on-off-8-32.png */; };
@@ -72,6 +73,7 @@
 		8406C90F1FD6BA97000B47B4 /* SensorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorType.swift; sourceTree = "<group>"; };
 		8406C9111FD6C026000B47B4 /* gloablInfos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gloablInfos.swift; sourceTree = "<group>"; };
 		8406C9131FD6C472000B47B4 /* ApartmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentViewController.swift; sourceTree = "<group>"; };
+		84192949206A260E008B910C /* iconmonstr-crosshair-7-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-crosshair-7-32.png"; sourceTree = "<group>"; };
 		842DDA9420038FC8005F4055 /* iconmonstr-plus-4-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-plus-4-32.png"; sourceTree = "<group>"; };
 		842DDA96200392C3005F4055 /* iconmonstr-car-15-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-car-15-32.png"; sourceTree = "<group>"; };
 		845E419B2004FBFB000D2095 /* iconmonstr-power-on-off-8-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconmonstr-power-on-off-8-32.png"; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				84D40E2620626CEC00A98F9F /* iconmonstr-square-6-32.png */,
 				84D40E2820626DA000A98F9F /* iconmonstr-crosshair-4-32.png */,
 				84EA95F12063DB5D00B710EE /* iconmonstr-home-6-32.png */,
+				84192949206A260E008B910C /* iconmonstr-crosshair-7-32.png */,
 				84A99D081FB4B7F000511CA1 /* Info.plist */,
 				84A99D051FB4B7F000511CA1 /* LaunchScreen.storyboard */,
 				84A99D001FB4B7F000511CA1 /* Main.storyboard */,
@@ -335,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84FE50BE204EB23E0060EADB /* iconmonstr-text-25-32.png in Resources */,
+				8419294A206A260F008B910C /* iconmonstr-crosshair-7-32.png in Resources */,
 				84EA26B7200CDA4B00A99F2A /* iconmonstr-check-mark-1-32.png in Resources */,
 				84A99D071FB4B7F000511CA1 /* LaunchScreen.storyboard in Resources */,
 				842DDA97200392C4005F4055 /* iconmonstr-car-15-32.png in Resources */,
