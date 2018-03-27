@@ -151,8 +151,20 @@ class ARViewController: GeneralViewController, UIPickerViewDelegate, UIPickerVie
             s.setColor(color: gl.calcNodeColor[actRoom.getSensors().count % gl.calcNodeColor.count])
             actRoom.addSensor(sensor: s)
             calcSensorVector(sensor: s)
-            let rotationMatrix = SCNMatrix4.getSCNMatrix(X: s.getX1Vector()!,Y: s.getY1Vector()!, Z: s.getZ1Vector()!).trans()
-            s.setPosition(pos: rotationMatrix * s.getPosition())
+            var angle = 2 * Float.pi - acos((s.getX1Vector()?.x)!) //Normally Skalarprodukt of both Vectors, but in this place the other vector is 1,0
+            var rotationMatrix:matrix_float2x2 = matrix_float2x2.init()
+            var pos = vector2(s.getPosition().x, s.getPosition().z) //y is fix
+            rotationMatrix.columns = (simd_float2.init(cos(angle), sin(angle)), simd_float2.init(-sin(angle), cos(angle)))
+            pos = rotationMatrix * pos
+            
+            angle = 2 * Float.pi - acos((s.getZ1Vector()?.z)!) //Normally Skalarprodukt of both Vectors, but in this place the other vector is 0,1
+            rotationMatrix = matrix_float2x2.init()
+            rotationMatrix.columns = (simd_float2.init(cos(angle), sin(angle)), simd_float2.init(-sin(angle), cos(angle)))
+            pos = rotationMatrix * pos
+            
+            s.setPosition(pos: SCNVector3Make(pos.x, s.getPosition().y, pos.y) ) //in pos is y = z
+            //let rotationMatrix = SCNMatrix4.getSCNMatrix(X: s.getX1Vector()!,Y: s.getY1Vector()!, Z: s.getZ1Vector()!).trans()
+            //s.setPosition(pos: rotationMatrix * s.getPosition())
             s.setIsSelected(isSelected: true)
             setViewSensorVisible(hidden: false)
             break
@@ -233,8 +245,20 @@ class ARViewController: GeneralViewController, UIPickerViewDelegate, UIPickerVie
             sensor?.getNode()?.position = hitVector - (actRoom.getOrientationMiddleNode()?.position)!
             sensor?.nilVectors()
             calcSensorVector(sensor: sensor)
-            let rotationMatrix = SCNMatrix4.getSCNMatrix(X: (sensor?.getX1Vector())!,Y: (sensor?.getY1Vector())!, Z: (sensor?.getZ1Vector())!).trans()
-            sensor?.setPosition(pos: rotationMatrix * (sensor?.getPosition())!)
+            var angle = 2 * Float.pi - acos((sensor?.getX1Vector()?.x)!) //Normally Skalarprodukt of both Vectors, but in this place the other vector is 1,0
+            var rotationMatrix:matrix_float2x2 = matrix_float2x2.init()
+            var pos = vector2((sensor?.getPosition().x)!, (sensor?.getPosition().z)!) //y is fix
+            rotationMatrix.columns = (simd_float2.init(cos(angle), sin(angle)), simd_float2.init(-sin(angle), cos(angle)))
+            pos = rotationMatrix * pos
+            
+            angle = 2 * Float.pi - acos((sensor?.getZ1Vector()?.z)!) //Normally Skalarprodukt of both Vectors, but in this place the other vector is 0,1
+            rotationMatrix = matrix_float2x2.init()
+            rotationMatrix.columns = (simd_float2.init(cos(angle), sin(angle)), simd_float2.init(-sin(angle), cos(angle)))
+            pos = rotationMatrix * pos
+            
+            sensor?.setPosition(pos: SCNVector3Make(pos.x, (sensor?.getPosition().y)!, pos.y) ) //in pos is y = z
+            //let rotationMatrix = SCNMatrix4.getSCNMatrix(X: (sensor?.getX1Vector())!,Y: (sensor?.getY1Vector())!, Z: (sensor?.getZ1Vector())!).trans()
+            //sensor?.setPosition(pos: rotationMatrix * (sensor?.getPosition())!)
             break
         default:
             break
@@ -296,7 +320,7 @@ class ARViewController: GeneralViewController, UIPickerViewDelegate, UIPickerVie
     func resetSensors() {
         let gl = GlobalInfos.getInstance()
         var i:Int = 0
-        var rotationMatrix:SCNMatrix4
+        //var rotationMatrix:SCNMatrix4
         if gl.getActRoom()?.getOrientationMiddleNode() != nil {
             for node in (gl.getActRoom()?.getOrientationMiddleNode()?.childNodes)! {
                 node.removeFromParentNode()
@@ -305,7 +329,7 @@ class ARViewController: GeneralViewController, UIPickerViewDelegate, UIPickerVie
         for s in (gl.getActRoom()?.getSensors())! {
             let sensor = s as! Sensor
             if _orientationMiddleNode != nil && _orientationXNode != nil && _orientationYNode != nil {
-                if sensor.getX2Vector() != nil && sensor.getY2Vector() != nil && sensor.getZ2Vector() != nil {
+                /*if sensor.getX2Vector() != nil && sensor.getY2Vector() != nil && sensor.getZ2Vector() != nil {
                     //Rotiere
                     let mOrigX:SCNVector3! = sensor.getX1Vector()
                     let mOrigY:SCNVector3! = sensor.getY1Vector()
@@ -337,9 +361,33 @@ class ARViewController: GeneralViewController, UIPickerViewDelegate, UIPickerVie
                     let mNew = SCNMatrix4.getSCNMatrix(X: mNewX, Y: mNewY, Z: mNewZ).trans()
                     rotationMatrix = SCNMatrix4Mult(mNew, mOrig)
                     
+                    
                 } else {
                     rotationMatrix = SCNMatrix4.init(m11: 1, m12: 0, m13: 0, m14: 0, m21: 0, m22: 1, m23: 0, m24: 0, m31: 0, m32: 0, m33: 1, m34: 0, m41: 0, m42: 0, m43: 0, m44: 1)
-                }
+                }*/
+                var scalar = (sensor.getX1Vector()?.x)! * (sensor.getX2Vector()?.x)! + (sensor.getX1Vector()?.z)! * (sensor.getX2Vector()?.z)!
+                var length1 = ((sensor.getX1Vector()?.x)! * (sensor.getX1Vector()?.x)! + (sensor.getX1Vector()?.z)! * (sensor.getX1Vector()?.z)!).squareRoot()
+                var length2 = ((sensor.getX2Vector()?.x)! * (sensor.getX2Vector()?.x)! + (sensor.getX2Vector()?.z)! * (sensor.getX2Vector()?.z)!).squareRoot()
+                scalar = scalar / (length1 * length2)
+                
+                var angle = acos(scalar) //Normally Skalarprodukt of both Vectors, but in this place the other vector is 1,0
+                print(sensor.getX1Vector())
+                print(sensor.getX2Vector())
+                print(angle)
+                var rotationMatrix:matrix_float2x2 = matrix_float2x2.init()
+                var pos = vector2(sensor.getPosition().x, sensor.getPosition().z) //y is fix
+                rotationMatrix.columns = (simd_float2.init(cos(angle), sin(angle)), simd_float2.init(-sin(angle), cos(angle)))
+                pos = rotationMatrix * pos
+                
+                scalar = (sensor.getZ1Vector()?.x)! * (sensor.getZ2Vector()?.x)! + (sensor.getZ1Vector()?.z)! * (sensor.getZ2Vector()?.z)!
+                length1 = ((sensor.getZ1Vector()?.x)! * (sensor.getZ1Vector()?.x)! + (sensor.getZ1Vector()?.z)! * (sensor.getZ1Vector()?.z)!).squareRoot()
+                length2 = ((sensor.getZ2Vector()?.x)! * (sensor.getZ2Vector()?.x)! + (sensor.getZ2Vector()?.z)! * (sensor.getZ2Vector()?.z)!).squareRoot()
+                scalar = scalar / (length1 * length2)
+                angle = acos(scalar)
+                rotationMatrix = matrix_float2x2.init()
+                rotationMatrix.columns = (simd_float2.init(cos(angle), sin(angle)), simd_float2.init(-sin(angle), cos(angle)))
+                pos = rotationMatrix * pos
+                
                 let node = SCNNode()
                 node.geometry = SCNSphere(radius: CGFloat(SPHERESIZE))
                 if(sensor.getIsSelected()) {
@@ -347,7 +395,9 @@ class ARViewController: GeneralViewController, UIPickerViewDelegate, UIPickerVie
                 } else {
                     node.geometry?.firstMaterial?.diffuse.contents = sensor.getColor()
                 }
-                node.position = rotationMatrix * sensor.getPosition()
+                node.position = SCNVector3(pos.x, sensor.getPosition().y, pos.y)
+                //node.position = rotationMatrix * sensor.getPosition()
+                print(node.position)
                 sensor.setNode(node: node)
                 gl.getActRoom()?.getOrientationMiddleNode()?.addChildNode(node)
                 i = i + 1
@@ -464,6 +514,7 @@ class ARViewController: GeneralViewController, UIPickerViewDelegate, UIPickerVie
     }
     @IBAction func butAccept_Click(_ sender: Any) {
         deselectAllSensors()
+        butReposition.customView?.backgroundColor = GlobalInfos.unselectedButtonBackgroundColor
     }
     @IBAction func butDelete_Click(_ sender: Any) {
         guard let actRoom = GlobalInfos.getInstance().getActRoom() else {
